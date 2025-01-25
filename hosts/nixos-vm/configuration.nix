@@ -12,4 +12,6 @@
   networking.hostName = "nixos-vm";
 
   system.stateVersion = "24.11";
+
+  j.qemu-guest.enable = true;
 }
