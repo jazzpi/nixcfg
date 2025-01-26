@@ -1,0 +1,36 @@
+# Prompt Setup
+_prompt_user='\`if [[ \$? = "0" ]]; then echo \"\\[\\033[1;32m\\]\"; else echo \"\\[\\033[1;31m\\]\"; fi\`'
+if [ -n "$SSH_CLIENT" -o -n "$SSH_TTY" ]; then
+    # Invert colors if we're in an SSH session
+    _prompt_user+='\[\033[7m\]'
+fi
+_prompt_user+='\u@\h\[\033[0m\]'
+# Cyan cwd
+_prompt_dir='\[\033[36m\]\w\[\033[0m\]'
+# Yellow [HH:MM:SS]
+_prompt_time='\[\033[1;33m\]\t\[\033[0m\]'
+# Git branch & status xor sshfs mountpoint
+function _prompt_git_or_sshfs {
+    local fs=($(df --output=fstype,source . | tail -n +2))
+    if [ "${fs[0]}" = "fuse.sshfs" ]; then
+        echo -n " at \[\033[33m\]${fs[1]}\[\033[0m\]"
+    else
+        local status=$(git status -sb 2>/dev/null)
+        if [[ -n "$status" ]]; then
+            echo -n ":"
+            # Green if clean, yellow if dirty
+            if [[ $(echo "$status" | wc -l) == 1 ]]; then
+                echo -n "\[\033[32m\]"
+            else
+                echo -n "\[\033[33m\]"
+            fi
+            local branch=$(echo "$status" | sed -Ene '1{/no branch/!ba;s/.*/DETACHED/p;be;:a;1s/^## ([^.]*)(\.\.\..*)?/\1/p;:e}')
+            echo -n "$branch\[\033[0m\]"
+        fi
+    fi
+}
+PROMPT_COMMAND="PS1=\"╔═${_prompt_user}${_prompt_remote} [${_prompt_dir}\$(_prompt_git_or_sshfs)]\n╚═${_prompt_time} $ \""
+
+# Save/reread history before showing the prompt
+# TODO: It would be nicer to put $(history -a) in PS0, but that gets overwritten by home-manager's VTE integration
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
