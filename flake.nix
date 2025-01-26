@@ -2,31 +2,50 @@
   description = "Nixos config flake";
 
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./hosts/nixos-vm/configuration.nix
-        ./system
-      ];
-    };
-    homeConfigurations."jasper@nixos-vm" = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs {
-        system = "x86_64-linux";
-        config = { allowUnfree = true; };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      hosts = import ./config/hosts.nix;
+      mkNixosConfig =
+        { host }:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/${host.dir}/configuration.nix
+            ./system
+          ];
+        };
+      mkHomeConfig =
+        { host }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = host.arch;
+            config = {
+              allowUnfree = true;
+            };
+          };
+          modules = [
+            ./hosts/${host.dir}/home.nix
+            ./home
+          ];
+          extraSpecialArgs = { inherit inputs; };
+        };
+    in
+    {
+      nixosConfigurations.nixos-vm = mkNixosConfig { host = hosts.nixos-vm; };
+      homeConfigurations."${hosts.nixos-vm.user}@${hosts.nixos-vm.hostname}" = mkHomeConfig {
+        host = hosts.nixos-vm;
       };
-      modules = [
-        ./hosts/nixos-vm/home.nix
-      ];
-      extraSpecialArgs = {inherit inputs;};
     };
-  };
 }

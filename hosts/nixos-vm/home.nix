@@ -1,10 +1,10 @@
+let
+  users = import ../../config/users.nix;
+in
 {
-  home.username = "jasper";
-  home.homeDirectory = "/home/jasper";
-
-  home.stateVersion = "24.11";
-
-  imports = [
-    ../../home
-  ];
+  home = {
+    username = users.default;
+    homeDirectory = "/home/${users.default}";
+    stateVersion = "24.11";
+  };
 }
