@@ -1,6 +1,14 @@
-{ pkgs, lib, config, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   options = {
-    j.programs.enable = lib.mkEnableOption "default system programs" // { default = true; };
+    j.programs.enable = lib.mkEnableOption "default system programs" // {
+      default = true;
+    };
   };
 
   config = lib.mkIf config.j.programs.enable {
@@ -10,6 +18,9 @@
 
     # Install home-manager standalone. The manual tells you to install it imperatively, but that
     # kinda defeats the purpose of NixOS?
-    environment.systemPackages = [ pkgs.home-manager ];
+    environment.systemPackages = [
+      pkgs.home-manager
+      pkgs.jq
+    ];
   };
 }

@@ -1,3 +1,4 @@
+# TODO: Move to gui
 { lib, config, ... }:
 {
   options.jh = {

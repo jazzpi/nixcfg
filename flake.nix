@@ -39,7 +39,10 @@
             ./hosts/${host.dir}/home.nix
             ./home
           ];
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {
+            inherit inputs;
+            rootPath = ./.;
+          };
         };
     in
     {

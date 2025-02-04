@@ -4,5 +4,6 @@
     ./common.nix
     ./desktop-programs.nix
     ./shell.nix
+    ./gui
   ];
 }

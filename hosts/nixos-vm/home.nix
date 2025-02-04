@@ -7,4 +7,6 @@ in
     homeDirectory = "/home/${users.default}";
     stateVersion = "24.11";
   };
+
+  j.gui.i3.enable = true;
 }

@@ -1,11 +1,22 @@
-{ pkgs, lib, config, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   options = {
-    j.common.enable = lib.mkEnableOption "common system config" // { default = true; };
+    j.common.enable = lib.mkEnableOption "common system config" // {
+      default = true;
+    };
   };
 
   config = lib.mkIf config.j.common.enable {
     # Use flakes
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     nixpkgs.config.allowUnfree = true;
 
     boot.loader.grub.enable = true;
@@ -34,6 +45,7 @@
       LC_TIME = "en_DK.UTF-8"; # For ISO8601 goodness
     };
 
+    # TODO: Move to gui
     services.xserver.enable = true;
     services.xserver.xkb = {
       layout = "us";
@@ -41,7 +53,9 @@
     };
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
-    # TODO: Enable i3
+
+    # Give me /bin/bash
+    services.envfs.enable = true;
 
     services.printing.enable = true;
 

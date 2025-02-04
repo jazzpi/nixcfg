@@ -14,4 +14,5 @@
   system.stateVersion = "24.11";
 
   j.qemu-guest.enable = true;
+  j.gui.i3.enable = true;
 }
