@@ -26,6 +26,7 @@
 
     programs = {
       rofi.enable = true;
+      feh.enable = true;
       eww = {
         enable = true;
         configDir = "${rootPath}/dotfiles-repo/eww";
