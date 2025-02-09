@@ -14,6 +14,7 @@
   config = lib.mkIf config.j.gui.fonts.enable {
     home.packages = with pkgs; [
       font-awesome_5
+      meslo-lg
     ];
   };
 }
