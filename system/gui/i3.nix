@@ -15,9 +15,16 @@
     services.xserver = {
       enable = true;
       windowManager.i3.enable = true;
+      desktopManager = {
+        xfce = {
+          enable = true;
+          noDesktop = true;
+          enableXfwm = false;
+        };
+      };
     };
     services.displayManager = {
-      defaultSession = "none+i3";
+      defaultSession = "xfce+i3";
     };
   };
 }
