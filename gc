@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <older_than_days>" >&2
+    exit 1
+fi
+
+echo "Cleaning up NixOS generations..."
+sudo nix-collect-garbage --delete-older-than "${1}d"
+
+echo "Cleaning up home-manager generations..."
+home-manager expire-generations "-${1} days"
