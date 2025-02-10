@@ -15,4 +15,5 @@
 
   j.qemu-guest.enable = true;
   j.gui.i3.enable = true;
+  j.networking.wireguard = true;
 }

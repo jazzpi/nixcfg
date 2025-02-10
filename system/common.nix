@@ -35,9 +35,6 @@
       ];
     };
 
-    networking.networkmanager.enable = true;
-    # TODO: networking.wireless.enable ?
-
     time.timeZone = "Europe/Berlin";
 
     i18n.defaultLocale = "en_US.UTF-8";
