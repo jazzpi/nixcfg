@@ -9,4 +9,5 @@ in
   };
 
   j.gui.i3.enable = true;
+  j.work.enable = true;
 }

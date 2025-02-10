@@ -5,5 +5,6 @@
     ./desktop-programs.nix
     ./shell.nix
     ./gui
+    ./work
   ];
 }
