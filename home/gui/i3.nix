@@ -36,5 +36,9 @@
       dunst.enable = lib.mkDefault true;
       picom.enable = lib.mkDefault true;
     };
+
+    home.packages = with pkgs; [
+      arandr
+    ];
   };
 }
