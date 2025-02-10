@@ -33,8 +33,8 @@
       };
     };
     services = {
-      dunst.enable = true;
-      picom.enable = true;
+      dunst.enable = lib.mkDefault true;
+      picom.enable = lib.mkDefault true;
     };
   };
 }
