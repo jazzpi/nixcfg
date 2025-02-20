@@ -23,6 +23,7 @@ let
           "browser.uitour.enabled" = false;
 
           "browser.toolbars.bookmarks.visibility" = "always";
+          "browser.tabs.inTitlebar" = 0;
         };
       };
     };
