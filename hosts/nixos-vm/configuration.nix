@@ -13,7 +13,8 @@
 
   system.stateVersion = "24.11";
 
-  j.qemu-guest.enable = true;
+  j.virt.qemu-guest.enable = true;
+  j.virt.docker.enable = true;
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
 }
