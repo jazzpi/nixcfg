@@ -22,6 +22,7 @@
     boot.loader.grub.enable = true;
     boot.loader.grub.useOSProber = true;
 
+    # TODO: This should pull from /config/users.nix
     users.users.jasper = {
       isNormalUser = true;
       description = "Jasper";
@@ -55,17 +56,6 @@
     services.envfs.enable = true;
 
     services.printing.enable = true;
-
-    hardware.pulseaudio.enable = false;
-    security.rtkit.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-    };
 
     # TODO: Move to a "laptop.nix"?
     # Enable touchpad support (enabled default in most desktopManager).
