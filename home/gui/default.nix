@@ -4,5 +4,6 @@
     ./kitty.nix
     ./fonts.nix
     ./browser.nix
+    ./sioyek.nix
   ];
 }
