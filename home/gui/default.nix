@@ -5,5 +5,6 @@
     ./fonts.nix
     ./browser.nix
     ./sioyek.nix
+    ./music.nix
   ];
 }
