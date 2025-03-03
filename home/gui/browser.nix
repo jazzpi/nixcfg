@@ -57,7 +57,8 @@ let
   };
   ffProfileWork = {
     name = "work";
-    id = 1;
+    # FF profile IDs need to start at 0 and be sequential
+    id = if config.j.personal.enable then 1 else 0;
     enable = config.j.work.enable;
   };
   numFFProfiles = builtins.length (builtins.attrNames config.programs.firefox.profiles);
