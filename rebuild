@@ -45,12 +45,15 @@ while true; do
         shift
         break
         ;;
-    *)
-        FLAKE_TAG="$1"
-        shift
-        ;;
+    *) usage ;;
     esac
 done
+
+if [ $# -gt 2 ]; then
+    usage
+elif [ $# -eq 1 ]; then
+    FLAKE_TAG="$1"
+fi
 
 if [ -n "$FLAKE_TAG" ] && [[ ! "$FLAKE_TAG" =~ "^#" ]]; then
     FLAKE_TAG="#$FLAKE_TAG"
