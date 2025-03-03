@@ -2,8 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ lib, ... }:
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
@@ -15,4 +14,9 @@
   j.virt.docker.enable = true;
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
+
+  # Enable SSHD to install it
+  services.sshd.enable = true;
+  # Override the service's wantedBy to prevent it from starting on boot
+  systemd.services.sshd.wantedBy = lib.mkForce [ ];
 }
