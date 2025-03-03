@@ -13,7 +13,9 @@
       wireguard = lib.mkEnableOption "Wireguard" // {
         default = false;
       };
-
+      can = lib.mkEnableOption "CAN" // {
+        default = false;
+      };
     };
   };
 
@@ -26,6 +28,11 @@
     // lib.mkIf config.j.networking.wireguard {
       environment.systemPackages = with pkgs; [
         wireguard-tools
+      ];
+    }
+    // lib.mkIf config.j.networking.can {
+      environment.systemPackages = with pkgs; [
+        can-utils
       ];
     };
 }

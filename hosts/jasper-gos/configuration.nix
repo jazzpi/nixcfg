@@ -14,6 +14,7 @@
   j.virt.docker.enable = true;
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
+  j.networking.can = true;
 
   # Enable SSHD to install it
   services.sshd.enable = true;
