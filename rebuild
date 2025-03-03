@@ -106,10 +106,10 @@ fi
 
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
-    sudo nixos-rebuild switch --impure --flake "$SCRIPT_PATH$FLAKE_TAG"
+    sudo nixos-rebuild switch --impure --flake "$SCRIPT_PATH$FLAKE_TAG" --show-trace
 fi
 
 if [ "$BUILD_HOME" = true ]; then
     echo "Rebuilding home-manager configuration..."
-    home-manager switch --flake "$SCRIPT_PATH$FLAKE_TAG?submodules=1"
+    home-manager switch --flake "$SCRIPT_PATH$FLAKE_TAG?submodules=1" --show-trace
 fi
