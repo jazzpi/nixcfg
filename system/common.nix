@@ -19,9 +19,6 @@
     ];
     nixpkgs.config.allowUnfree = true;
 
-    boot.loader.grub.enable = true;
-    boot.loader.grub.useOSProber = true;
-
     # TODO: This should pull from /config/users.nix
     users.users.jasper = {
       isNormalUser = true;
