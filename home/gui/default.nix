@@ -6,5 +6,6 @@
     ./browser.nix
     ./sioyek.nix
     ./music.nix
+    ./misc.nix
   ];
 }
