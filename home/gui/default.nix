@@ -8,5 +8,6 @@
     ./music.nix
     ./misc.nix
     ./logic.nix
+    ./mail.nix
   ];
 }
