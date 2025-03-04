@@ -39,6 +39,8 @@
 
     home.packages = with pkgs; [
       arandr
+      gnome-screenshot
+      swappy
     ];
   };
 }
