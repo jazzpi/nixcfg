@@ -20,7 +20,10 @@
       mkNixosConfig =
         { host }:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+            inherit host;
+          };
           modules = [
             ./hosts/${host.dir}/configuration.nix
             ./system
@@ -41,6 +44,7 @@
           ];
           extraSpecialArgs = {
             inherit inputs;
+            inherit host;
             rootPath = ./.;
           };
         };
