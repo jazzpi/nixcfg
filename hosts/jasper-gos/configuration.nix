@@ -16,6 +16,8 @@
   j.networking.wireguard = true;
   j.networking.can = true;
 
+  j.gui.logic.enable = true;
+
   # Enable SSHD to install it
   services.sshd.enable = true;
   # Override the service's wantedBy to prevent it from starting on boot

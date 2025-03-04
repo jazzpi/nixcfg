@@ -11,4 +11,5 @@ in
   j.work.enable = true;
   j.gui.i3.enable = true;
   j.gui.firefox.defaultProfile = "work";
+  j.gui.logic.enable = true;
 }

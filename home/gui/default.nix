@@ -7,5 +7,6 @@
     ./sioyek.nix
     ./music.nix
     ./misc.nix
+    ./logic.nix
   ];
 }
