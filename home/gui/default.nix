@@ -9,5 +9,6 @@
     ./misc.nix
     ./logic.nix
     ./mail.nix
+    ./obsidian.nix
   ];
 }
