@@ -18,9 +18,11 @@
 
     # Install home-manager standalone. The manual tells you to install it imperatively, but that
     # kinda defeats the purpose of NixOS?
-    environment.systemPackages = [
-      pkgs.home-manager
-      pkgs.jq
+    environment.systemPackages = with pkgs; [
+      home-manager
+      jq
+      python3
+      usbutils
     ];
   };
 }
