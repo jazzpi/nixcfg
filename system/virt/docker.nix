@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  host,
   ...
 }:
 {
@@ -24,5 +25,6 @@
         };
       };
     };
+    users.users.${host.user}.extraGroups = lib.mkIf (!config.j.virt.docker.rootless) [ "docker" ];
   };
 }
