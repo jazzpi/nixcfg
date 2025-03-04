@@ -6,6 +6,7 @@
     ./programs.nix
     ./audio.nix
     ./boot.nix
+    ./udev.nix
     ./gui
     ./virt
   ];
