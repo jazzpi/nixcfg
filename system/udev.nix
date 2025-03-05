@@ -9,6 +9,11 @@
     j.udev.debuggers = lib.mkEnableOption "udev rules for debuggers" // {
       default = true;
     };
+    j.udev.plugdevGID = lib.mkOption {
+      type = lib.types.int;
+      default = 46; # ID of plugdev group on Ubuntu
+      description = "The GID of the plugdev group";
+    };
   };
 
   config = lib.mkIf config.j.udev.debuggers {
@@ -19,6 +24,8 @@
       ATTRS{product}=="*CodeWarrior TAP*", MODE="664", GROUP="plugdev"
     '';
     users.users.${host.user}.extraGroups = [ "plugdev" ];
-    users.groups.plugdev = { };
+    users.groups.plugdev = {
+      gid = config.j.udev.plugdevGID;
+    };
   };
 }
