@@ -17,5 +17,13 @@
       (writeShellScriptBin "git-add-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-add-id"))
       (writeShellScriptBin "git-use-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-use-id"))
     ];
+
+    programs.git = {
+      enable = true;
+      ignores = [
+        ".envrc"
+        ".direnv"
+      ];
+    };
   };
 }
