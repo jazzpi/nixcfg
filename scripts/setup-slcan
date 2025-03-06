@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -e
+
+devs=$(ls /dev/ttyACM*)
+
+list_models() {
+    echo "Available models:"
+    for dev in $devs; do
+        model=$(udevadm info --name="$dev" --json=short | jq -r '.ID_MODEL')
+        echo -e "  $dev\t$model"
+    done
+}
+
+usage() {
+    echo "Usage: $0 <model-pattern> <baudrate> <interface>"
+    echo "  model-pattern: matched case-insensitively against the device model"
+    echo "  baudrate: 500000 or 1000000"
+    echo "  interface: name of the CAN interface to create"
+    if [ -z "$devs" ]; then
+        echo "No devices found"
+    else
+        list_models
+    fi
+    exit 1
+}
+
+if [ $# -ne 3 ]; then
+    usage >&2
+fi
+
+model_pattern="$1"
+iface="$3"
+case "$2" in
+500000)
+    speed=6
+    ;;
+1000000)
+    speed=8
+    ;;
+*)
+    echo "Invalid baudrate: $2" >&2
+    echo "Supported baudrates: 500000, 1000000" >&2
+    usage >&2
+    ;;
+esac
+
+for dev in $devs; do
+    model=$(udevadm info --name="$dev" --json=short | jq -r '.ID_MODEL')
+    if [[ ! "${model,,}" =~ "${model_pattern,,}" ]]; then
+        continue
+    fi
+
+    echo "Setting up $dev"
+
+    # Stop existing slcand process
+    pid=$(pgrep -f "slcand.*$dev" || true)
+    if [ -n "$pid" ]; then
+        echo "Stopping existing slcand ($pid)"
+        sudo kill "$pid"
+        timeout 1s tail --pid=$pid -f /dev/null || true
+        if kill -0 "$pid" &>/dev/null; then
+            echo "Failed to stop existing slcand ($pid)" >&2
+            exit 1
+        fi
+    fi
+
+    if [ -e "/sys/class/net/$iface" ]; then
+        echo "Interface $iface already exists" >&2
+        exit 1
+    fi
+
+    echo "Bringing up $iface"
+    sudo slcand -o "$dev" -s"$speed" "$iface"
+    sudo ip link set "$iface" up
+
+    exit 0
+done
+
+echo "No devices matched the pattern: $1" >&2
+list_models >&2
+exit 1
