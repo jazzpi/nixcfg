@@ -19,10 +19,15 @@
       with pkgs;
       {
         devShells.default = mkShell {
+          # TODO: Is there a difference between buildInputs and
+          # nativeBuildInputs for dev shells?
+          # TODO: Extract general C++ dependencies to a separate flake/module
+          # (cmake, clang-tools, whatever's in home/programming/cpp.nix etc.)
           buildInputs = [
             boost.dev
             libgcrypt
             systemd.dev
+            llvmPackages_19.clang-tools
           ];
           nativeBuildInputs = [
             pkgconf
