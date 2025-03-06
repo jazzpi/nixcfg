@@ -27,6 +27,7 @@
     programs = {
       rofi.enable = true;
       feh.enable = true;
+      # TODO: Move eww config (& needed packages) to separate module
       eww = {
         enable = true;
         configDir = "${rootPath}/dotfiles-repo/eww";
@@ -41,6 +42,7 @@
       arandr
       gnome-screenshot
       swappy
+      playerctl
     ];
   };
 }
