@@ -14,4 +14,10 @@ in
     arch = "x86_64-linux";
     user = users.default;
   };
+  jasper-desk = {
+    hostname = "jasper-desk";
+    dir = "jasper-desk";
+    arch = "x86_64-linux";
+    user = users.default;
+  };
 }

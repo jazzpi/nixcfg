@@ -54,9 +54,15 @@
       homeConfigurations."${hosts.nixos-vm.user}@${hosts.nixos-vm.hostname}" = mkHomeConfig {
         host = hosts.nixos-vm;
       };
+
       nixosConfigurations.jasper-gos = mkNixosConfig { host = hosts.jasper-gos; };
       homeConfigurations."jasper@jasper-gos" = mkHomeConfig {
         host = hosts.jasper-gos;
+      };
+
+      nixosConfigurations.jasper-desk = mkNixosConfig { host = hosts.jasper-desk; };
+      homeConfigurations."jasper@jasper-desk" = mkHomeConfig {
+        host = hosts.jasper-desk;
       };
     };
 }
