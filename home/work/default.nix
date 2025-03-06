@@ -10,11 +10,7 @@
     };
   };
 
-  imports = [
-    ./slack.nix
-  ];
-
-  config.j.work = lib.mkIf config.j.work.enable {
-    slack.enable = true;
+  config = lib.mkIf config.j.work.enable {
+    j.im.slack.enable = true;
   };
 }

@@ -10,5 +10,6 @@
     ./logic.nix
     ./mail.nix
     ./obsidian.nix
+    ./im.nix
   ];
 }
