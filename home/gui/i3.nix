@@ -15,6 +15,10 @@
       type = lib.types.attrsOf lib.types.str;
       default = { };
     };
+    screens = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
   };
 
   config = lib.mkIf config.j.gui.i3.enable {
@@ -267,6 +271,13 @@
       "picom.conf".source = "${rootPath}/dotfiles-repo/picom.conf";
     };
     xdg.dataFile."dotfiles_resources".source = "${rootPath}/dotfiles-repo/resources";
+
+    xfconf.settings.xfce4-desktop = lib.mkMerge (
+      map (screen: {
+        "backdrop/screen0/monitor${screen}/workspace0/last-image" =
+          "${rootPath}/dotfiles-repo/resources/lockscreen.jpg";
+      }) config.j.gui.i3.screens
+    );
 
     programs = {
       rofi.enable = true;
