@@ -42,16 +42,19 @@
               { class = "^Signal$"; }
             ];
           };
-          floating.criteria = [
-            { window_type = "notification"; }
-            { class = "^[Gg]nome-screenshot$"; }
-            { title = "- Wine desktop$"; }
-            { class = "^qalculate-qt$"; }
-            {
-              class = "Kicad";
-              title = "^Assign Footprints$";
-            }
-          ];
+          floating = {
+            criteria = [
+              { window_type = "notification"; }
+              { class = "^[Gg]nome-screenshot$"; }
+              { title = "- Wine desktop$"; }
+              { class = "^qalculate-qt$"; }
+              {
+                class = "Kicad";
+                title = "^Assign Footprints$";
+              }
+            ];
+            modifier = "${mod}";
+          };
           defaultWorkspace = "workspace 2";
           workspaceOutputAssign = lib.mapAttrsToList (workspace: output: {
             inherit workspace output;
