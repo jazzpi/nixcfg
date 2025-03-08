@@ -23,20 +23,11 @@
     };
   };
 
-  config =
-    lib.mkIf config.jh.qalc.enable {
-      home.packages = with pkgs; [
-        qalculate-gtk
-      ];
-    }
-    // lib.mkIf config.jh.nextcloud.enable {
-      home.packages = with pkgs; [
-        nextcloud-client
-      ];
-    }
-    // lib.mkIf config.jh.keepass.enable {
-      home.packages = with pkgs; [
-        keepassxc
-      ];
-    };
+  config = {
+    home.packages =
+      with pkgs;
+      (lib.optional config.jh.qalc.enable qalculate-gtk)
+      ++ (lib.optional config.jh.nextcloud.enable nextcloud-client)
+      ++ (lib.optional config.jh.keepass.enable keepassxc);
+  };
 }
