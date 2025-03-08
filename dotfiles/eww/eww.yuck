@@ -1,0 +1,134 @@
+(defwindow bar [monitor]
+  :monitor monitor
+  :geometry (geometry :x "0%"
+    :y "0%"
+    :width "100%"
+    :height "20px"
+  :anchor "top center")
+  
+  :stacking "fg"
+  ; X11
+  :reserve (struts :distance "0px" :side "top")
+  :windowtype "dock"
+  :wm-ignore false
+  ; Wayland
+  :exclusive true
+  
+  (centerbox :orientation "horizontal"
+    (left-info :monitor monitor)
+    (media)
+    (right-info :monitor monitor)))
+
+(deflisten workspace_list `scripts/wm.sh workspace_list`)
+(deflisten monitors `scripts/wm.sh monitors`)
+(deflisten mode `scripts/wm.sh mode`)
+(deflisten padata `scripts/pulse.sh monitor`)
+(defpoll backlightlevel
+  :interval "10s"
+  :initial ""
+`scripts/backlight.sh get`)
+(deflisten playerdata `scripts/player.sh monitor`)
+(defvar workspace_names '{ "1": "", "2": "", "3": "", "4":"", "5":"", "6":"", "i":"" }')
+(defvar player_status_icons '{ "Playing": "\\uf04b", "Paused": "\\uf04c", "Stopped": "\\uf04d" }')
+(defvar battery_icons '{ "Discharging": "\\uf241", "Charging": "\\uf0e7", "Not charging": "\\uf240", "Full": "\\uf240" }')
+(defvar inhibit_idle 'false')
+(defvar dnd 'false')
+
+; ## LEFT: Workspaces, mode ##
+(defwidget left-info [monitor]
+  (box
+    :class "left-info"
+    :orientation "horizontal"
+    :halign "start"
+    :space-evenly false
+    (workspaces :monitor monitor)
+    (mode-display)))
+(defwidget workspaces [monitor]
+  (box :orientation "horizontal" :halign "start" :class "workspaces"
+    (for ws in {workspace_list[monitor]}
+      (ws-button :ws ws))))
+(defwidget ws-button [ws]
+  (button
+    :onclick "i3-msg -t command 'workspace ${ws.name}'"
+    :class "${ws.focused ? 'focused' : ''} ${ws.urgent ? 'urgent' : ''} ${ws.visible ? 'visible' : ''}"
+  "${ws.name}${workspace_names[ws.name] == 'null' ? '' : ':'}${workspace_names[ws.name] ?: ''}"))
+(defwidget mode-display []
+  (label :class "mode" :text {mode.name} :visible {mode.visible}))
+
+; ## CENTER: Media player ##
+(defwidget media []
+  (eventbox
+    :onclick "~/.config/eww/scripts/player.sh play-pause"
+    :onscroll "~/.config/eww/scripts/player.sh {}"
+    (box
+      :class "media ${(playerdata ?: {}).status == 'null' || playerdata.status == '' || playerdata.status == 'Stopped' ? 'hidden' : ''}"
+      (label
+        :text "${player_status_icons[playerdata.status]} ${playerdata.title} - ${playerdata.artist}"
+      )))
+)
+
+; ## RIGHT: System info ##
+; Some of the widgets are generated from home-manager configuration
+(include "generated.yuck")
+
+(defwidget tray [visible]
+  (box
+    :visible {visible} ; Setting :visible on systray seems to not work
+    :class "tray"
+    (systray :orientation "horizontal" :icon-size 20)))
+(defwidget datetime []
+  (label :class "datetime" :text {formattime(EWW_TIME, "%Y-%m-%d %H:%M:%S")}))
+(defwidget temperature []
+  (label
+    :visible {EWW_TEMPS != {}}
+    :class "temperature"
+    :text "${round(EWW_TEMPS.K10TEMP_TCTL ?: EWW_TEMPS.CORETEMP_PACKAGE_ID_0 ?: 0, 0)}°C "))
+(defwidget memory []
+  (label :class "memory" :text "${round(EWW_RAM.used_mem_perc, 0)}% "))
+(defwidget cpu []
+  (label :class "cpu" :text "${round(EWW_CPU.avg, 0)}% "))
+(defwidget backlight []
+  (box
+    (eventbox
+      :onscroll "scripts/backlight.sh change {}"
+      (box
+        :orientation "horizontal"
+        :space-evenly false
+        :class "backlight"
+        (label :text "\\uf185")
+        (progress
+          :orientation "v"
+          :flipped true
+          :height 10
+          :width 3
+          :value (literal :content "backlightlevel ? backlightlevel : 0")
+        )))))
+(defwidget audio []
+  (box
+    (eventbox
+      :onclick "scripts/pulse.sh toggle"
+      :onrightclick "scripts/pulse.sh select-sink &"
+      :onmiddleclick "pavucontrol &"
+      :onscroll "scripts/pulse.sh change {}"
+      (box
+        :orientation "horizontal"
+        :space-evenly false
+        :class "audio ${padata.volume > 100 ? 'over' : ''}"
+        (label :text "${padata.icon}")
+        (progress
+          :orientation "v"
+          :flipped true
+          :height 10
+          :width 3
+          :value {padata.volume}
+        )))))
+(defwidget dnd []
+  (button
+    :class "dnd ${dnd ? 'active' : ''}"
+    :onclick "scripts/wm.sh dnd set ${!dnd}"
+    (label :text "${dnd ? '' : ''}")))
+(defwidget inhibit_idle []
+  (button
+    :class "inhibit_idle ${inhibit_idle ? 'active' : ''}"
+    :onclick "scripts/wm.sh inhibit_idle set ${!inhibit_idle}"
+    (label :text "")))
