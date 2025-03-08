@@ -43,5 +43,11 @@
       "\\e[A" = "history-search-backward";
       "\\e[B" = "history-search-forward";
     };
+
+    programs.fd = {
+      enable = true;
+      hidden = true;
+    };
+    programs.ripgrep.enable = true;
   };
 }
