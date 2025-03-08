@@ -24,6 +24,8 @@ let
 
           "browser.toolbars.bookmarks.visibility" = "always";
           "browser.tabs.inTitlebar" = 0;
+
+          "browser.translations.neverTranslateLanguages" = "de";
         };
       };
     };
