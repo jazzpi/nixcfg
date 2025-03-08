@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   lib,
   config,
   rootPath,
@@ -31,6 +32,8 @@
       eww = {
         enable = true;
         configDir = "${rootPath}/dotfiles-repo/eww";
+        # FIXME: Unstable eww duplicates the bars
+        package = pkgs-stable.eww;
       };
     };
     services = {
