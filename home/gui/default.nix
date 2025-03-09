@@ -12,5 +12,6 @@
     ./mail.nix
     ./obsidian.nix
     ./im.nix
+    ./libreoffice.nix
   ];
 }

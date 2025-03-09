@@ -10,5 +10,6 @@
     jh.keepass.enable = true;
     j.im.telegram.enable = true;
     j.im.signal.enable = true;
+    j.gui.libreoffice.enable = true;
   };
 }
