@@ -207,7 +207,7 @@
               map (ws: {
                 "${mod}+${ws}" = "workspace ${ws}";
                 "${mod}+Shift+${ws}" = "move container to workspace ${ws}";
-              }) ((map builtins.toString (lib.lists.range 1 10)) ++ [ "i" ])
+              }) ((map builtins.toString (lib.lists.range 0 9)) ++ [ "i" ])
             ))
             # Movement
             (lib.concatMapAttrs
