@@ -24,6 +24,10 @@
       networking.networkmanager.enable = true;
       # TODO: networking.wireless.enable ?
       networking.firewall.checkReversePath = false;
+
+      # Make /etc/hosts editable for quick hacks -- these will be discarded on
+      # the next NixOS rebuild.
+      networking.extraHosts = "192.168.2.103 books.jazzpi.de";
     }
     // lib.mkIf config.j.networking.wireguard {
       environment.systemPackages = with pkgs; [
