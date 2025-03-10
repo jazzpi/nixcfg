@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -8,6 +7,12 @@
   options = {
     j.common.enable = lib.mkEnableOption "common system config" // {
       default = true;
+    };
+    j.common.location = lib.mkOption {
+      type = with lib.types; attrsOf (either string float);
+      default = {
+        provider = "geoclue2";
+      };
     };
   };
 
