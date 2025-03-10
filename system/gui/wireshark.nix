@@ -17,6 +17,6 @@
       enable = true;
       package = pkgs.wireshark-qt;
     };
-    users.users.${host.user}.extraGroups = [ "wireshark" ];
+    users.users.${host.user.name}.extraGroups = [ "wireshark" ];
   };
 }

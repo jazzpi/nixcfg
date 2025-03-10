@@ -1,16 +1,6 @@
 { pkgs, ... }:
-let
-  users = import ../../config/users.nix;
-in
 {
-  home = {
-    username = users.default;
-    homeDirectory = "/home/${users.default}";
-    stateVersion = "24.11";
-    packages = with pkgs; [
-      kicad
-    ];
-  };
+  home.stateVersion = "24.11";
 
   j.personal.enable = true;
   j.gui.firefox.defaultProfile = "personal";
@@ -30,4 +20,8 @@ in
       "DP-2"
     ];
   };
+
+  home.packages = with pkgs; [
+    kicad
+  ];
 }

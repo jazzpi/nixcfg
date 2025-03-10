@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  host,
+  ...
+}:
 {
   options.jh = {
     common.enable = lib.mkEnableOption "common programs" // {
@@ -10,7 +15,9 @@
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
 
-    programs.bash.enable = true;
-    # TODO: Config
+    home = {
+      username = host.user.name;
+      homeDirectory = "/home/${host.user.name}";
+    };
   };
 }

@@ -23,7 +23,7 @@
       ATTRS{product}=="*ST-LINK*", MODE="664", GROUP="plugdev"
       ATTRS{product}=="*CodeWarrior TAP*", MODE="664", GROUP="plugdev"
     '';
-    users.users.${host.user}.extraGroups = [ "plugdev" ];
+    users.users.${host.user.name}.extraGroups = [ "plugdev" ];
     users.groups.plugdev = {
       gid = config.j.udev.plugdevGID;
     };

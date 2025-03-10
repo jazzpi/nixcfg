@@ -12,14 +12,45 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nixpkgs-stable,
       home-manager,
       ...
     }@inputs:
     let
-      hosts = import ./config/hosts.nix;
+      lib = nixpkgs.lib;
+
+      users_ = {
+        jasper = {
+          groups = [
+            "wheel"
+            "dialout"
+            "plugdev"
+            "networkmanager"
+          ];
+        };
+      };
+      getUser =
+        name:
+        (nixpkgs.lib.getAttrFromPath [ name ] users_)
+        // {
+          inherit name;
+        };
+      defaultUser = "jasper";
+
+      hosts =
+        let
+          defaultHost = {
+            arch = "x86_64-linux";
+            user = getUser defaultUser;
+          };
+        in
+        {
+          nixos-vm = defaultHost;
+          jasper-gos = defaultHost;
+          jasper-desk = defaultHost;
+        };
+
       mkPkgsStable =
         host:
         import nixpkgs-stable {
@@ -29,20 +60,19 @@
           };
         };
       mkNixosConfig =
-        { host }:
+        host:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs;
-            inherit host;
+            inherit inputs host;
             pkgs-stable = mkPkgsStable host;
           };
           modules = [
-            ./hosts/${host.dir}/configuration.nix
             ./system
+            ./hosts/${host.name}/configuration.nix
           ];
         };
       mkHomeConfig =
-        { host }:
+        host:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             system = host.arch;
@@ -51,31 +81,25 @@
             };
           };
           modules = [
-            ./hosts/${host.dir}/home.nix
             ./home
+            ./hosts/${host.name}/home.nix
           ];
           extraSpecialArgs = {
-            inherit inputs;
-            inherit host;
-            rootPath = ./.;
+            inherit inputs host rootPath;
             pkgs-stable = mkPkgsStable host;
           };
         };
+
+      rootPath = ./.;
     in
     {
-      nixosConfigurations.nixos-vm = mkNixosConfig { host = hosts.nixos-vm; };
-      homeConfigurations."${hosts.nixos-vm.user}@${hosts.nixos-vm.hostname}" = mkHomeConfig {
-        host = hosts.nixos-vm;
-      };
-
-      nixosConfigurations.jasper-gos = mkNixosConfig { host = hosts.jasper-gos; };
-      homeConfigurations."jasper@jasper-gos" = mkHomeConfig {
-        host = hosts.jasper-gos;
-      };
-
-      nixosConfigurations.jasper-desk = mkNixosConfig { host = hosts.jasper-desk; };
-      homeConfigurations."jasper@jasper-desk" = mkHomeConfig {
-        host = hosts.jasper-desk;
-      };
+      nixosConfigurations = nixpkgs.lib.mapAttrs (
+        hostname: host: mkNixosConfig (host // { name = hostname; })
+      ) hosts;
+      homeConfigurations = lib.mapAttrs' (hostname: host: {
+        name = "${host.user.name}@${hostname}";
+        value = mkHomeConfig (host // { name = hostname; });
+      }) hosts;
+      inherit getUser;
     };
 }

@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  host,
   ...
 }:
 {
@@ -24,18 +25,11 @@
     ];
     nixpkgs.config.allowUnfree = true;
 
-    # TODO: This should pull from /config/users.nix
-    users.users.jasper = {
+    networking.hostName = host.name;
+    users.users.${host.user.name} = {
       isNormalUser = true;
-      description = "Jasper";
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-        "plugdev"
-        "dialout"
-        "wireshark"
-        "docker"
-      ];
+      description = host.user.description or (lib.toSentenceCase host.user.name);
+      extraGroups = host.user.groups or [ ];
     };
 
     time.timeZone = "Europe/Berlin";

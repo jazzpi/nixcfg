@@ -1,12 +1,5 @@
-let
-  users = import ../../config/users.nix;
-in
 {
-  home = {
-    username = users.default;
-    homeDirectory = "/home/${users.default}";
-    stateVersion = "24.11";
-  };
+  home.stateVersion = "24.11";
 
   j.personal.enable = true;
   j.work.enable = true;

@@ -25,6 +25,6 @@
         };
       };
     };
-    users.users.${host.user}.extraGroups = lib.mkIf (!config.j.virt.docker.rootless) [ "docker" ];
+    users.users.${host.user.name}.extraGroups = lib.mkIf (!config.j.virt.docker.rootless) [ "docker" ];
   };
 }
