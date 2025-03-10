@@ -67,6 +67,7 @@
             pkgs-stable = mkPkgsStable host;
           };
           modules = [
+            ./common
             ./sys
             ./hosts/${host.name}/sys.nix
           ];
@@ -81,6 +82,7 @@
             };
           };
           modules = [
+            ./common
             ./home
             ./hosts/${host.name}/home.nix
           ];

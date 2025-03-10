@@ -12,7 +12,7 @@
 
   j.gui.wireshark.enable = true;
 
-  j.common.location = {
+  j.location = {
     latitude = 52.5;
     longitude = 13.1;
   };

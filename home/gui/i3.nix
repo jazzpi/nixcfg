@@ -7,9 +7,6 @@
 }:
 {
   options.j.gui.i3 = {
-    enable = lib.mkEnableOption "i3 window manager" // {
-      default = false;
-    };
     workspaceAssignments = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
       default = { };

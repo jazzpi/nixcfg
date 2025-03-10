@@ -1,11 +1,21 @@
+{ host, ... }:
 {
   imports = [
     ./programming
-    ./common.nix
     ./desktop-programs.nix
     ./shell.nix
     ./personal.nix
     ./gui
     ./work
   ];
+
+  config = {
+    # Let Home Manager install and manage itself.
+    programs.home-manager.enable = true;
+
+    home = {
+      username = host.user.name;
+      homeDirectory = "/home/${host.user.name}";
+    };
+  };
 }
