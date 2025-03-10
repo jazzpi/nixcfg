@@ -23,6 +23,7 @@
       jq
       python3
       usbutils
+      libnotify
     ];
   };
 }
