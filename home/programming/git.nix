@@ -10,6 +10,9 @@
     enable = lib.mkEnableOption "Git utilities" // {
       default = true;
     };
+    copilot = lib.mkEnableOption "GitHub Copilot CLI" // {
+      default = true;
+    };
   };
 
   config = lib.mkIf config.jh.programming.git.enable {
@@ -24,6 +27,15 @@
         ".envrc"
         ".direnv"
       ];
+    };
+    programs.gh = lib.mkIf config.jh.programming.git.copilot {
+      enable = true;
+      extensions = with pkgs; [
+        gh-copilot
+      ];
+      settings.aliases = {
+        s = "copilot suggest -t shell";
+      };
     };
   };
 }
