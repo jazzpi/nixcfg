@@ -13,5 +13,6 @@
     ./obsidian.nix
     ./im.nix
     ./libreoffice.nix
+    ./gimp.nix
   ];
 }
