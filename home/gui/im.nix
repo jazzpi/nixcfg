@@ -19,15 +19,17 @@
 
   config = {
     home.packages =
+      let
+        cfg = config.j.im;
+      in
       with pkgs;
-      with config.j.im;
-      lib.optionals slack.enable [
+      lib.optionals cfg.slack.enable [
         slack
       ]
-      ++ lib.optionals signal.enable [
+      ++ lib.optionals cfg.signal.enable [
         signal-desktop
       ]
-      ++ lib.optionals telegram.enable [
+      ++ lib.optionals cfg.telegram.enable [
         telegram-desktop
       ];
   };
