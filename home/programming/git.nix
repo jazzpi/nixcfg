@@ -27,6 +27,9 @@
         ".envrc"
         ".direnv"
       ];
+      extraConfig = {
+        push.autoSetupRemote = true;
+      };
     };
     programs.gh = lib.mkIf config.jh.programming.git.copilot {
       enable = true;
