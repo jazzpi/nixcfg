@@ -200,12 +200,18 @@
               "${mod}+x" = "mode \"${modeSystem}\"";
             }
             # Workspaces
-            (lib.mkMerge (
-              map (ws: {
-                "${mod}+${ws}" = "workspace ${ws}";
-                "${mod}+Shift+${ws}" = "move container to workspace ${ws}";
-              }) ((map builtins.toString (lib.lists.range 0 9)) ++ [ "i" ])
-            ))
+            (lib.concatMapAttrs
+              (key: ws: {
+                "${mod}+${key}" = "workspace ${ws}";
+                "${mod}+Shift+${key}" = "move container to workspace ${ws}";
+              })
+              (
+                (lib.genAttrs ((map builtins.toString (lib.lists.range 1 9)) ++ [ "i" ]) builtins.toString)
+                // {
+                  "0" = "10";
+                }
+              )
+            )
             # Movement
             (lib.concatMapAttrs
               (key: dir: {
