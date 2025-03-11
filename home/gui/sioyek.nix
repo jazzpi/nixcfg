@@ -21,6 +21,7 @@
         "page_separator_width" = "2";
         "page_separator_color" = "0.5 0.5 0.5";
         "control_click_command" = "synctex_under_cursor";
+        "collapsed_toc" = "1";
       };
     };
   };
