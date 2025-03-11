@@ -2,7 +2,6 @@
 {
   imports = [
     ./programming
-    ./desktop-programs.nix
     ./shell.nix
     ./personal.nix
     ./gui

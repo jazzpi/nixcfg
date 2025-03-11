@@ -8,6 +8,15 @@
 
   config = lib.mkIf config.j.gui.enable {
     services = {
+      xserver = {
+        enable = true;
+        xkb = {
+          layout = "us";
+          variant = "altgr-intl";
+        };
+        displayManager.gdm.enable = true;
+        desktopManager.gnome.enable = true;
+      };
       redshift = {
         enable = true;
         temperature = {

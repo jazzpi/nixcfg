@@ -41,15 +41,6 @@
       LC_TIME = "en_DK.UTF-8"; # For ISO8601 goodness
     };
 
-    # TODO: Move to gui
-    services.xserver.enable = true;
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "altgr-intl";
-    };
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-
     # Give me /bin/bash
     services.envfs.enable = true;
 
