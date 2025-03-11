@@ -137,7 +137,7 @@
               "${mod}+Return" = "exec i3-sensible-terminal";
               "${mod}+Shift+d" = "exec --no-startup-id i3-dmenu-desktop";
               "${mod}+Mod1+d" = "exec --no-startup-id dmenu_run";
-              "${mod}+d" = "exec --no-startup-id rofi -show drun -show-icons";
+              "${mod}+d" = "exec --no-startup-id rofi -show drun -show-icons -sort";
 
               # Notifications
               "${mod}+period" = "exec --no-startup-id dunstctl close";
