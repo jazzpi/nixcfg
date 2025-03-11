@@ -26,9 +26,22 @@
       ignores = [
         ".envrc"
         ".direnv"
+        ".mypy_cache/"
+        ".ccls-cache/"
+        ".auctex-auto/"
+        "__pycache__/"
+        "compile_commands.json"
+        "*.aux"
+        "*.fdb_latexmk"
+        "*.fls"
+        "*.out"
+        "*.synctex.gz"
+        ".python-version"
       ];
       extraConfig = {
         push.autoSetupRemote = true;
+        user.useconfigonly = true;
+        init.defaultBranch = "main";
       };
     };
     programs.gh = lib.mkIf config.j.programming.git.copilot {
