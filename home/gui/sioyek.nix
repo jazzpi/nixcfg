@@ -4,13 +4,13 @@
   ...
 }:
 {
-  options.jh.sioyek = {
+  options.j.gui.sioyek = {
     enable = lib.mkEnableOption "Sioyek" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 
-  config = lib.mkIf config.jh.sioyek.enable {
+  config = lib.mkIf config.j.gui.sioyek.enable {
     programs.sioyek = {
       enable = true;
       bindings = {

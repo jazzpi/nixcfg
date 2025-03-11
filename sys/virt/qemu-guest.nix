@@ -1,12 +1,11 @@
 {
-  pkgs,
   lib,
   config,
   ...
 }:
 {
-  options = {
-    j.virt.qemu-guest.enable = lib.mkEnableOption "QEMU guest config";
+  options.j.virt.qemu-guest.enable = lib.mkEnableOption "QEMU guest config" // {
+    default = false;
   };
 
   config = lib.mkIf config.j.virt.qemu-guest.enable {

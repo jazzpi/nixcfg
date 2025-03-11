@@ -7,7 +7,7 @@
 {
   options.j.gui.spotify = {
     enable = lib.mkEnableOption "Spotify" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 

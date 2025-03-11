@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   rootPath,
@@ -8,7 +7,7 @@
 {
   options.j.gui.kitty = {
     enable = lib.mkEnableOption "Kitty terminal emulator" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 

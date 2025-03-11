@@ -5,7 +5,7 @@
   ...
 }:
 {
-  options.j.im = {
+  options.j.gui.im = {
     slack.enable = lib.mkEnableOption "Slack" // {
       default = false;
     };
@@ -20,7 +20,7 @@
   config = {
     home.packages =
       let
-        cfg = config.j.im;
+        cfg = config.j.gui.im;
       in
       with pkgs;
       lib.optionals cfg.slack.enable [

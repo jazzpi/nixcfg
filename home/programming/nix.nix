@@ -5,13 +5,13 @@
   ...
 }:
 {
-  options.jh.programming = {
-    nix.enable = lib.mkEnableOption "Nix language support" // {
-      default = true;
+  options.j.programming.nix = {
+    enable = lib.mkEnableOption "Nix language support" // {
+      default = config.j.programming.enable;
     };
   };
 
-  config = lib.mkIf config.jh.programming.nix.enable {
+  config = lib.mkIf config.j.programming.nix.enable {
     home.packages = with pkgs; [
       nixd
       nixfmt-rfc-style

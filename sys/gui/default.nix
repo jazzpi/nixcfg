@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   imports = [
     ./i3.nix
@@ -6,7 +6,7 @@
     ./wireshark.nix
   ];
 
-  config = {
+  config = lib.mkIf config.j.gui.enable {
     services = {
       redshift = {
         enable = true;

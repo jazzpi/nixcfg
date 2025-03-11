@@ -5,6 +5,6 @@
 }:
 {
   config = lib.mkIf config.j.work.enable {
-    j.im.slack.enable = true;
+    j.gui.im.slack.enable = true;
   };
 }

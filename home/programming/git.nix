@@ -6,16 +6,16 @@
   ...
 }:
 {
-  options.jh.programming.git = {
+  options.j.programming.git = {
     enable = lib.mkEnableOption "Git utilities" // {
-      default = true;
+      default = config.j.programming.enable;
     };
     copilot = lib.mkEnableOption "GitHub Copilot CLI" // {
-      default = true;
+      default = config.j.programming.enable;
     };
   };
 
-  config = lib.mkIf config.jh.programming.git.enable {
+  config = lib.mkIf config.j.programming.git.enable {
     home.packages = with pkgs; [
       (writeShellScriptBin "git-add-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-add-id"))
       (writeShellScriptBin "git-use-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-use-id"))
@@ -31,7 +31,7 @@
         push.autoSetupRemote = true;
       };
     };
-    programs.gh = lib.mkIf config.jh.programming.git.copilot {
+    programs.gh = lib.mkIf config.j.programming.git.copilot {
       enable = true;
       extensions = with pkgs; [
         gh-copilot

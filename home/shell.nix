@@ -1,10 +1,10 @@
 { lib, config, ... }:
 {
-  options.jh.shell.enable = lib.mkEnableOption "Shell configuration" // {
+  options.j.shell.enable = lib.mkEnableOption "Shell configuration" // {
     default = true;
   };
 
-  config = lib.mkIf config.jh.shell.enable {
+  config = lib.mkIf config.j.shell.enable {
     programs.bash.enable = true;
     programs.bash.enableCompletion = true;
     programs.bash.enableVteIntegration = true;

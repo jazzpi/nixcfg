@@ -7,7 +7,7 @@
 {
   options.j.gui.fonts = {
     enable = lib.mkEnableOption "Install fonts" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 

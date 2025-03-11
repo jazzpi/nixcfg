@@ -7,7 +7,7 @@
 {
   options.j.gui.obsidian = {
     enable = lib.mkEnableOption "Obsidian" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 

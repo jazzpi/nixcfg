@@ -5,10 +5,8 @@
   ...
 }:
 {
-  options = {
-    j.programs.enable = lib.mkEnableOption "default system programs" // {
-      default = true;
-    };
+  options.j.programs.enable = lib.mkEnableOption "default system programs" // {
+    default = true;
   };
 
   config = lib.mkIf config.j.programs.enable {

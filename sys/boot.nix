@@ -4,15 +4,13 @@
   ...
 }:
 {
-  options = {
-    j.boot = {
-      loader = lib.mkOption {
-        type = lib.types.enum [
-          "grub"
-          "systemd-boot"
-        ];
-        description = "Bootloader type";
-      };
+  options.j.boot = {
+    loader = lib.mkOption {
+      type = lib.types.enum [
+        "grub"
+        "systemd-boot"
+      ];
+      description = "Bootloader type";
     };
   };
 

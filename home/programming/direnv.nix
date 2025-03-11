@@ -1,17 +1,16 @@
 {
-  pkgs,
   lib,
   config,
   ...
 }:
 {
-  options.jh.programming.direnv = {
+  options.j.programming.direnv = {
     enable = lib.mkEnableOption "Direnv support (for dev shells)" // {
-      default = true;
+      default = config.j.programming.enable;
     };
   };
 
-  config = lib.mkIf config.jh.programming.direnv.enable {
+  config = lib.mkIf config.j.programming.direnv.enable {
     programs.direnv = {
       enable = true;
       enableBashIntegration = true;

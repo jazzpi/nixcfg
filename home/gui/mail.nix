@@ -6,7 +6,7 @@
 {
   options.j.gui.thunderbird = {
     enable = lib.mkEnableOption "Thunderbird" // {
-      default = true;
+      default = config.j.gui.enable;
     };
   };
 

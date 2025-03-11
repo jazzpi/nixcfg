@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
   options.j = {
     personal.enable = lib.mkEnableOption "Personal" // {
@@ -8,8 +8,11 @@
       default = false;
     };
     gui = {
+      enable = lib.mkEnableOption "GUI" // {
+        default = true;
+      };
       i3.enable = lib.mkEnableOption "i3 window manager" // {
-        default = false;
+        default = config.j.gui.enable;
       };
       logic.enable = lib.mkEnableOption "Saleae Logic" // {
         default = false;

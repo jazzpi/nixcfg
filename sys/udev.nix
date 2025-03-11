@@ -5,11 +5,11 @@
   ...
 }:
 {
-  options = {
-    j.udev.debuggers = lib.mkEnableOption "udev rules for debuggers" // {
+  options.j.udev = {
+    debuggers = lib.mkEnableOption "udev rules for debuggers" // {
       default = true;
     };
-    j.udev.plugdevGID = lib.mkOption {
+    plugdevGID = lib.mkOption {
       type = lib.types.int;
       default = 46; # ID of plugdev group on Ubuntu
       description = "The GID of the plugdev group";

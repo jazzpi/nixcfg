@@ -68,7 +68,7 @@ in
 {
   options.j.gui.firefox = {
     enable = lib.mkEnableOption "Firefox Browser" // {
-      default = true;
+      default = config.j.gui.enable;
     };
     defaultProfile = lib.mkOption {
       type = lib.types.enum [
