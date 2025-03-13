@@ -14,6 +14,13 @@
   j.gui.firefox.defaultProfile = "work";
   j.gui.logic.enable = true;
   j.gui.gimp.enable = true;
+  j.gui.eww = {
+    backlight = true;
+    battery = {
+      enable = true;
+      batteryName = "BAT0";
+    };
+  };
 
   home.packages = with pkgs; [
     (writeShellScriptBin "setup-slcan" (builtins.readFile "${rootPath}/scripts/setup-slcan"))
