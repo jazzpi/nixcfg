@@ -3,7 +3,14 @@
   home.stateVersion = "24.11";
 
   j.work.enable = true;
-  j.gui.i3.enable = true;
+  j.gui.i3 = {
+    enable = true;
+    screens = [
+      "eDP-1"
+      "DP-7"
+      "DP-8"
+    ];
+  };
   j.gui.firefox.defaultProfile = "work";
   j.gui.logic.enable = true;
   j.gui.gimp.enable = true;
