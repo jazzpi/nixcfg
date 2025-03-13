@@ -298,6 +298,11 @@
       gnome-screenshot
       swappy
     ];
+    home.pointerCursor = {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 40;
+    };
 
     j.gui.eww.enable = true;
   };
