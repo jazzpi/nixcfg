@@ -58,10 +58,6 @@
 
           startup = [
             {
-              command = "~/.config/eww/scripts/wm.sh launch";
-              notification = false;
-            }
-            {
               command = "picom";
               notification = false;
             }
