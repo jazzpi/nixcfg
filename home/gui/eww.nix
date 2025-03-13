@@ -62,13 +62,21 @@
         lib.optionalString config.j.gui.eww.battery.enable ''
           (defwidget battery []
             (label
-              :class "battery $${${bat}.capacity < 15 ? 'urgent' : '\'}"
-              :text "$${${bat}.capacity}% $${battery_icons[${bat}.status]}"))
+              :class "battery $''
+        + "{${bat}.capacity < 15 ? 'urgent' : ''}"
+        + ''
+          "
+                        :text "$''
+        + "{${bat}.capacity}% $"
+        + "{battery_icons[${bat}.status]}"
+        + ''
+          "))
         ''
       );
 
     home.packages = with pkgs; [
       playerctl
+      brightnessctl
     ];
   };
 }
