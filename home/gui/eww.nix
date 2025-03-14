@@ -59,19 +59,19 @@
         let
           bat = "EWW_BATTERY.${config.j.gui.eww.battery.batteryName}";
         in
-        lib.optionalString config.j.gui.eww.battery.enable ''
-          (defwidget battery []
-            (label
-              :class "battery $''
-        + "{${bat}.capacity < 15 ? 'urgent' : ''}"
-        + ''
-          "
-                        :text "$''
-        + "{${bat}.capacity}% $"
-        + "{battery_icons[${bat}.status]}"
-        + ''
-          "))
-        ''
+        lib.optionalString config.j.gui.eww.battery.enable (
+          ''
+            (defwidget battery []
+              (label
+                :class "battery $''
+          + "{${bat}.capacity < 15 ? 'urgent' : ''}"
+          + '':text "$''
+          + "{${bat}.capacity}% $"
+          + "{battery_icons[${bat}.status]}"
+          + ''
+            "))
+          ''
+        )
       );
 
     home.packages = with pkgs; [
