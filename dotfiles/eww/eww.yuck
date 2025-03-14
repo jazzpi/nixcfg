@@ -101,8 +101,7 @@
           :flipped true
           :height 10
           :width 3
-          :value (literal :content "backlightlevel ? backlightlevel : 0")
-        )))))
+          :value "${(backlightlevel != '') ? backlightlevel : 0}")))))
 (defwidget audio []
   (box
     (eventbox

@@ -5,12 +5,16 @@ if ! brightnessctl -l -c backlight &>/dev/null; then
     exit 0
 fi
 
+get_pct() {
+    echo $((100 * $(brightnessctl get) / $(brightnessctl max)))
+}
+
 case "$1" in
 get)
-    brightnessctl get -P
+    get_pct
     ;;
 change)
-    level="$(brightnessctl get -P)"
+    level="$(get_pct)"
     case "$2" in
     up)
         level=$((level + 10))
