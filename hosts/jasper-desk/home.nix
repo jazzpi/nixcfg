@@ -22,6 +22,7 @@
     ];
   };
 
+  j.gui.drawio.enable = true;
   home.packages = with pkgs; [
     kicad
   ];
