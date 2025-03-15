@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./i3.nix
@@ -26,6 +31,10 @@
       };
       geoclue2.enable = true;
     };
+    environment.systemPackages = with pkgs; [
+      xsel
+      xclip
+    ];
     location = config.j.location;
   };
 }
