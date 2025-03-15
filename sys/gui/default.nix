@@ -9,6 +9,7 @@
     ./i3.nix
     ./logic.nix
     ./wireshark.nix
+    ./steam.nix
   ];
 
   config = lib.mkIf config.j.gui.enable {

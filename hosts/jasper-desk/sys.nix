@@ -11,6 +11,7 @@
   j.networking.wireguard = true;
 
   j.gui.wireshark.enable = true;
+  j.gui.steam.enable = true;
 
   j.location = {
     latitude = 52.5;
