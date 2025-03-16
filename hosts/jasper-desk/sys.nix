@@ -12,6 +12,7 @@
 
   j.gui.wireshark.enable = true;
   j.gui.steam.enable = true;
+  j.gui.nvidia.enable = true;
 
   j.location = {
     latitude = 52.5;

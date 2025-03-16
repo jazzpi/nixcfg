@@ -10,6 +10,7 @@
     ./logic.nix
     ./wireshark.nix
     ./steam.nix
+    ./nvidia.nix
   ];
 
   config = lib.mkIf config.j.gui.enable {
