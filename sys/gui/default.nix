@@ -23,6 +23,7 @@
         };
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
+        libinput.naturalScrolling = true;
       };
       redshift = {
         enable = true;
