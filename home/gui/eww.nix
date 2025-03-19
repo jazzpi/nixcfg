@@ -53,7 +53,7 @@
             (memory)
             ${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}
             (datetime)
-            (tray :visible {monitors[monitor].primary})))
+            (tray :visible {true})))
       ''
       + (
         let
