@@ -90,13 +90,19 @@
             ./hosts/${host.name}/home.nix
           ];
           extraSpecialArgs = {
-            inherit inputs host rootPath;
+            inherit
+              inputs
+              host
+              rootPath
+              repoPath
+              ;
             pkgs-stable = mkPkgsStable host;
             templateFile = import "${rootPath}/util/template-file.nix" { pkgs = pkgs_; };
           };
         };
 
       rootPath = ./.;
+      repoPath = "~/nixcfg";
     in
     {
       nixosConfigurations = nixpkgs.lib.mapAttrs (
