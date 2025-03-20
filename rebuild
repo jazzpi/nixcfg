@@ -15,22 +15,24 @@ fatal() {
     exit 1
 }
 
+if ! type nh >/dev/null 2>&1; then
+    fatal 'nh is not installed. Run `nix-shell -p nh` to install it temporarily.'
+fi
+
 BUILD_SYSTEM=false
 BUILD_HOME=false
 FLAKE_TAG=""
 
 usage() {
-    echo "Usage: $0 [-n|--nixos] [-u|--user] [-h|--help] [FLAKE_TAG]"
-    echo "  -s, --system   Build system configuration"
-    echo "  -u, --user     Build home configuration"
-    echo "  -h, --help     Show this help message"
+    echo "Usage: $0 [-n|--nixos] [-u|--user] [-h|--help] [FLAKE_TAG] [-- EXTRA_ARGS...]"
+    echo "  -s, --system     Build system configuration"
+    echo "  -u, --user       Build home configuration"
+    echo "  -h, --help       Show this help message"
+    echo "  [EXTRA_ARGS...]  Extra arguments to pass to nh {os,home} switch"
     exit 0
 }
 
-OPTIONS=$(getopt -o suh --long nixos,user,help -- "$@") || exit 1
-eval set -- "$OPTIONS"
-
-while true; do
+while [ $# -gt 0 ]; do
     case "$1" in
     -s | --system)
         BUILD_SYSTEM=true
@@ -45,15 +47,15 @@ while true; do
         shift
         break
         ;;
-    *) usage ;;
+    *)
+        if [ -n "$FLAKE_TAG" ]; then
+            usage
+        fi
+        FLAKE_TAG="$1"
+        shift
+        ;;
     esac
 done
-
-if [ $# -gt 2 ]; then
-    usage
-elif [ $# -eq 1 ]; then
-    FLAKE_TAG="$1"
-fi
 
 if [ -n "$FLAKE_TAG" ] && [[ ! "$FLAKE_TAG" =~ "^#" ]]; then
     FLAKE_TAG="#$FLAKE_TAG"
@@ -106,7 +108,7 @@ fi
 
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
-    sudo nixos-rebuild switch --impure --flake "$SCRIPT_PATH$FLAKE_TAG" --show-trace
+    nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure
 fi
 
 if [ "$BUILD_HOME" = true ]; then
@@ -114,5 +116,5 @@ if [ "$BUILD_HOME" = true ]; then
     if [ "$SCRIPT_PATH" != "$HOME/nixcfg" ]; then
         fatal "Repository must be in $HOME/nixcfg"
     fi
-    home-manager switch --flake "$SCRIPT_PATH$FLAKE_TAG?submodules=1" --show-trace
+    nh home switch "$SCRIPT_PATH$FLAKE_TAG?submodules=1" $@
 fi

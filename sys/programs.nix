@@ -22,6 +22,7 @@
       python3
       usbutils
       libnotify
+      nh
     ];
   };
 }
