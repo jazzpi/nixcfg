@@ -6,13 +6,7 @@
 }:
 {
   options.j.networking = {
-    enable = lib.mkEnableOption "Networking" // {
-      default = true;
-    };
     wireguard = lib.mkEnableOption "Wireguard" // {
-      default = false;
-    };
-    can = lib.mkEnableOption "CAN" // {
       default = false;
     };
   };

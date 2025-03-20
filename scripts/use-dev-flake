@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Replaced by Mustache
+SHELL_DIR="{{shell_dir}}"
+SHELL_DIR="${SHELL_DIR/#\~/$HOME}"
+
+list_shells() {
+    shells=$(ls "$SHELL_DIR")
+
+    if [ -z "$shells" ]; then
+        echo >&2 "No shells found in $SHELL_DIR"
+        exit 1
+    fi
+    echo "Available shells:"
+    for shell in $shells; do
+        echo -e "  $shell"
+    done
+}
+
+usage() {
+    echo "Usage: $0 <flake>"
+    list_shells
+    exit 1
+}
+
+if [ $# -ne 1 ]; then
+    usage >&2
+fi
+
+shell="$SHELL_DIR/$1"
+if [ ! -f "$shell/flake.nix" ]; then
+    echo >&2 "flake does not exist: $shell/flake.nix"
+    list_shells
+    exit 1
+fi
+
+if in_use=$([ -f .envrc ] && grep "use flake" .envrc); then
+    echo "flake already in use:"
+    echo "  $in_use"
+    read -n 1 -p "Do you want to replace it? [y/N] " answer
+    echo
+    case "$answer" in
+    [yY]) ;;
+    *) exit 1 ;;
+    esac
+    sed -ie "s/^use flake.*/use flake ${shell//'/'/'\/'}/" .envrc
+else
+    echo "use flake $shell" >>.envrc
+fi
+
+direnv allow

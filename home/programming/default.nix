@@ -2,6 +2,9 @@
   lib,
   pkgs,
   config,
+  rootPath,
+  repoPath,
+  templateFile,
   ...
 }:
 {
@@ -21,6 +24,15 @@
     home.packages = with pkgs; [
       man-pages
       man-pages-posix
+      (templateFile {
+        name = "use-dev-flake";
+        template = "${rootPath}/scripts/use-dev-flake";
+        data = {
+          shell_dir = "${repoPath}/shells";
+        };
+        asBin = true;
+      })
+      # ))
     ];
   };
 }

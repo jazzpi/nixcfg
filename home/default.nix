@@ -4,6 +4,7 @@
     ./programming
     ./shell.nix
     ./personal.nix
+    ./networking.nix
     ./gui
     ./work
   ];

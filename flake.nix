@@ -74,13 +74,16 @@
         };
       mkHomeConfig =
         host:
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
+        let
+          pkgs_ = import nixpkgs {
             system = host.arch;
             config = {
               allowUnfree = true;
             };
           };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgs_;
           modules = [
             ./common
             ./home
@@ -89,6 +92,7 @@
           extraSpecialArgs = {
             inherit inputs host rootPath;
             pkgs-stable = mkPkgsStable host;
+            templateFile = import "${rootPath}/util/template-file.nix" { pkgs = pkgs_; };
           };
         };
 
@@ -102,6 +106,5 @@
         name = "${host.user.name}@${hostname}";
         value = mkHomeConfig (host // { name = hostname; });
       }) hosts;
-      inherit getUser;
     };
 }

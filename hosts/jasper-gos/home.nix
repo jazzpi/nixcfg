@@ -1,4 +1,3 @@
-{ pkgs, rootPath, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -21,8 +20,4 @@
       batteryName = "BAT0";
     };
   };
-
-  home.packages = with pkgs; [
-    (writeShellScriptBin "setup-slcan" (builtins.readFile "${rootPath}/scripts/setup-slcan"))
-  ];
 }

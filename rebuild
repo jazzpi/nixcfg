@@ -111,5 +111,8 @@ fi
 
 if [ "$BUILD_HOME" = true ]; then
     echo "Rebuilding home-manager configuration..."
+    if [ "$SCRIPT_PATH" != "$HOME/nixcfg" ]; then
+        fatal "Repository must be in $HOME/nixcfg"
+    fi
     home-manager switch --flake "$SCRIPT_PATH$FLAKE_TAG?submodules=1" --show-trace
 fi

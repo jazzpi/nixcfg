@@ -1,0 +1,3 @@
+{
+  j.networking.can = true;
+}

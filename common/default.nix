@@ -18,5 +18,13 @@
         default = false;
       };
     };
+    networking = {
+      enable = lib.mkEnableOption "Networking" // {
+        default = true;
+      };
+      can = lib.mkEnableOption "CAN" // {
+        default = false;
+      };
+    };
   };
 }
