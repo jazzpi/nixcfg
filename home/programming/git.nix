@@ -30,6 +30,7 @@
         ".ccls-cache/"
         ".auctex-auto/"
         "__pycache__/"
+        ".cache/"
         "compile_commands.json"
         "*.aux"
         "*.fdb_latexmk"
