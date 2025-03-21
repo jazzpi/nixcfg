@@ -20,4 +20,6 @@
       batteryName = "BAT0";
     };
   };
+
+  j.networking.can = true;
 }
