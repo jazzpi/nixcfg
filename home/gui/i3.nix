@@ -36,6 +36,7 @@
             "i" = [
               { class = "^TelegramDesktop$"; }
               { class = "^Signal$"; }
+              { class = "^Slack$"; }
             ];
           };
           floating = {
@@ -56,25 +57,44 @@
             inherit workspace output;
           }) config.j.gui.i3.workspaceAssignments;
 
-          startup = [
-            {
-              command = "picom";
-              notification = false;
-            }
-            {
-              command = "dunst";
-              notification = false;
-            }
-            # TODO: Move here as well
-            {
-              command = "~/.config/i3/scripts/startup.sh";
-              notification = false;
-            }
-            {
-              command = "~/.config/i3/scripts/background.sh";
-              notification = false;
-            }
-          ];
+          startup =
+            [
+              {
+                command = "picom";
+                notification = false;
+              }
+              {
+                command = "dunst";
+                notification = false;
+              }
+              # TODO: Move here as well
+              {
+                command = "~/.config/i3/scripts/startup.sh";
+                notification = false;
+              }
+              {
+                command = "~/.config/i3/scripts/background.sh";
+                notification = false;
+              }
+            ]
+            ++ lib.optionals config.j.gui.im.telegram.enable [
+              {
+                command = "telegram-desktop";
+                notification = false;
+              }
+            ]
+            ++ lib.optionals config.j.gui.im.signal.enable [
+              {
+                command = "signal-desktop";
+                notification = false;
+              }
+            ]
+            ++ lib.optionals config.j.gui.im.slack.enable [
+              {
+                command = "slack";
+                notification = false;
+              }
+            ];
 
           bars = [ ];
 
