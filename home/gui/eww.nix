@@ -65,7 +65,7 @@
               (label
                 :class "battery $''
           + "{${bat}.capacity < 15 ? 'urgent' : ''}"
-          + '':text "$''
+          + ''" :text "$''
           + "{${bat}.capacity}% $"
           + "{battery_icons[${bat}.status]}"
           + ''
