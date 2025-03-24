@@ -33,6 +33,7 @@
             pkgconf
             pkg-config
             cmake
+            gdb
           ];
           hardeningDisable = [ "all" ];
         };
