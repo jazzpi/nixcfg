@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -22,4 +23,8 @@
   };
 
   j.networking.can = true;
+
+  home.packages = with pkgs; [
+    libreoffice-qt-fresh
+  ];
 }
