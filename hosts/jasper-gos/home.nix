@@ -21,6 +21,7 @@
       batteryName = "BAT0";
     };
   };
+  j.gui.im.telegram.enable = true;
 
   j.networking.can = true;
 
