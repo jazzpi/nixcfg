@@ -23,6 +23,7 @@
             uv
             mypy
             poetry
+            pre-commit
           ];
           hardeningDisable = [ "all" ];
         };

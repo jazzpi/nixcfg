@@ -23,6 +23,7 @@
           # nativeBuildInputs for dev shells?
           nativeBuildInputs = [
             jdk
+            pre-commit
           ];
           hardeningDisable = [ "all" ];
         };

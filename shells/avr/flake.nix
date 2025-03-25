@@ -23,10 +23,8 @@
           # (cmake, clang-tools, whatever's in home/programming/cpp.nix etc.)
           nativeBuildInputs = [
             llvmPackages_19.clang-tools
-            # pkgconf
-            # pkg-config
+            pre-commit
             cmake
-            # gdb
             pkgsCross.avr.buildPackages.gcc
           ];
           hardeningDisable = [ "all" ];

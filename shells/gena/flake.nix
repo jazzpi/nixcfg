@@ -34,6 +34,7 @@
             pkg-config
             cmake
             gdb
+            pre-commit
           ];
           hardeningDisable = [ "all" ];
         };

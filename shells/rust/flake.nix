@@ -24,6 +24,7 @@
             rustc
             rustfmt
             rust-analyzer
+            pre-commit
           ];
           RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
         };
