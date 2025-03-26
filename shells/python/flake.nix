@@ -19,11 +19,10 @@
       with pkgs;
       {
         devShells.default = mkShell {
-          # TODO: Is there a difference between buildInputs and
-          # nativeBuildInputs for dev shells?
           nativeBuildInputs = [
             uv
             mypy
+            poetry
           ];
           hardeningDisable = [ "all" ];
         };
