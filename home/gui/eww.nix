@@ -24,6 +24,9 @@
         description = "The name of the battery to monitor";
       };
     };
+    bluetooth = lib.mkEnableOption "EWW Bluetooth Widget" // {
+      default = true;
+    };
   };
 
   config = lib.mkIf config.j.gui.eww.enable {
@@ -46,6 +49,7 @@
             :space-evenly false
             (inhibit_idle)
             (dnd)
+            ${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}
             (audio)
             ${lib.optionalString config.j.gui.eww.backlight "(backlight)"}
             (temperature)
@@ -77,6 +81,7 @@
     home.packages = with pkgs; [
       playerctl
       brightnessctl
+      rofi-bluetooth
     ];
   };
 }

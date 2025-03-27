@@ -131,3 +131,10 @@
     :class "inhibit_idle ${inhibit_idle ? 'active' : ''}"
     :onclick "scripts/wm.sh inhibit_idle set ${!inhibit_idle}"
     (label :text "")))
+(defwidget bluetooth []
+  (button
+    ; For some reason, running just `rofi-bluetooth` without redirection breaks
+    ; the device submenus
+    :onclick "bash -c 'rofi-bluetooth &>/dev/null'"
+    :class "bluetooth"
+    (label :text "")))
