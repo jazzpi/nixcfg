@@ -24,6 +24,7 @@
             mypy
             poetry
             pre-commit
+            python3Packages.jupyter
           ];
           hardeningDisable = [ "all" ];
         };
