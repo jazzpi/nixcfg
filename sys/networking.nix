@@ -15,7 +15,16 @@
     networking = {
       networkmanager.enable = true;
       # TODO: wireless.enable ?
-      firewall.checkReversePath = false;
+      firewall = {
+        enable = true;
+        checkReversePath = false;
+        allowedTCPPortRanges = [
+          {
+            from = 3000;
+            to = 3010;
+          }
+        ];
+      };
     };
 
     # Make /etc/hosts editable for quick hacks -- these will be discarded on
