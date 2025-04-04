@@ -6,6 +6,7 @@
     ./audio.nix
     ./boot.nix
     ./udev.nix
+    ./fprint.nix
     ./gui
     ./virt
   ];
