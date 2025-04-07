@@ -26,6 +26,7 @@
             pre-commit
             cmake
             pkgsCross.avr.buildPackages.gcc
+            srecord
           ];
           hardeningDisable = [ "all" ];
         };
