@@ -77,19 +77,19 @@
                 notification = false;
               }
             ]
-            ++ lib.optionals config.j.gui.im.telegram.enable [
+            ++ lib.optionals config.j.gui.im.telegram.autostart [
               {
                 command = "telegram-desktop";
                 notification = false;
               }
             ]
-            ++ lib.optionals config.j.gui.im.signal.enable [
+            ++ lib.optionals config.j.gui.im.signal.autostart [
               {
                 command = "signal-desktop";
                 notification = false;
               }
             ]
-            ++ lib.optionals config.j.gui.im.slack.enable [
+            ++ lib.optionals config.j.gui.im.slack.autostart [
               {
                 command = "slack";
                 notification = false;

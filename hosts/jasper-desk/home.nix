@@ -6,6 +6,7 @@
   j.work.enable = true;
   j.gui.firefox.defaultProfile = "personal";
   j.networking.can = true;
+  j.gui.im.slack.autostart = false;
 
   j.gui.i3 = {
     enable = true;
