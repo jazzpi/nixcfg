@@ -10,7 +10,10 @@
       default = false;
     };
     rootless = lib.mkEnableOption "Rootless Docker" // {
-      default = true;
+      default = false;
+    };
+    addToDockerGroup = lib.mkEnableOption "Add user to Docker group" // {
+      default = false;
     };
   };
 
@@ -25,6 +28,8 @@
         };
       };
     };
-    users.users.${host.user.name}.extraGroups = lib.mkIf (!config.j.virt.docker.rootless) [ "docker" ];
+    users.users.${host.user.name}.extraGroups = lib.mkIf config.j.virt.docker.addToDockerGroup [
+      "docker"
+    ];
   };
 }

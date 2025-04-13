@@ -7,6 +7,7 @@
   j.boot.loader = "systemd-boot";
   j.virt.docker.enable = true;
   j.virt.docker.rootless = false;
+  j.virt.docker.addToDockerGroup = true;
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
   j.networking.can = true;
