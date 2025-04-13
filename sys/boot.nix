@@ -20,7 +20,13 @@
       boot.loader.grub.useOSProber = true;
     }
     // lib.mkIf (config.j.boot.loader == "systemd-boot") {
-      boot.loader.systemd-boot.enable = true;
+      boot.loader.systemd-boot = {
+        enable = true;
+        # Sort all the NixOS generations to the end of the menu. The current
+        # generation is the default, so this makes it easy to select both NixOS
+        # and to select other entries.
+        sortKey = "z_nixos";
+      };
       boot.loader.efi.canTouchEfiVariables = true;
     };
 }
