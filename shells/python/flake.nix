@@ -25,6 +25,7 @@
             poetry
             pre-commit
             python3Packages.jupyter
+            python3Packages.pip
           ];
           hardeningDisable = [ "all" ];
         };
