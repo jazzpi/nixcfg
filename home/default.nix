@@ -7,6 +7,7 @@
     ./networking.nix
     ./gui
     ./work
+    ../private/home
   ];
 
   config = {
