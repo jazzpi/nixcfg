@@ -1,6 +1,6 @@
 [submodule "dotfiles-repo"]
 	path = dotfiles-repo
-	url = git@github.com:jazzpi/dotfiles
+	url = ../dotfiles
 [submodule "private"]
 	path = private
-	url = git@github.com:jazzpi/nixcfg-private.git
+	url = ../nixcfg-private
