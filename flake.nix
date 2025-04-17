@@ -49,6 +49,7 @@
           nixos-vm = defaultHost;
           jasper-gos = defaultHost;
           jasper-desk = defaultHost;
+          jasper-fw = defaultHost;
         };
 
       mkPkgsStable =
