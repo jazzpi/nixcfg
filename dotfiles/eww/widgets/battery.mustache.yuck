@@ -1,0 +1,4 @@
+(defwidget battery []
+  (label
+    :class "battery ${ {{bat}}.capacity < 15 ? 'urgent' : ''}"
+  :text "${ {{bat}}.capacity}% $battery_icons[{{bat}}.status]}"))

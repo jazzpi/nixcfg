@@ -4,6 +4,7 @@
   lib,
   config,
   rootPath,
+  templateFile,
   ...
 }:
 {
@@ -39,44 +40,26 @@
     xdg.configFile."eww/eww.yuck".source = "${rootPath}/dotfiles/eww/eww.yuck";
     xdg.configFile."eww/eww.scss".source = "${rootPath}/dotfiles/eww/eww.scss";
     xdg.configFile."eww/scripts".source = "${rootPath}/dotfiles/eww/scripts";
-    xdg.configFile."eww/generated.yuck".text =
-      ''
-        (defwidget right-info [monitor]
-          (box
-            :class "right-info"
-            :orientation "horizontal"
-            :halign "end"
-            :space-evenly false
-            (inhibit_idle)
-            (dnd)
-            ${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}
-            (audio)
-            ${lib.optionalString config.j.gui.eww.backlight "(backlight)"}
-            (temperature)
-            (cpu)
-            (memory)
-            ${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}
-            (datetime)
-            (tray :visible {true})))
-      ''
-      + (
-        let
+    xdg.configFile."eww/widgets/battery.yuck".source = (
+      templateFile {
+        name = "battery.yuck";
+        template = "${rootPath}/dotfiles/eww/widgets/battery.mustache.yuck";
+        data = {
           bat = "EWW_BATTERY.${config.j.gui.eww.battery.batteryName}";
-        in
-        lib.optionalString config.j.gui.eww.battery.enable (
-          ''
-            (defwidget battery []
-              (label
-                :class "battery $''
-          + "{${bat}.capacity < 15 ? 'urgent' : ''}"
-          + ''" :text "$''
-          + "{${bat}.capacity}% $"
-          + "{battery_icons[${bat}.status]}"
-          + ''
-            "))
-          ''
-        )
-      );
+        };
+      }
+    );
+    xdg.configFile."eww/widgets/right-info.yuck".source = (
+      templateFile {
+        name = "right-info.yuck";
+        template = "${rootPath}/dotfiles/eww/widgets/right-info.mustache.yuck";
+        data = {
+          bluetooth = ''${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}'';
+          battery = ''${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}'';
+          backlight = ''${lib.optionalString config.j.gui.eww.backlight "(backlight)"}'';
+        };
+      }
+    );
 
     home.packages = with pkgs; [
       playerctl

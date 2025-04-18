@@ -68,8 +68,9 @@
 )
 
 ; ## RIGHT: System info ##
-; Some of the widgets are generated from home-manager configuration
-(include "generated.yuck")
+; Some of the widgets are templatized by the home-manager configuration
+(include "./widgets/right-info.yuck")
+(include "./widgets/battery.yuck")
 
 (defwidget tray [visible]
   (box

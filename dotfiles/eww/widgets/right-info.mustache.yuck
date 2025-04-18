@@ -1,0 +1,17 @@
+(defwidget right-info [monitor]
+  (box
+    :class "right-info"
+    :orientation "horizontal"
+    :halign "end"
+    :space-evenly false
+    (inhibit_idle)
+    (dnd)
+    {{bluetooth}}
+    (audio)
+    {{backlight}}
+    (temperature)
+    (cpu)
+    (memory)
+    {{battery}}
+    (datetime)
+    (tray :visible {true})))
