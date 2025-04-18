@@ -22,7 +22,6 @@ update_bars() {
         echo "Adding $output"
         eww open bar --id "bar_$output" --arg "monitor=$output"
     done
-    eww reload
 }
 
 # Update process
