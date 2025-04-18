@@ -23,7 +23,9 @@ monitor() {
         fi
         separated=$(echo "$line" | awk -F ' ##### ' 'BEGIN{OFS="\n";} {$1=$1}1')
         IFS=$'\n' read -rd '' status art artist title <<<"$separated"
-        echo "{\"status\":\"$status\",\"art\":\"$art\",\"artist\":\"$artist\",\"title\":\"$title\"}"
+        echo "{}" |
+            jq -c --arg status "$status" --arg art "$art" --arg artist "$artist" --arg title "$title" \
+                '.status = $status | .art = $art | .artist = $artist | .title = $title'
     done
 }
 
