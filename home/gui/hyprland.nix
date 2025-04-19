@@ -12,6 +12,10 @@
     j.gui.eww.enable = true;
     # Needed for eww scripts
     home.packages = with pkgs; [ socat ];
+    programs.rofi = {
+      enable = true;
+      package = pkgs.rofi-wayland;
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;
