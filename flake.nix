@@ -60,6 +60,7 @@
             allowUnfree = true;
           };
         };
+      optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
         host:
         nixpkgs.lib.nixosSystem {
@@ -71,7 +72,7 @@
             ./common
             ./sys
             ./hosts/${host.name}/sys.nix
-          ];
+          ] ++ optionalExists ./hosts/${host.name}/common.nix;
         };
       mkHomeConfig =
         host:
@@ -89,7 +90,7 @@
             ./common
             ./home
             ./hosts/${host.name}/home.nix
-          ];
+          ] ++ optionalExists ./hosts/${host.name}/common.nix;
           extraSpecialArgs = {
             inherit
               inputs
