@@ -1,6 +1,7 @@
 {
   imports = [
     ./i3.nix
+    ./hyprland.nix
     ./eww.nix
     ./kitty.nix
     ./fonts.nix

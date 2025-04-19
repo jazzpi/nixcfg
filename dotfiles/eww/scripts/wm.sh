@@ -14,6 +14,9 @@ case "$xdg_desktop" in
 *i3)
     desktop=i3
     ;;
+hyprland)
+    desktop=hypr
+    ;;
 *)
     echo >&2 "Unsupported desktop '$xdg_desktop'"
     exit 1

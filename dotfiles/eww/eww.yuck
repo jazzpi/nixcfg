@@ -20,7 +20,6 @@
     (right-info :monitor monitor)))
 
 (deflisten workspace_list :initial "{}" `scripts/wm.sh workspace_list`)
-(deflisten monitors :initial "{}" `scripts/wm.sh monitors`)
 (deflisten mode :initial "{\"visible\": false}" `scripts/wm.sh mode`)
 (deflisten padata :initial "{\"volume\": 0}" `scripts/pulse.sh monitor`)
 (defpoll backlightlevel

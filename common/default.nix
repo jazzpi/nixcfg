@@ -14,6 +14,9 @@
       i3.enable = lib.mkEnableOption "i3 window manager" // {
         default = config.j.gui.enable;
       };
+      hyprland.enable = lib.mkEnableOption "Hyprland Wayland compositor" // {
+        default = false;
+      };
       logic.enable = lib.mkEnableOption "Saleae Logic" // {
         default = false;
       };
