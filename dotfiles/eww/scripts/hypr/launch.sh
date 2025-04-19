@@ -14,13 +14,13 @@ update_bars() {
     now_outputs="$2"
     new=$(jq -c -n --argjson prev "$prev_outputs" --argjson now "$now_outputs" '$now - $prev')
     old=$(jq -c -n --argjson prev "$prev_outputs" --argjson now "$now_outputs" '$prev - $now')
-    for output in $(echo "$old" | jq -r '.[]'); do
+    echo "$old" | jq -r '.[]' | while IFS='' read output; do
         echo "Removing $output"
         eww close "bar_$output"
     done
-    for output in $(echo "$new" | jq -r '.[]'); do
+    echo "$new" | jq -r '.[]' | while IFS='' read output; do
         echo "Adding $output"
-        eww open bar --id "bar_$output" --arg "monitor=$output" --screen "$output"
+        eww open bar --id "bar_$output" --arg "monitor=$output" # --screen "$output"
     done
 }
 
@@ -35,7 +35,7 @@ update_bars() {
             last_trigger="$maybe_trigger"
         elif [ "$last_updated" != "$last_trigger" ]; then
             # Timeout, i.e. no new triggers in TRIGGER_UPDATE_DELAY seconds
-            now_outputs=$(hyprctl monitors -j | jq -c 'map(select(.disabled == false) | .id)')
+            now_outputs=$(hyprctl monitors -j | jq -c 'map(select(.disabled == false) | .model | gsub("\\s"; "___"))')
             update_bars "$prev_outputs" "$now_outputs"
             prev_outputs="$now_outputs"
             last_updated="$last_trigger"
@@ -46,7 +46,7 @@ trap "echo 'killing bg'; ps -p $!; kill $!" EXIT # Kill the update process when 
 
 source "${BASH_SOURCE%/*}/util.sh"
 
-subscribe "monitor*" >"$pipe"
+subscribe "^monitor" >"$pipe"
 # next_trigger=0
 # (
 #     echo initial # Trigger initial update

@@ -6,18 +6,18 @@ subscribe "^(focusedmon|workspace|destroyworkspace)" | while IFS='' read line; d
     monitors=$(
         hyprctl -j monitors | jq -c '
 map({
-    (.id | tostring):
+    (.name):
     {
+        "model": .model | gsub("\\s"; "___"),
         "focused": (.focused and (.disabled | not)),
         "active": .activeWorkspace.name
     }
 }) | add'
     )
-    # echo "$monitors"
     hyprctl -j workspaces | jq -c --argjson monitors "$monitors" '
-group_by(.monitorID) | map({
-    (.[0].monitorID | tostring):
-    map($monitors[.monitorID | tostring] as $monitor | {
+group_by(.monitor) | map($monitors[.[0].monitor] as $monitor | {
+    ($monitor.model):
+    map({
         name,
         urgent: false,
         visible: ($monitor.active == .name),
