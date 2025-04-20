@@ -12,6 +12,16 @@
       ];
       description = "Bootloader type";
     };
+    windows = {
+      enable = lib.mkEnableOption "Windows" // {
+        default = false;
+        description = "Enable Windows boot entry";
+      };
+      efiDeviceHandle = lib.mkOption {
+        type = lib.types.str;
+        description = "EFI device handle for Windows boot entry";
+      };
+    };
   };
 
   config =
@@ -22,10 +32,17 @@
     // lib.mkIf (config.j.boot.loader == "systemd-boot") {
       boot.loader.systemd-boot = {
         enable = true;
-        # Sort all the NixOS generations to the end of the menu. The current
-        # generation is the default, so this makes it easy to select both NixOS
-        # and to select other entries.
-        sortKey = "z_nixos";
+        edk2-uefi-shell = {
+          enable = true;
+          sortKey = "0";
+        };
+        windows = lib.optionalAttrs config.j.boot.windows.enable {
+          windows = {
+            title = "Windows (${config.j.boot.windows.efiDeviceHandle})";
+            efiDeviceHandle = config.j.boot.windows.efiDeviceHandle;
+            sortKey = "1";
+          };
+        };
       };
       boot.loader.efi.canTouchEfiVariables = true;
     };

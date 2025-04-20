@@ -4,7 +4,13 @@
 
   system.stateVersion = "24.11";
 
-  j.boot.loader = "systemd-boot";
+  j.boot = {
+    loader = "systemd-boot";
+    windows = {
+      enable = true;
+      efiDeviceHandle = "HD2b";
+    };
+  };
   j.virt.docker.enable = true;
   j.virt.docker.addToDockerGroup = true;
   j.gui.i3.enable = true;
