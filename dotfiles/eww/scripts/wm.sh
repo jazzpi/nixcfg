@@ -5,16 +5,16 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-xdg_desktop="$XDG_SESSION_DESKTOP"
+xdg_desktop="$XDG_CURRENT_DESKTOP"
 if [ -z "$xdg_desktop" ]; then
-    xdg_desktop="$XDG_CURRENT_DESKTOP"
+    xdg_desktop="$XDG_SESSION_DESKTOP"
 fi
 
 case "$xdg_desktop" in
 *i3)
     desktop=i3
     ;;
-hyprland)
+*[Hh]yprland)
     desktop=hypr
     ;;
 *)
