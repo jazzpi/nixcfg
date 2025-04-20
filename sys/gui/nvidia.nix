@@ -15,7 +15,7 @@
       nvidia = {
         modesetting.enable = true;
         powerManagement.enable = true;
-        open = true;
+        open = false; # Doesn't play well with Wayland and Electron
         nvidiaSettings = true;
       };
     };
