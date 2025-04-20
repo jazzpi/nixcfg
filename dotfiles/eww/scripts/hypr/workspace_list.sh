@@ -17,12 +17,12 @@ map({
     hyprctl -j workspaces | jq -c --argjson monitors "$monitors" '
 group_by(.monitor) | map($monitors[.[0].monitor] as $monitor | {
     ($monitor.model):
-    map({
+    (map({
         name,
         urgent: false,
         visible: ($monitor.active == .name),
         focused: ($monitor.focused and ($monitor.active == .name)),
-    })
+    }) | sort_by(.name))
 }) | add
 '
 done
