@@ -49,5 +49,8 @@
       hidden = true;
     };
     programs.ripgrep.enable = true;
+
+    nixpkgs.config = import ./nixpkgs.nix;
+    xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs.nix;
   };
 }
