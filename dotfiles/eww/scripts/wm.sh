@@ -5,8 +5,11 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-xdg_desktop="$XDG_CURRENT_DESKTOP"
-if [ -z "$xdg_desktop" ]; then
+cd_len=$(echo -n "$XDG_CURRENT_DESKTOP" | wc -c)
+sd_len=$(echo -n "$XDG_SESSION_DESKTOP" | wc -c)
+if [ $cd_len -gt $sd_len ]; then
+    xdg_desktop="$XDG_CURRENT_DESKTOP"
+else
     xdg_desktop="$XDG_SESSION_DESKTOP"
 fi
 
