@@ -71,7 +71,7 @@ for dev in $devs; do
     fi
 
     echo "Bringing up $iface"
-    sudo slcand -o "$dev" -s"$speed" "$iface"
+    sudo slcand -f -o "$dev" -s"$speed" "$iface"
     sudo ip link set "$iface" up
 
     exit 0
