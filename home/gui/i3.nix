@@ -44,7 +44,7 @@
               { window_type = "notification"; }
               { class = "^[Gg]nome-screenshot$"; }
               { title = "- Wine desktop$"; }
-              { class = "^qalculate-qt$"; }
+              { class = "^[Qq]alculate-(qt|gtk)$"; }
               {
                 class = "Kicad";
                 title = "^Assign Footprints$";
