@@ -3,4 +3,4 @@
 	url = ../dotfiles
 [submodule "private"]
 	path = private
-	url = ../nixcfg-private
+	url = ssh://git@git.jazzpi.de:2222/jazzpi/nixcfg-private.git
