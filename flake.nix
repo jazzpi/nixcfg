@@ -50,6 +50,7 @@
           jasper-gos = defaultHost;
           jasper-desk = defaultHost;
           jasper-fw = defaultHost;
+          jazzpi-vps = defaultHost;
         };
 
       mkPkgsStable =
