@@ -5,32 +5,25 @@
   ...
 }:
 {
-  options.j.gui.im = {
-    slack = {
-      enable = lib.mkEnableOption "Slack" // {
-        default = false;
-      };
-      autostart = lib.mkEnableOption "Slack autostart" // {
-        default = config.j.gui.im.slack.enable;
-      };
-    };
-    signal = {
-      enable = lib.mkEnableOption "Signal" // {
-        default = false;
-      };
-      autostart = lib.mkEnableOption "Signal autostart" // {
-        default = config.j.gui.im.signal.enable;
-      };
-    };
-    telegram = {
-      enable = lib.mkEnableOption "Telegram" // {
-        default = false;
-      };
-      autostart = lib.mkEnableOption "Telegram autostart" // {
-        default = config.j.gui.im.telegram.enable;
-      };
-    };
-  };
+  options.j.gui.im =
+    let
+      mkMessenger = (
+        name: configName: {
+          ${configName} = {
+            enable = lib.mkEnableOption "${name}" // {
+              default = false;
+            };
+            autostart = lib.mkEnableOption "${name} autostart" // {
+              default = config.j.gui.im.${configName}.enable;
+            };
+          };
+        }
+      );
+    in
+    (mkMessenger "Slack" "slack")
+    // (mkMessenger "Signal" "signal")
+    // (mkMessenger "Telegram" "telegram")
+    // (mkMessenger "Discord" "discord");
 
   config = {
     home.packages =
@@ -46,6 +39,9 @@
       ]
       ++ lib.optionals cfg.telegram.enable [
         telegram-desktop
+      ]
+      ++ lib.optionals cfg.discord.enable [
+        discord
       ];
   };
 }

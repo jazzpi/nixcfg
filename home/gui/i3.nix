@@ -77,24 +77,38 @@
                 notification = false;
               }
             ]
-            ++ lib.optionals config.j.gui.im.telegram.autostart [
-              {
-                command = "telegram-desktop";
-                notification = false;
-              }
-            ]
-            ++ lib.optionals config.j.gui.im.signal.autostart [
-              {
-                command = "signal-desktop";
-                notification = false;
-              }
-            ]
-            ++ lib.optionals config.j.gui.im.slack.autostart [
-              {
-                command = "slack";
-                notification = false;
-              }
-            ];
+            ++ (
+              let
+                mkIm = (
+                  { cfg, cmd }:
+                  (lib.optionals config.j.gui.im.${cfg}.autostart [
+                    {
+                      command = cmd;
+                      notification = false;
+                    }
+                  ])
+                );
+                ims = [
+                  {
+                    cfg = "telegram";
+                    cmd = "telegram-desktop";
+                  }
+                  {
+                    cfg = "signal";
+                    cmd = "signal-desktop";
+                  }
+                  {
+                    cfg = "slack";
+                    cmd = "slack";
+                  }
+                  {
+                    cfg = "discord";
+                    cmd = "discord";
+                  }
+                ];
+              in
+              lib.concatMap mkIm ims
+            );
 
           bars = [ ];
 
