@@ -23,6 +23,7 @@
           # nativeBuildInputs for dev shells?
           nativeBuildInputs = [
             nodejs
+            yarn
           ];
           hardeningDisable = [ "all" ];
         };
