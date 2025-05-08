@@ -37,6 +37,7 @@
               { class = "^TelegramDesktop$"; }
               { class = "^Signal$"; }
               { class = "^Slack$"; }
+              { class = "^Discord$"; }
             ];
           };
           floating = {
