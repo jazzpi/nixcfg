@@ -144,6 +144,7 @@
               font_family = "Meslo LG S DZ, monospace";
               height = 16;
               text_color = "rgb(ffffff)";
+              gradients = true;
               "col.active" = cfg.theme.unlockedGroupActive;
               "col.inactive" = cfg.theme.inactive;
               "col.locked_active" = cfg.theme.active;
