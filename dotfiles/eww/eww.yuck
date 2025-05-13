@@ -52,7 +52,7 @@
       (ws-button :ws ws))))
 (defwidget ws-button [ws]
   (button
-    :onclick "i3-msg -t command 'workspace ${ws.name}'"
+    :onclick "scripts/wm.sh activate_workspace '${ws.name}'"
     :class "${ws.focused ? 'focused' : ''} ${ws.urgent ? 'urgent' : ''} ${ws.visible ? 'visible' : ''}"
   "${ws.name}${workspace_names[ws.name] == 'null' ? '' : ':'}${workspace_names[ws.name] ?: ''}"))
 (defwidget mode-display []
