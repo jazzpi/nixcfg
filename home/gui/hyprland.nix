@@ -85,7 +85,7 @@
             submap=reset
           '';
         settings = {
-          monitor = ",preferred,auto,auto";
+          monitor = lib.mkDefault ",preferred,auto,auto";
 
           exec-once = [
             "systemctl --user start hyprpolkitagent"

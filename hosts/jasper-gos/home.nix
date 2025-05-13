@@ -25,6 +25,15 @@
 
   j.networking.can = true;
 
+  wayland.windowManager.hyprland.settings = {
+    monitor = [
+      "desc:AU Optronics B140UAN08.0, 1920x1200, 3840x0, 1.5"
+      "desc:ODY i27 0000000000001, 1920x1080, 1920x0, 1"
+      "desc:ASUSTek COMPUTER INC PA248QV MCLMQS198413, 1920x1200, 0x0, 1"
+      ", preferred, auto, auto"
+    ];
+  };
+
   home.packages = with pkgs; [
     libreoffice-qt-fresh
     ungoogled-chromium
