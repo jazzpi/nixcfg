@@ -77,7 +77,7 @@
             bind=SHIFT, s, exec, systemctl poweroff
             bind=SHIFT, r, exec, systemctl reboot
             bind=, e, exit,
-            bind=, l, exec, swaylock
+            bind=, l, exec, loginctl lock-session
             bind=, l, submap, reset
             bind=, s, exec, systemctl suspend
             bind=, s, submap, reset
