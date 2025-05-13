@@ -11,5 +11,6 @@
       withUWSM = true;
     };
     security.pam.services.hyprlock = { };
+    j.gui.gnome-keyring.enable = true;
   };
 }

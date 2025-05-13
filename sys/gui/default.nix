@@ -12,6 +12,7 @@
     ./wireshark.nix
     ./steam.nix
     ./nvidia.nix
+    ./gnome-keyring.nix
   ];
 
   config = lib.mkIf config.j.gui.enable {
