@@ -79,8 +79,6 @@ if [ -n "$submodule_status" ]; then
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         git -C "$SCRIPT_PATH" submodule update --init --recursive
-    else
-        fatal "Aborting."
     fi
 fi
 
@@ -95,9 +93,13 @@ if [ -n "$(git -C "$SCRIPT_PATH" ls-files --others --exclude-standard)" ]; then
     fi
 fi
 
-if [ -n "$(git -C "$SCRIPT_PATH" status --porcelain)" ]; then
+unstaged="$(
+    git -C "$SCRIPT_PATH" status --porcelain | grep -E '^.[^ ]'
+    true
+)"
+if [ -n "$unstaged" ]; then
     warn "There are unstaged changes:"
-    git -C "$SCRIPT_PATH" status --porcelain
+    echo "$unstaged"
     echo
     read -p "Do you want to continue? [Yn] " -n 1 -r
     echo
