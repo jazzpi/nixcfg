@@ -1,4 +1,4 @@
-(defwindow bar [monitor]
+(defwindow bar [monitor width]
   ; In Hyprland, we use the monitor model as the argument. Unfortunately we
   ; can't pass in arguments with spaces, so we replace spaces with ___. Now we
   ; have to undo that so EWW can actually find the monitor.
@@ -6,7 +6,7 @@
   
   :geometry (geometry :x "0%"
     :y "0%"
-    :width "100%"
+    :width {width}
     :height "20px"
   :anchor "top center")
   

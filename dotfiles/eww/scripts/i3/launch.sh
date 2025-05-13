@@ -20,7 +20,7 @@ update_bars() {
     done
     for output in $(echo "$new" | jq -r '.[]'); do
         echo "Adding $output"
-        eww open bar --id "bar_$output" --arg "monitor=$output"
+        eww open bar --id "bar_$output" --arg "monitor=$output" --arg "width=100%"
     done
 }
 

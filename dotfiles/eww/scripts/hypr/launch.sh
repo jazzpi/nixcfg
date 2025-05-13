@@ -5,6 +5,14 @@ TRIGGER_UPDATE_DELAY=1
 pipe=$(mktemp -u --suffix=ewwlaunch-XXXXXX)
 mkfifo -m 600 "$pipe"
 
+sanitize_model_name() {
+    if [ $# -ne 1 ]; then
+        echo >&2 "Usage: sanitize_model_name <output>"
+        return 1
+    fi
+    echo "{}" | jq -r --arg o "$1" '$o | gsub("\\s"; "___")'
+}
+
 update_bars() {
     if [ $# -ne 2 ]; then
         echo >&2 "Usage: update_bars <prev_outputs> <now_outputs>"
@@ -15,12 +23,15 @@ update_bars() {
     new=$(jq -c -n --argjson prev "$prev_outputs" --argjson now "$now_outputs" '$now - $prev')
     old=$(jq -c -n --argjson prev "$prev_outputs" --argjson now "$now_outputs" '$prev - $now')
     echo "$old" | jq -r '.[]' | while IFS='' read output; do
+        output=$(sanitize_model_name "$output")
         echo "Removing $output"
         eww close "bar_$output"
     done
     echo "$new" | jq -r '.[]' | while IFS='' read output; do
         echo "Adding $output"
-        eww open bar --id "bar_$output" --arg "monitor=$output" # --screen "$output"
+        width=$(hyprctl monitors -j | jq -r --arg output "$output" '.[] | select(.model == $output) | .width / .scale')
+        output=$(sanitize_model_name "$output")
+        eww open bar --id "bar_$output" --arg "monitor=$output" --arg "width=${width}px" # --screen "$output"
     done
 }
 
@@ -35,7 +46,7 @@ update_bars() {
             last_trigger="$maybe_trigger"
         elif [ "$last_updated" != "$last_trigger" ]; then
             # Timeout, i.e. no new triggers in TRIGGER_UPDATE_DELAY seconds
-            now_outputs=$(hyprctl monitors -j | jq -c 'map(select(.disabled == false) | .model | gsub("\\s"; "___"))')
+            now_outputs=$(hyprctl monitors -j | jq -c 'map(select(.disabled == false) | .model)')
             update_bars "$prev_outputs" "$now_outputs"
             prev_outputs="$now_outputs"
             last_updated="$last_trigger"
