@@ -49,6 +49,7 @@
       home.packages = with pkgs; [
         socat # Needed for eww scripts
         hyprpolkitagent
+        hyprshot
       ];
 
       xdg.configFile."uwsm/env".text = ''
@@ -189,8 +190,8 @@
               "${cfg.mainMod}, x, submap, ${submapSystem}"
 
               # Screenshots
-              ", Print, exec, grim -g \"$(slurp)\" - | swappy -f -"
-              "${cfg.mainMod} SHIFT, s, exec, grim -g \"$(slurp)\" - | swappy -f -"
+              ", Print, exec, hyprshot --raw -m region | swappy -f -"
+              "${cfg.mainMod} SHIFT, s, exec, hyprshot --raw -m region | swappy -f -"
 
               "${cfg.mainMod}, period, exec, dunstctl close"
               "${cfg.mainMod} SHIFT, period, exec, dunstctl close-all"
