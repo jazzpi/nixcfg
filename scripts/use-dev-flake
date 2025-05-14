@@ -45,7 +45,7 @@ if in_use=$([ -f .envrc ] && grep "use flake" .envrc); then
     [yY]) ;;
     *) exit 1 ;;
     esac
-    sed -ie "s/^use flake.*/use flake ${shell//'/'/'\/'}/" .envrc
+    sed -i "s/^use flake.*/use flake ${shell//'/'/'\/'}/" .envrc
 else
     echo "use flake $shell" >>.envrc
 fi
