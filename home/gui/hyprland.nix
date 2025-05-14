@@ -206,6 +206,9 @@
               ", XF86AudioPrev, exec, playerctl previous"
               ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
               ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+
+              # Misc
+              "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
             ]
             # Workspace bindings
             ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
