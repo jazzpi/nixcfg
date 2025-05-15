@@ -119,8 +119,12 @@
           };
           gestures.workspace_swipe = "on";
 
+          misc = {
+            enable_anr_dialog = false;
+            disable_hyprland_logo = true;
+          };
+
           # Theming
-          misc.disable_hyprland_logo = true;
           general = {
             gaps_in = 5;
             gaps_out = 10;
