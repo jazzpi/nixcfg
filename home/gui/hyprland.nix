@@ -88,12 +88,15 @@
         settings = {
           monitor = lib.mkDefault ",preferred,auto,auto";
 
-          exec-once = [
-            "systemctl --user start hyprpolkitagent"
-            "~/.config/eww/scripts/wm.sh launch"
-            "dunst"
-            "${rootPath}/dotfiles/hypr/scripts/startup.sh"
-          ];
+          exec-once =
+            [
+              "systemctl --user start hyprpolkitagent"
+              "~/.config/eww/scripts/wm.sh launch"
+              "dunst"
+              "${rootPath}/dotfiles/hypr/scripts/startup.sh"
+            ]
+            # If picom is enabled (e.g. because we have i3 enabled) systemd will constantly try to restart it
+            ++ lib.optional config.services.picom.enable "systemctl --user stop picom";
 
           windowrulev2 = [
             # IM workspace
