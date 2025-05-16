@@ -31,7 +31,7 @@ update_bars() {
         echo "Adding $output"
         width=$(hyprctl monitors -j | jq -r --arg output "$output" '.[] | select(.model == $output) | .width / .scale')
         output=$(sanitize_model_name "$output")
-        eww open bar --id "bar_$output" --arg "monitor=$output" --arg "width=${width}px" # --screen "$output"
+        uwsm app -- eww open bar --id "bar_$output" --arg "monitor=$output" --arg "width=${width}px"
     done
 }
 
@@ -58,14 +58,3 @@ trap "echo 'killing bg'; ps -p $!; kill $!" EXIT # Kill the update process when 
 source "${BASH_SOURCE%/*}/util.sh"
 
 subscribe "^monitor" >"$pipe"
-# next_trigger=0
-# (
-#     echo initial # Trigger initial update
-#     socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock
-# ) | while IFS='' read line; do
-#     if [[ line == "initial" || line =~ "monitor*" ]]; then
-#         continue
-#     fi
-#     echo "$next_trigger" >"$pipe"
-#     next_trigger=$((next_trigger + 1))
-# done

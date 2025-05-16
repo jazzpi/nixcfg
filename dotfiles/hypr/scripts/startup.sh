@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# TODO: Replace with systemd units that require eww & dunst to have been started
+
+RUN="uwsm app --"
+
 poll() {
     timeout=$1
     shift
@@ -16,11 +20,11 @@ poll 10 '(eww ping && pgrep dunst)' || true
 sleep 1
 
 # Actually start the applications
-thunderbird &
-nm-applet --indicator &
-ibus-daemon -r &
-spotify &
-signal-desktop &
-telegram-desktop &
-firefox &
-nextcloud &
+$RUN thunderbird &
+$RUN nm-applet --indicator &
+$RUN ibus-daemon -r &
+$RUN spotify &
+$RUN signal-desktop &
+$RUN telegram-desktop &
+$RUN firefox &
+$RUN nextcloud &

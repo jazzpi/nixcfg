@@ -48,7 +48,6 @@
       };
       home.packages = with pkgs; [
         socat # Needed for eww scripts
-        hyprpolkitagent
         hyprshot
       ];
 
@@ -88,15 +87,13 @@
         settings = {
           monitor = lib.mkDefault ",preferred,auto,auto";
 
-          exec-once =
-            [
-              "systemctl --user start hyprpolkitagent"
-              "~/.config/eww/scripts/wm.sh launch"
-              "dunst"
-              "${rootPath}/dotfiles/hypr/scripts/startup.sh"
-            ]
-            # If picom is enabled (e.g. because we have i3 enabled) systemd will constantly try to restart it
-            ++ lib.optional config.services.picom.enable "systemctl --user stop picom";
+          exec-once = [
+            "~/.config/eww/scripts/wm.sh launch"
+            "${rootPath}/dotfiles/hypr/scripts/startup.sh"
+            # If these are enabled (e.g. because we have i3 enabled) systemd will constantly try to restart them
+            "systemctl --user stop picom"
+            "systemctl --user stop redshift"
+          ];
 
           windowrulev2 = [
             # IM workspace
@@ -177,8 +174,8 @@
 
           bind =
             [
-              "${cfg.mainMod}, return, exec, kitty"
-              "${cfg.mainMod}, d, exec, rofi -show drun -show-icons -sort -sorting-method fzf"
+              "${cfg.mainMod}, return, exec, uwsm app -- kitty"
+              "${cfg.mainMod}, d, exec, rofi -show drun -show-icons -sort -sorting-method fzf -run-command 'uwsm app -- {cmd}'"
 
               "${cfg.mainMod} SHIFT, q, killactive, "
 
@@ -197,8 +194,8 @@
               "${cfg.mainMod}, x, submap, ${submapSystem}"
 
               # Screenshots
-              ", Print, exec, hyprshot --raw -m region | swappy -f -"
-              "${cfg.mainMod} SHIFT, s, exec, hyprshot --raw -m region | swappy -f -"
+              ", Print, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
+              "${cfg.mainMod} SHIFT, s, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
 
               "${cfg.mainMod}, period, exec, dunstctl close"
               "${cfg.mainMod} SHIFT, period, exec, dunstctl close-all"
@@ -291,6 +288,7 @@
             ];
           };
         };
+        hyprpolkitagent.enable = true;
       };
       programs = {
         hyprlock = {
