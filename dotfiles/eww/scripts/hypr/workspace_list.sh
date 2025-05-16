@@ -2,7 +2,7 @@
 
 source "${BASH_SOURCE%/*}/util.sh"
 
-subscribe "^(focusedmon|workspace|destroyworkspace)" | while IFS='' read line; do
+subscribe "^(focusedmon|workspace|destroyworkspace|createworkspace)" | while IFS='' read line; do
     monitors=$(
         hyprctl -j monitors | jq -c '
 map({
