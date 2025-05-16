@@ -12,5 +12,6 @@
     };
     security.pam.services.hyprlock = { };
     j.gui.gnome-keyring.enable = true;
+    services.displayManager.defaultSession = lib.mkDefault "hyprland-uwsm";
   };
 }
