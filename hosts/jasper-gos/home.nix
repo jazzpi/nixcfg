@@ -38,5 +38,6 @@
     libreoffice-qt-fresh
     ungoogled-chromium
     stm32cubemx
+    obs-studio
   ];
 }
