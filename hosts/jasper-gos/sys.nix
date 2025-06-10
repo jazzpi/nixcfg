@@ -5,9 +5,14 @@
   system.stateVersion = "24.11";
 
   j.boot.loader = "systemd-boot";
-  j.virt.docker.enable = true;
-  j.virt.docker.rootless = false;
-  j.virt.docker.addToDockerGroup = true;
+  j.virt = {
+    docker = {
+      enable = true;
+      rootless = false;
+      addToDockerGroup = true;
+    };
+    host.enable = true;
+  };
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
   j.networking.can = true;
