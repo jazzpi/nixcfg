@@ -27,4 +27,9 @@
   systemd.services.sshd.wantedBy = lib.mkForce [ ];
 
   services.displayManager.defaultSession = "hyprland-uwsm";
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 }
