@@ -26,6 +26,8 @@
             pre-commit
             python3Packages.jupyter
             python3Packages.pip
+            python3Packages.numpy
+            python3Packages.pandas
           ];
           hardeningDisable = [ "all" ];
         };
