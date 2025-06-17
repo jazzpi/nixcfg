@@ -199,7 +199,7 @@
 
               "${cfg.mainMod}, period, exec, dunstctl close"
               "${cfg.mainMod} SHIFT, period, exec, dunstctl close-all"
-              "${cfg.mainMod}, omma, exec, dunstctl history-pop"
+              "${cfg.mainMod}, comma, exec, dunstctl history-pop"
 
               # fn-keys
               ", XF86AudioRaiseVolume, exec, pactl -- set-sink-volume @DEFAULT_SINK@ +5%"
