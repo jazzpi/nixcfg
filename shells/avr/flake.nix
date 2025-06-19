@@ -27,6 +27,7 @@
             cmake
             pkgsCross.avr.buildPackages.gcc
             srecord
+            avrdude
           ];
           hardeningDisable = [ "all" ];
         };
