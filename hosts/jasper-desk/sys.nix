@@ -8,7 +8,7 @@
     loader = "systemd-boot";
     windows = {
       enable = true;
-      efiDeviceHandle = "HD2b";
+      efiDeviceHandle = "HD0e";
     };
   };
   j.virt.docker.enable = true;
