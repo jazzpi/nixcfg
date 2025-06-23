@@ -19,12 +19,17 @@ set -e
 poll 10 '(eww ping && pgrep dunst)' || true
 sleep 1
 
+run() {
+    if command -v "$1" &>/dev/null; then
+        $RUN "$@" &
+    fi
+}
+
 # Actually start the applications
-$RUN thunderbird &
-$RUN nm-applet --indicator &
-$RUN ibus-daemon -r &
-$RUN spotify &
-$RUN signal-desktop &
-$RUN telegram-desktop &
-$RUN firefox &
-$RUN nextcloud &
+run thunderbird
+run nm-applet --indicator
+run spotify
+run signal-desktop
+run telegram-desktop
+run firefox
+run nextcloud
