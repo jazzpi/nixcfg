@@ -15,6 +15,16 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+        python = pkgs.python3.withPackages (
+          ps: with ps; [
+            jupyter
+            pip
+            numpy
+            pandas
+            opencv-python
+            scikit-learn
+          ]
+        );
       in
       with pkgs;
       {
@@ -24,10 +34,7 @@
             mypy
             poetry
             pre-commit
-            python3Packages.jupyter
-            python3Packages.pip
-            python3Packages.numpy
-            python3Packages.pandas
+            python
           ];
           hardeningDisable = [ "all" ];
         };
