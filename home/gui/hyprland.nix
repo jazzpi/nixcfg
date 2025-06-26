@@ -96,8 +96,9 @@
           ];
 
           windowrulev2 = [
+            "workspace 1,initialClass:^firefox$"
             # IM workspace
-            "workspace name:i,initialClass:^(signal|org.telegram.desktop)$"
+            "workspace name:i,initialClass:^(signal|org.telegram.desktop|Slack)$"
             "group set,onworkspace:name:i"
             # TODO: This doesn't work (workspace rules are evaluated on startup only)
             "workspace name:i,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"

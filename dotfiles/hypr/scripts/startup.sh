@@ -30,6 +30,7 @@ run thunderbird
 run nm-applet --indicator
 run spotify
 run signal-desktop
-run telegram-desktop
+run Telegram
 run firefox
 run nextcloud
+run slack
