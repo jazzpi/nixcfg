@@ -49,6 +49,7 @@
       home.packages = with pkgs; [
         socat # Needed for eww scripts
         hyprshot
+        hyprprop
       ];
 
       xdg.configFile."uwsm/env".text = ''
