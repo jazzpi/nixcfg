@@ -21,8 +21,10 @@
       jq
       python3
       usbutils
+      pciutils
       libnotify
       nh
+      btop
     ];
   };
 }
