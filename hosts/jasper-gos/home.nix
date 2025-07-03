@@ -39,5 +39,7 @@
     ungoogled-chromium
     stm32cubemx
     obs-studio
+    openocd
+    minicom
   ];
 }
