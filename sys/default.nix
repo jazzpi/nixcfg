@@ -7,6 +7,7 @@
     ./boot.nix
     ./udev.nix
     ./fprint.nix
+    ./printing.nix
     ./gui
     ./virt
   ];
@@ -44,8 +45,6 @@
 
     # Give me /bin/bash
     services.envfs.enable = true;
-
-    services.printing.enable = true;
 
     # TODO: Move to a "laptop.nix"?
     # Enable touchpad support (enabled default in most desktopManager).
