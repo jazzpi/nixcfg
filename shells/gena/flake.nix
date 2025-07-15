@@ -35,6 +35,7 @@
             cmake
             gdb
             pre-commit
+            openssl
           ];
           hardeningDisable = [ "all" ];
         };
