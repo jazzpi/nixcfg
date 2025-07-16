@@ -5,6 +5,7 @@
   system.stateVersion = "24.11";
 
   j.boot.loader = "systemd-boot";
+  j.boot.initrdBluetooth = false;
   j.virt = {
     docker = {
       enable = true;
