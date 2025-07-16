@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 {
@@ -17,7 +17,8 @@
   };
 
   config = lib.mkIf config.j.gui.gimp.enable {
-    home.packages = with pkgs; [
+    # TODO: As of 2025-07-16 unstable GIMP fails to build
+    home.packages = with pkgs-stable; [
       (if config.j.gui.gimp.plugins.enable then gimp-with-plugins else gimp)
     ];
   };
