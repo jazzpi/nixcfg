@@ -23,6 +23,7 @@
             pandas
             opencv-python
             scikit-learn
+            matplotlib
           ]
         );
       in
@@ -35,6 +36,7 @@
             poetry
             pre-commit
             python
+            liblxi
           ];
           hardeningDisable = [ "all" ];
         };
