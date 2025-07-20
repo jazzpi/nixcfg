@@ -25,6 +25,9 @@
       libnotify
       nh
       btop
+      dig
+      socat
+      unzip
     ];
   };
 }
