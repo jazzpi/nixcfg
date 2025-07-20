@@ -92,7 +92,7 @@
                 ims = [
                   {
                     cfg = "telegram";
-                    cmd = "telegram-desktop";
+                    cmd = "Telegram";
                   }
                   {
                     cfg = "signal";
