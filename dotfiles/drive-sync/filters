@@ -1,0 +1,16 @@
+# Temporary files
+- *.swp
+- *.tmp
+- ~*
+- .~*
+# Compiler outputs etc.
+- build/
+- .cache/
+- *.pyc
+- __pycache__/
+- .ipynb_checkpoints
+# Environments
+- .direnv/
+- .envrc
+- .venv/
+- env/

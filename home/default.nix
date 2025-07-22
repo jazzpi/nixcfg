@@ -7,6 +7,7 @@
     ./networking.nix
     ./gui
     ./work
+    ./drive-sync.nix
     ../private/home
   ];
 

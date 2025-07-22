@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+flags=(
+	--resilient --recover --max-lock 5m # Avoid needing to --resync after an error
+	--check-access # Make sure we're syncing the correct directories (with RCLONE_TEST files in each)
+	--compare size,modtime,checksum # Check for changes based on modification time & checksum
+	--no-slow-hash # Don't compute checksums for local path (only GDrive)
+	--filters-file {{filters_file}}
+	--conflict-resolve newer --conflict-suffix {DateOnly}-conflict # On conflict: keep newer & rename older to $FILE-$(date)-conflict$n
+	--drive-export-formats pdf # Export Google Docs/Sheets as PDF in the local copy
+	--fast-list # Combine multiple `list` calls into one API request
+)
+
+usage() {
+    >&2 echo "Usage: $0 <local_path> <gdrive_path> [--resync]"
+    exit 1
+}
+
+local_path=""
+gdrive_path=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --resync)
+            flags+=(--resync)
+            shift
+            ;;
+        *)
+            if [ -z "$local_path" ]; then
+                local_path="$1"
+            elif [ -z "$gdrive_path" ]; then
+                gdrive_path="$1"
+            else
+                usage
+            fi
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$gdrive_path" ]; then
+    usage
+fi
+
+if ! rclone bisync "$local_path" "$gdrive_path" "${flags[@]}" &>> "/tmp/drive-sync.log"; then
+    >&2 echo "Error: Google Drive sync failed. Check /tmp/drive-sync.log for details."
+    notify-send -u critical "Google Drive Sync Error" "An error occurred during the sync. Check /tmp/drive-sync.log for details."
+    exit 1
+fi
