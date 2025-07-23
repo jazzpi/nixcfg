@@ -57,7 +57,7 @@
           + lib.concatMapStrings (
             { localPath, remotePath }:
             ''
-              ${sync-script} "${localPath}" "${remotePath}"
+              ${sync-script} "${localPath}" "${remotePath}" "$@"
             ''
           ) config.j.drive-sync.paths
         )

@@ -12,34 +12,19 @@ flags=(
 )
 
 usage() {
-    >&2 echo "Usage: $0 <local_path> <gdrive_path> [--resync]"
+    >&2 echo "Usage: $0 <local_path> <gdrive_path> [flags...]"
     exit 1
 }
 
-local_path=""
-gdrive_path=""
-while [ $# -gt 0 ]; do
-    case "$1" in
-        --resync)
-            flags+=(--resync)
-            shift
-            ;;
-        *)
-            if [ -z "$local_path" ]; then
-                local_path="$1"
-            elif [ -z "$gdrive_path" ]; then
-                gdrive_path="$1"
-            else
-                usage
-            fi
-            shift
-            ;;
-    esac
-done
-
-if [ -z "$gdrive_path" ]; then
+if [ $# -lt 2 ]; then
     usage
 fi
+
+local_path="$1"
+gdrive_path="$2"
+shift 2
+
+flags+=("$@")
 
 if ! rclone bisync "$local_path" "$gdrive_path" "${flags[@]}" &>> "/tmp/drive-sync.log"; then
     >&2 echo "Error: Google Drive sync failed. Check /tmp/drive-sync.log for details."
