@@ -187,6 +187,7 @@
               "${cfg.mainMod} SHIFT, m, layoutmsg, swapwithmaster"
               "${cfg.mainMod}, e, layoutmsg, orientationnext"
               "${cfg.mainMod} SHIFT, e, layoutmsg, orientationprev"
+              "${cfg.mainMod}, p, pin"
 
               # Groups
               "${cfg.mainMod}, w, togglegroup"
