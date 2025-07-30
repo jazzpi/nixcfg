@@ -8,6 +8,7 @@
     ./gui
     ./work
     ./drive-sync.nix
+    ./tmux.nix
     ../private/home
   ];
 
