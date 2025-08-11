@@ -24,10 +24,10 @@
           layout = "us";
           variant = "altgr-intl";
         };
-        displayManager.gdm.enable = true;
-        desktopManager.gnome.enable = true;
-        libinput.naturalScrolling = true;
       };
+      desktopManager.gnome.enable = true;
+      displayManager.gdm.enable = true;
+      libinput.touchpad.naturalScrolling = true;
       redshift = {
         enable = true;
         temperature = {

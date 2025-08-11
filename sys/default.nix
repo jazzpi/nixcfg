@@ -14,7 +14,7 @@
 
   options.j = {
     location = lib.mkOption {
-      type = with lib.types; attrsOf (either string float);
+      type = with lib.types; attrsOf (either str float);
       default = {
         provider = "geoclue2";
       };
