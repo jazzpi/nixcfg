@@ -1,4 +1,5 @@
-# Prompt Setup
+# PROMPT SETUP
+# ============
 _prompt_user='\`if [[ \$? = "0" ]]; then echo \"\\[\\033[1;32m\\]\"; else echo \"\\[\\033[1;31m\\]\"; fi\`'
 if [ -n "$SSH_CLIENT" -o -n "$SSH_TTY" ]; then
     # Invert colors if we're in an SSH session
@@ -34,3 +35,7 @@ PROMPT_COMMAND="PS1=\"╔═${_prompt_user}${_prompt_remote} [${_prompt_dir}\$(_
 # Save/reread history before showing the prompt
 # TODO: It would be nicer to put $(history -a) in PS0, but that gets overwritten by home-manager's VTE integration
 PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+# HM SESSION VARS
+# ===============
+. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
