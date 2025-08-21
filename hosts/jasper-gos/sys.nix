@@ -33,4 +33,5 @@
     enable = true;
     enable32Bit = true;
   };
+  hardware.mwProCapture.enable = true;
 }
