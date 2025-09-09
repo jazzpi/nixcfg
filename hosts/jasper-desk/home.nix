@@ -31,5 +31,6 @@
   home.packages = with pkgs; [
     kicad
     stm32cubemx
+    gimp3-with-plugins
   ];
 }
