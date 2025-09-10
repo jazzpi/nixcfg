@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, rootPath, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -25,12 +25,47 @@
 
   j.networking.can = true;
 
-  wayland.windowManager.hyprland.settings = {
-    monitor = [
-      "desc:AU Optronics B140UAN08.0, 1920x1200, 3840x0, 1.5"
-      "desc:ODY i27 0000000000001, 1920x1080, 1920x0, 1"
-      "desc:ASUSTek COMPUTER INC PA248QV MCLMQS198413, 1920x1200, 0x0, 1"
-      ", preferred, auto, auto"
+  services.kanshi = {
+    enable = true;
+    settings = [
+      {
+        profile.name = "undocked";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            scale = 1.0;
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
+      {
+        profile.name = "docked";
+        profile.outputs = [
+          {
+            criteria = "ASUSTek COMPUTER INC PA248QV MCLMQS198413";
+            scale = 1.0;
+            mode = "--custom 1920x1200@55Hz";
+            position = "0,0";
+          }
+          {
+            criteria = "ODY i27 0000000000001";
+            scale = 1.0;
+            mode = "1920x1080";
+            position = "1920,0";
+          }
+          {
+            criteria = "eDP-1";
+            scale = 1.5;
+            mode = "1920x1200";
+            position = "3840,0";
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
     ];
   };
 
