@@ -14,10 +14,11 @@
     programs.vim.enable = lib.mkDefault true;
     programs.git.enable = lib.mkDefault true;
 
-    # Install home-manager standalone. The manual tells you to install it imperatively, but that
-    # kinda defeats the purpose of NixOS?
     environment.systemPackages = with pkgs; [
+      # Install home-manager standalone. The manual tells you to install it imperatively, but that
+      # kinda defeats the purpose of NixOS?
       home-manager
+      # Install various CLI utils
       jq
       python3
       usbutils
@@ -28,6 +29,7 @@
       dig
       socat
       unzip
+      file
     ];
   };
 }
