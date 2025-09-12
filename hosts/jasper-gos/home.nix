@@ -66,6 +66,26 @@
           "${rootPath}/dotfiles/eww/scripts/restart.sh"
         ];
       }
+      {
+        profile.name = "presentation";
+        profile.outputs = [
+          {
+            criteria = "Hisense Electric Co., Ltd. HISENSE 0x00000001";
+            scale = 3.0;
+            mode = "3840x2160@30Hz";
+            position = "0,0";
+          }
+          {
+            criteria = "eDP-1";
+            scale = 1.0;
+            mode = "1920x1200";
+            position = "${builtins.toString (builtins.ceil (3840 / 3))},0";
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
     ];
   };
 
