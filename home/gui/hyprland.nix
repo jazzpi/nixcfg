@@ -42,10 +42,7 @@
       # Requirements
       j.gui.kitty.enable = true;
       j.gui.eww.enable = true;
-      programs.rofi = {
-        enable = true;
-        package = pkgs.rofi-wayland;
-      };
+      programs.rofi.enable = true;
       home.packages = with pkgs; [
         socat # Needed for eww scripts
         hyprshot
