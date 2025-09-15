@@ -171,83 +171,82 @@
             ];
           };
 
-          bind =
-            [
-              "${cfg.mainMod}, return, exec, uwsm app -- kitty"
-              "${cfg.mainMod}, d, exec, rofi -show drun -show-icons -sort -sorting-method fzf -run-command 'uwsm app -- {cmd}'"
+          bind = [
+            "${cfg.mainMod}, return, exec, uwsm app -- kitty"
+            "${cfg.mainMod}, d, exec, rofi -show drun -show-icons -sort -sorting-method fzf -run-command 'uwsm app -- {cmd}'"
 
-              "${cfg.mainMod} SHIFT, q, killactive, "
+            "${cfg.mainMod} SHIFT, q, killactive, "
 
-              # Layout control
-              "${cfg.mainMod} SHIFT, space, togglefloating"
-              "${cfg.mainMod}, m, layoutmsg, focusmaster"
-              "${cfg.mainMod} SHIFT, m, layoutmsg, swapwithmaster"
-              "${cfg.mainMod}, e, layoutmsg, orientationnext"
-              "${cfg.mainMod} SHIFT, e, layoutmsg, orientationprev"
-              "${cfg.mainMod}, p, pin"
+            # Layout control
+            "${cfg.mainMod} SHIFT, space, togglefloating"
+            "${cfg.mainMod}, m, layoutmsg, focusmaster"
+            "${cfg.mainMod} SHIFT, m, layoutmsg, swapwithmaster"
+            "${cfg.mainMod}, e, layoutmsg, orientationnext"
+            "${cfg.mainMod} SHIFT, e, layoutmsg, orientationprev"
+            "${cfg.mainMod}, p, pin"
 
-              # Groups
-              "${cfg.mainMod}, w, togglegroup"
-              "${cfg.mainMod}, g, submap, ${submapGroups}"
+            # Groups
+            "${cfg.mainMod}, w, togglegroup"
+            "${cfg.mainMod}, g, submap, ${submapGroups}"
 
-              # System control
-              "${cfg.mainMod}, x, submap, ${submapSystem}"
+            # System control
+            "${cfg.mainMod}, x, submap, ${submapSystem}"
 
-              # Screenshots
-              ", Print, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
-              "${cfg.mainMod} SHIFT, s, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
+            # Screenshots
+            ", Print, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
+            "${cfg.mainMod} SHIFT, s, exec, uwsm app -- hyprshot --raw -m region | swappy -f -"
 
-              "${cfg.mainMod}, period, exec, dunstctl close"
-              "${cfg.mainMod} SHIFT, period, exec, dunstctl close-all"
-              "${cfg.mainMod}, comma, exec, dunstctl history-pop"
+            "${cfg.mainMod}, period, exec, dunstctl close"
+            "${cfg.mainMod} SHIFT, period, exec, dunstctl close-all"
+            "${cfg.mainMod}, comma, exec, dunstctl history-pop"
 
-              # fn-keys
-              ", XF86AudioRaiseVolume, exec, pactl -- set-sink-volume @DEFAULT_SINK@ +5%"
-              ", XF86AudioLowerVolume, exec, pactl -- set-sink-volume @DEFAULT_SINK@ -5%"
-              ", XF86AudioMute, exec, pactl -- set-sink-mute @DEFAULT_SINK@ toggle"
-              ", XF86AudioPlay, exec, playerctl play-pause"
-              ", XF86AudioNext, exec, playerctl next"
-              ", XF86AudioPrev, exec, playerctl previous"
-              ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
-              ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+            # fn-keys
+            ", XF86AudioRaiseVolume, exec, pactl -- set-sink-volume @DEFAULT_SINK@ +5%"
+            ", XF86AudioLowerVolume, exec, pactl -- set-sink-volume @DEFAULT_SINK@ -5%"
+            ", XF86AudioMute, exec, pactl -- set-sink-mute @DEFAULT_SINK@ toggle"
+            ", XF86AudioPlay, exec, playerctl play-pause"
+            ", XF86AudioNext, exec, playerctl next"
+            ", XF86AudioPrev, exec, playerctl previous"
+            ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
+            ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
 
-              # Misc
-              "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
-            ]
-            # Workspace bindings
-            ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
-              lib.concatMapAttrs
-                (key: ws: {
-                  "${cfg.mainMod}, ${key}" = "workspace, ${ws}";
-                  "${cfg.mainMod} SHIFT, ${key}" = "movetoworkspacesilent, ${ws}";
-                })
-                (
-                  lib.genAttrs (map builtins.toString (lib.lists.range 1 9)) builtins.toString
-                  // {
-                    "0" = "10";
-                    "i" = "name:i";
-                  }
-                )
-            ))
-            # Movement
-            ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
-              lib.concatMapAttrs
-                (key: dir: {
-                  "${cfg.mainMod}, ${key}" = "movefocus, ${dir}";
-                  "${cfg.mainMod} SHIFT, ${key}" = "movewindoworgroup, ${dir}";
-                  "${cfg.mainMod} CTRL, ${key}" = "movecurrentworkspacetomonitor, ${dir}";
-                })
-                {
-                  "h" = "l";
-                  "j" = "d";
-                  "k" = "u";
-                  "l" = "r";
-                  "left" = "l";
-                  "down" = "d";
-                  "up" = "u";
-                  "right" = "r";
+            # Misc
+            "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
+          ]
+          # Workspace bindings
+          ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
+            lib.concatMapAttrs
+              (key: ws: {
+                "${cfg.mainMod}, ${key}" = "workspace, ${ws}";
+                "${cfg.mainMod} SHIFT, ${key}" = "movetoworkspacesilent, ${ws}";
+              })
+              (
+                lib.genAttrs (map builtins.toString (lib.lists.range 1 9)) builtins.toString
+                // {
+                  "0" = "10";
+                  "i" = "name:i";
                 }
-            ));
+              )
+          ))
+          # Movement
+          ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
+            lib.concatMapAttrs
+              (key: dir: {
+                "${cfg.mainMod}, ${key}" = "movefocus, ${dir}";
+                "${cfg.mainMod} SHIFT, ${key}" = "movewindoworgroup, ${dir}";
+                "${cfg.mainMod} CTRL, ${key}" = "movecurrentworkspacetomonitor, ${dir}";
+              })
+              {
+                "h" = "l";
+                "j" = "d";
+                "k" = "u";
+                "l" = "r";
+                "left" = "l";
+                "down" = "d";
+                "up" = "u";
+                "right" = "r";
+              }
+          ));
           bindm = [
             # Move/resize windows with mainMod + LMB/RMB and dragging
             "${cfg.mainMod}, mouse:272, movewindow"

@@ -58,58 +58,57 @@
             inherit workspace output;
           }) config.j.gui.i3.workspaceAssignments;
 
-          startup =
-            [
-              {
-                command = "picom";
-                notification = false;
-              }
-              {
-                command = "dunst";
-                notification = false;
-              }
-              # TODO: Move here as well
-              {
-                command = "~/.config/i3/scripts/startup.sh";
-                notification = false;
-              }
-              {
-                command = "~/.config/i3/scripts/background.sh";
-                notification = false;
-              }
-            ]
-            ++ (
-              let
-                mkIm = (
-                  { cfg, cmd }:
-                  (lib.optionals config.j.gui.im.${cfg}.autostart [
-                    {
-                      command = cmd;
-                      notification = false;
-                    }
-                  ])
-                );
-                ims = [
+          startup = [
+            {
+              command = "picom";
+              notification = false;
+            }
+            {
+              command = "dunst";
+              notification = false;
+            }
+            # TODO: Move here as well
+            {
+              command = "~/.config/i3/scripts/startup.sh";
+              notification = false;
+            }
+            {
+              command = "~/.config/i3/scripts/background.sh";
+              notification = false;
+            }
+          ]
+          ++ (
+            let
+              mkIm = (
+                { cfg, cmd }:
+                (lib.optionals config.j.gui.im.${cfg}.autostart [
                   {
-                    cfg = "telegram";
-                    cmd = "Telegram";
+                    command = cmd;
+                    notification = false;
                   }
-                  {
-                    cfg = "signal";
-                    cmd = "signal-desktop";
-                  }
-                  {
-                    cfg = "slack";
-                    cmd = "slack";
-                  }
-                  {
-                    cfg = "discord";
-                    cmd = "discord";
-                  }
-                ];
-              in
-              lib.concatMap mkIm ims
-            );
+                ])
+              );
+              ims = [
+                {
+                  cfg = "telegram";
+                  cmd = "Telegram";
+                }
+                {
+                  cfg = "signal";
+                  cmd = "signal-desktop";
+                }
+                {
+                  cfg = "slack";
+                  cmd = "slack";
+                }
+                {
+                  cfg = "discord";
+                  cmd = "discord";
+                }
+              ];
+            in
+            lib.concatMap mkIm ims
+          );
 
           bars = [ ];
 

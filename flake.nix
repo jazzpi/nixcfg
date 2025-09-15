@@ -72,7 +72,8 @@
             ./common
             ./sys
             ./hosts/${host.name}/sys.nix
-          ] ++ optionalExists ./hosts/${host.name}/common.nix;
+          ]
+          ++ optionalExists ./hosts/${host.name}/common.nix;
         };
       mkHomeConfig =
         host:
@@ -90,7 +91,8 @@
             ./common
             ./home
             ./hosts/${host.name}/home.nix
-          ] ++ optionalExists ./hosts/${host.name}/common.nix;
+          ]
+          ++ optionalExists ./hosts/${host.name}/common.nix;
           extraSpecialArgs = {
             inherit
               inputs
