@@ -1,4 +1,9 @@
-{ pkgs, rootPath, ... }:
+{
+  pkgs,
+  pkgs-stable,
+  rootPath,
+  ...
+}:
 {
   home.stateVersion = "24.11";
 
@@ -96,5 +101,6 @@
     obs-studio
     openocd
     minicom
+    pkgs-stable.kicad
   ];
 }
