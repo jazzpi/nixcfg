@@ -116,7 +116,9 @@
 
             sensitivity = "0"; # -1.0 - 1.0, 0 means no modification.
           };
-          gestures.workspace_swipe = "on";
+          gesture = [
+            "3, horizontal, workspace"
+          ];
 
           misc = {
             enable_anr_dialog = false;
