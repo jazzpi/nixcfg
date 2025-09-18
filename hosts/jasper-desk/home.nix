@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, rootPath, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -24,6 +24,32 @@
       "DP-1"
       "DP-2"
       "DP-3"
+    ];
+  };
+
+  services.kanshi = {
+    enable = true;
+    settings = [
+      {
+        profile.name = "desk-all";
+        profile.outputs = [
+          {
+            criteria = "HDMI-A-1";
+            position = "0,0";
+          }
+          {
+            criteria = "DP-1";
+            position = "400,1080";
+          }
+          {
+            criteria = "DP-2";
+            position = "1920,0";
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
     ];
   };
 

@@ -31,5 +31,5 @@
   # Override the service's wantedBy to prevent it from starting on boot
   systemd.services.sshd.wantedBy = lib.mkForce [ ];
 
-  services.displayManager.defaultSession = "xfce+i3";
+  services.displayManager.defaultSession = "hyprland-uwsm";
 }
