@@ -30,6 +30,7 @@
       socat
       unzip
       file
+      bc
     ];
   };
 }
