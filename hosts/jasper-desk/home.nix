@@ -36,6 +36,7 @@
           {
             criteria = "HDMI-A-1";
             position = "0,0";
+            scale = 1.0;
           }
           {
             criteria = "DP-1";
@@ -44,6 +45,24 @@
           {
             criteria = "DP-2";
             position = "1920,0";
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
+      {
+        profile.name = "tv-nomain";
+        profile.outputs = [
+          {
+            criteria = "DENON, Ltd. DENON-AVAMP 0x01010101";
+            position = "0,0";
+            scale = 1.5;
+          }
+          {
+            criteria = "DP-2";
+            position = "1280,0";
+            scale = 1.0;
           }
         ];
         profile.exec = [
