@@ -25,23 +25,30 @@
     // (mkMessenger "Telegram" "telegram")
     // (mkMessenger "Discord" "discord");
 
-  config = {
-    home.packages =
-      let
-        cfg = config.j.gui.im;
-      in
-      with pkgs;
-      lib.optionals cfg.slack.enable [
-        slack
-      ]
-      ++ lib.optionals cfg.signal.enable [
-        signal-desktop
-      ]
-      ++ lib.optionals cfg.telegram.enable [
-        telegram-desktop
-      ]
-      ++ lib.optionals cfg.discord.enable [
-        discord
-      ];
-  };
+  config =
+    let
+      cfg = config.j.gui.im;
+    in
+    {
+      home.packages =
+        with pkgs;
+        lib.optionals cfg.slack.enable [
+          slack
+        ]
+        ++ lib.optionals cfg.signal.enable [
+          signal-desktop
+        ]
+        ++ lib.optionals cfg.telegram.enable [
+          telegram-desktop
+        ]
+        ++ lib.optionals cfg.discord.enable [
+          discord
+        ];
+      xdg.desktopEntries = lib.mkIf cfg.signal.enable {
+        signal = {
+          name = "Signal";
+          exec = "${pkgs.signal-desktop}/bin/signal-desktop --password-store=gnome-libsecret";
+        };
+      };
+    };
 }
