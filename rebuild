@@ -93,21 +93,6 @@ if [ -n "$(git -C "$SCRIPT_PATH" ls-files --others --exclude-standard)" ]; then
     fi
 fi
 
-unstaged="$(
-    git -C "$SCRIPT_PATH" status --porcelain | grep -E '^.[^ ]'
-    true
-)"
-if [ -n "$unstaged" ]; then
-    warn "There are unstaged changes:"
-    echo "$unstaged"
-    echo
-    read -p "Do you want to continue? [Yn] " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Nn]$ ]]; then
-        fatal "Aborting."
-    fi
-fi
-
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
     nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure
