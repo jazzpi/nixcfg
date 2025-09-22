@@ -95,7 +95,7 @@ fi
 
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
-    nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure
+    nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty
 fi
 
 if [ "$BUILD_HOME" = true ]; then
@@ -103,5 +103,5 @@ if [ "$BUILD_HOME" = true ]; then
     if [ "$SCRIPT_PATH" != "$HOME/nixcfg" ]; then
         fatal "Repository must be in $HOME/nixcfg"
     fi
-    nh home switch "$SCRIPT_PATH$FLAKE_TAG?submodules=1" $@
+    nh home switch "$SCRIPT_PATH$FLAKE_TAG?submodules=1" $@ -- --no-warn-dirty
 fi
