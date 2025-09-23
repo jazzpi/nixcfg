@@ -96,11 +96,8 @@
         exec = x.exec;
         icon = x.icon;
       }) enabled;
-      xdg.autostart = {
-        enable = lib.mkDefault true;
-        entries = lib.mapAttrsToList (
-          name: x: "${config.home.homeDirectory}/.nix-profile/share/applications/${name}.desktop"
-        ) (lib.filterAttrs (name: x: x.autostart) enabled);
-      };
+      xdg.autostart.entries = lib.mapAttrsToList (
+        name: x: "${config.home.homeDirectory}/.nix-profile/share/applications/${name}.desktop"
+      ) (lib.filterAttrs (name: x: x.autostart) enabled);
     };
 }

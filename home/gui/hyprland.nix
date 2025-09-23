@@ -55,6 +55,28 @@
         export NIXOS_OZONE_WL=1
       '';
 
+      # Make sure the bar is running before any autostart entries are started.
+      # This way, the systray will be available in time.
+      systemd.user.services.eww-bar = {
+        Unit = {
+          Description = "eww bar";
+          After = "graphical-session.target";
+          Before = "xdg-desktop-autostart.target";
+        };
+        Service = {
+          Type = "notify";
+          NotifyAccess = "all";
+          ExecStart = "${rootPath}/dotfiles/eww/scripts/wm.sh launch";
+          ExecReload = "${rootPath}/dotfiles/eww/scripts/restart.sh";
+          Restart = "always";
+          RestartSec = "2s";
+        };
+        Install = {
+          WantedBy = [ "xdg-desktop-autostart.target" ];
+        };
+      };
+      xdg.autostart.enable = true;
+
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false; # We use UWSM instead
@@ -86,8 +108,6 @@
           monitor = lib.mkDefault ",preferred,auto,auto";
 
           exec-once = [
-            "~/.config/eww/scripts/wm.sh launch"
-            "${rootPath}/dotfiles/hypr/scripts/startup.sh"
             # If these are enabled (e.g. because we have i3 enabled) systemd will constantly try to restart them
             "systemctl --user stop picom"
             "systemctl --user stop redshift"

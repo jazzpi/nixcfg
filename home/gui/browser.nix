@@ -77,6 +77,9 @@ in
       ];
       default = "personal";
     };
+    autostart = lib.mkEnableOption "Autostart Firefox" // {
+      default = true;
+    };
   };
   # TODO: Chrome for Google Meet etc
 
@@ -90,5 +93,10 @@ in
     xdg.desktopEntries = lib.mkIf (numFFProfiles > 1) (
       { } // mkFirefoxProfileDesktopEntry ffProfilePersonal // mkFirefoxProfileDesktopEntry ffProfileWork
     );
+
+    xdg.autostart.entries = lib.optionals config.j.gui.firefox.autostart [
+      # Will start with default profile
+      "${pkgs.firefox}/share/applications/firefox.desktop"
+    ];
   };
 }

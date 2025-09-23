@@ -48,6 +48,10 @@ update_bars() {
             # Timeout, i.e. no new triggers in TRIGGER_UPDATE_DELAY seconds
             now_outputs=$(hyprctl monitors -j | jq -c 'map(select(.disabled == false) | .model)')
             update_bars "$prev_outputs" "$now_outputs"
+            if [[ "$prev_outputs" = "[]" && "$now_outputs" != "[]" ]]; then
+                echo "Ready!"
+                systemd-notify --ready
+            fi
             prev_outputs="$now_outputs"
             last_updated="$last_trigger"
         fi
