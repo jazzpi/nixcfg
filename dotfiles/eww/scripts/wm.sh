@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 if [ $# -lt 1 ]; then
     echo >&2 "Usage: $0 SCRIPTNAME [ARGS...]"
     exit 1
