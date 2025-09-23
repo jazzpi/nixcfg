@@ -91,6 +91,26 @@
           "${rootPath}/dotfiles/eww/scripts/restart.sh"
         ];
       }
+      {
+        profile.name = "presentation2";
+        profile.outputs = [
+          {
+            criteria = "Philips Consumer Electronics Company PHILIPS FTV 0x01010101";
+            scale = 3.0;
+            mode = "3840x2160@30Hz";
+            position = "0,0";
+          }
+          {
+            criteria = "eDP-1";
+            scale = 1.0;
+            mode = "1920x1200";
+            position = "${builtins.toString (builtins.ceil (3840 / 3))},0";
+          }
+        ];
+        profile.exec = [
+          "${rootPath}/dotfiles/eww/scripts/restart.sh"
+        ];
+      }
     ];
   };
 
