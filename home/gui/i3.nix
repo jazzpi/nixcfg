@@ -76,39 +76,7 @@
               command = "~/.config/i3/scripts/background.sh";
               notification = false;
             }
-          ]
-          ++ (
-            let
-              mkIm = (
-                { cfg, cmd }:
-                (lib.optionals config.j.gui.im.${cfg}.autostart [
-                  {
-                    command = cmd;
-                    notification = false;
-                  }
-                ])
-              );
-              ims = [
-                {
-                  cfg = "telegram";
-                  cmd = "Telegram";
-                }
-                {
-                  cfg = "signal";
-                  cmd = "signal-desktop";
-                }
-                {
-                  cfg = "slack";
-                  cmd = "slack";
-                }
-                {
-                  cfg = "discord";
-                  cmd = "discord";
-                }
-              ];
-            in
-            lib.concatMap mkIm ims
-          );
+          ];
 
           bars = [ ];
 
