@@ -44,11 +44,21 @@
         ++ lib.optionals cfg.discord.enable [
           discord
         ];
-      xdg.desktopEntries = lib.mkIf cfg.signal.enable {
-        signal = {
-          name = "Signal";
-          exec = "${pkgs.signal-desktop}/bin/signal-desktop --password-store=gnome-libsecret";
+      xdg.desktopEntries =
+        lib.mkIf cfg.signal.enable {
+          signal = {
+            name = "Signal";
+            exec = "${pkgs.signal-desktop}/bin/signal-desktop --password-store=gnome-libsecret";
+          };
+        }
+        // lib.mkIf cfg.slack.enable {
+          slack = {
+            name = "Slack";
+            # TODO: What if we run on X11?
+            # TODO: Why is this needed? Nix starts it with --ozone-platform-hint=auto anyway,
+            # which used to be enough. But now it seems to start with XWayland for some reason.
+            exec = "${pkgs.slack}/bin/slack --ozone-platform=wayland";
+          };
         };
-      };
     };
 }
