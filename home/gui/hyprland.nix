@@ -116,13 +116,15 @@
           windowrulev2 = [
             "workspace 1,initialClass:^firefox$"
             # IM workspace
-            "workspace name:i,initialClass:^(signal|org.telegram.desktop|Slack)$"
+            "workspace name:i,initialClass:^(signal|org.telegram.desktop|Slack|discord)$"
             "group set,onworkspace:name:i"
             # TODO: This doesn't work (workspace rules are evaluated on startup only)
             "workspace name:i,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
             "group set,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
             "workspace 4,initialClass:^thunderbird$"
             "workspace 5,initialClass:^spotify$"
+            "float,initialClass:^qalculate"
+            "float,initialClass:^com.nextcloud.desktopclient.nextcloud$"
           ];
 
           input = {
