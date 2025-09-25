@@ -347,7 +347,23 @@
                 valign = "center";
                 text_align = "center";
               }
+              {
+                monitor = "";
+                position = "0, 150";
+                font_size = 20;
+                text = "$FPRINTPROMPT";
+                color = "rgba(254, 254, 254, 0.85)";
+                halign = "center";
+                valign = "center";
+                text_align = "center";
+              }
             ];
+            auth.fingerprint = lib.mkIf (config.j.fprint.enable) {
+              # Enables parallel fingerprint auth. Without this, fingerprint
+              # auth is also possible, but only after pressing Enter (with an
+              # empty password).
+              enabled = true;
+            };
           };
         };
       };

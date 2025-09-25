@@ -29,5 +29,10 @@
         default = false;
       };
     };
+    fprint = {
+      enable = lib.mkEnableOption "Fingerprint scanner support" // {
+        default = false;
+      };
+    };
   };
 }
