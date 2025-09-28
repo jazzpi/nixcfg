@@ -30,6 +30,7 @@
       gf = "git fetch";
       gl = "git pull";
       glg = "git log";
+      ga = "git add";
 
       grep = "grep --color=auto";
     };
