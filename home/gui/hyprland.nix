@@ -125,6 +125,7 @@
             "workspace 5,initialClass:^spotify$"
             "float,initialClass:^qalculate"
             "float,initialClass:^com.nextcloud.desktopclient.nextcloud$"
+            "workspace 6,initialClass:^org.freecad.FreeCAD$"
           ];
 
           input = {

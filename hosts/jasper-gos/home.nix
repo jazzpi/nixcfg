@@ -122,5 +122,6 @@
     openocd
     minicom
     pkgs-stable.kicad
+    freecad
   ];
 }
