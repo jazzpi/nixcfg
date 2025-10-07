@@ -9,6 +9,7 @@
     ./work
     ./drive-sync.nix
     ./tmux.nix
+    ./ssh.nix
     ../private/home
   ];
 
