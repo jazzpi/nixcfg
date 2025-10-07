@@ -19,5 +19,13 @@
         };
       };
     };
+    # Home Manager creates the config file in the Nix store (owned by root:root
+    # with 444 permissions) and then symlinks to it from ~/.ssh/config. This
+    # causes problems in FHS envs (e.g. VSCode). See
+    # https://github.com/nix-community/home-manager/issues/322#issuecomment-2265239792
+    home.file.".ssh/config" = {
+      target = ".ssh/config_source";
+      onChange = ''cat ~/.ssh/config_source > ~/.ssh/config && chmod 400 ~/.ssh/config'';
+    };
   };
 }
