@@ -123,5 +123,6 @@
     minicom
     pkgs-stable.kicad
     freecad
+    distrobox
   ];
 }
