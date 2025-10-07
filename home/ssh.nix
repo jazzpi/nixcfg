@@ -11,8 +11,7 @@
       enable = true;
       enableDefaultConfig = false;
       matchBlocks = {
-        default = {
-          hostname = "*";
+        "*" = {
           setEnv = lib.optionalAttrs config.j.gui.kitty.enable {
             TERM = "xterm-256color";
           };
