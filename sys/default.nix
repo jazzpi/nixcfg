@@ -1,4 +1,8 @@
-{ lib, host, ... }:
+{
+  lib,
+  host,
+  ...
+}:
 {
   imports = [
     ./networking.nix
@@ -23,10 +27,13 @@
 
   config = {
     # Use flakes
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    nix.settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [ "@wheel" ];
+    };
     nixpkgs.config.allowUnfree = true;
 
     networking.hostName = host.name;

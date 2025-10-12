@@ -3,6 +3,7 @@
   config,
   pkgs,
   rootPath,
+  inputs,
   ...
 }:
 {
@@ -80,6 +81,9 @@
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false; # We use UWSM instead
+        # Use Hyprland/XPDH packages from NixOS module
+        package = null;
+        portalPackage = null;
         extraConfig =
           # submaps aren't possible with the settings.bind syntax
           ''
