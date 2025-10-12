@@ -37,7 +37,7 @@
     let
       cfg = config.j.gui.hyprland;
       submapGroups = "Groups";
-      submapSystem = "System: [S]hutdown, [R]eboot, [e]xit, [l]ock, [s]uspend";
+      submapSystem = "System";
     in
     lib.mkIf cfg.enable {
       # Requirements
@@ -105,15 +105,15 @@
             submap = reset
 
             submap = ${submapSystem}
-            bind=SHIFT, s, exec, systemctl poweroff
-            bind=SHIFT, r, exec, systemctl reboot
-            bind=, e, exit,
-            bind=, l, exec, loginctl lock-session
-            bind=, l, submap, reset
-            bind=, s, exec, systemctl suspend
-            bind=, s, submap, reset
-            bind=, escape, submap, reset
-            submap=reset
+            bind = SHIFT, s, exec, systemctl poweroff
+            bind = SHIFT, r, exec, systemctl reboot
+            bind = , e, exit,
+            bind = , l, exec, loginctl lock-session
+            bind = , l, submap, reset
+            bind = , s, exec, systemctl suspend
+            bind = , s, submap, reset
+            bind = , escape, submap, reset
+            submap = reset
 
             plugin {
               hy3 {
