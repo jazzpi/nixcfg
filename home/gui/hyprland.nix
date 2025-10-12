@@ -88,17 +88,18 @@
 
         plugins = [
           inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
+          inputs.hy3.packages.${pkgs.stdenv.hostPlatform.system}.hy3
         ];
 
         extraConfig =
           # submaps aren't possible with the settings.bind syntax
           ''
             submap = ${submapGroups}
-            bind = , h, changegroupactive, b
+            bind = , h, hy3:focustab, l
             bind = , h, submap, reset
-            bind = , l, changegroupactive, f
+            bind = , l, hy3:focustab, r
             bind = , l, submap, reset
-            bind = SHIFT, l, lockactivegroup, toggle
+            bind = SHIFT, l, hy3:locktab, toggle
             bind = SHIFT, l, submap, reset
             bind = , escape, submap, reset
             submap = reset
@@ -113,6 +114,29 @@
             bind=, s, submap, reset
             bind=, escape, submap, reset
             submap=reset
+
+            plugin {
+              hy3 {
+                tab_first_window = false
+                tabs {
+                  render_text = true
+                  text_font = "Meslo LG S DZ, monospace"
+                  text_height = 10
+                  col.active = ${cfg.theme.unlockedGroupActive}
+                  col.active.border = ${cfg.theme.unlockedGroupActive}
+                  col.active.text = rgb(ffffff)
+                  col.active_alt_monitor = ${cfg.theme.unlockedGroupActive}
+                  col.active_alt_monitor.border = ${cfg.theme.unlockedGroupActive}
+                  col.active_alt_monitor.text = rgb(ffffff)
+                  col.locked = ${cfg.theme.active}
+                  col.locked.border = ${cfg.theme.active}
+                  col.locked.text = rgb(ffffff)
+                  col.inactive = ${cfg.theme.inactive}
+                  col.inactive.border = ${cfg.theme.inactive}
+                  col.inactive.text = rgb(bbbbbb)
+                }
+              }
+            }
           '';
         settings = {
           monitor = lib.mkDefault ",preferred,auto,auto";
@@ -127,10 +151,8 @@
             "workspace 1,initialClass:^firefox$"
             # IM workspace
             "workspace name:i,initialClass:^(signal|org.telegram.desktop|Slack|discord)$"
-            "group set,onworkspace:name:i"
             # TODO: This doesn't work (workspace rules are evaluated on startup only)
             "workspace name:i,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
-            "group set,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
             "workspace 4,initialClass:^thunderbird$"
             "workspace 5,initialClass:^spotify$"
             "float,initialClass:^qalculate"
@@ -166,29 +188,9 @@
             "col.active_border" = cfg.theme.active;
             "col.inactive_border" = cfg.theme.inactive;
 
-            layout = "master";
+            layout = "hy3";
 
             allow_tearing = false;
-          };
-          group = {
-            "col.border_active" = cfg.theme.unlockedGroupActive;
-            "col.border_inactive" = cfg.theme.inactive;
-            "col.border_locked_active" = cfg.theme.active;
-            "col.border_locked_inactive" = cfg.theme.inactive;
-            groupbar = {
-              enabled = true;
-              scrolling = false;
-
-              font_size = 10;
-              font_family = "Meslo LG S DZ, monospace";
-              height = 16;
-              text_color = "rgb(ffffff)";
-              gradients = true;
-              "col.active" = cfg.theme.unlockedGroupActive;
-              "col.inactive" = cfg.theme.inactive;
-              "col.locked_active" = cfg.theme.active;
-              "col.locked_inactive" = cfg.theme.inactive;
-            };
           };
           decoration = {
             rounding = 5;
@@ -214,14 +216,11 @@
 
             # Layout control
             "${cfg.mainMod} SHIFT, space, togglefloating"
-            "${cfg.mainMod}, m, layoutmsg, focusmaster"
-            "${cfg.mainMod} SHIFT, m, layoutmsg, swapwithmaster"
-            "${cfg.mainMod}, e, layoutmsg, orientationnext"
-            "${cfg.mainMod} SHIFT, e, layoutmsg, orientationprev"
             "${cfg.mainMod}, p, pin"
+            "${cfg.mainMod}, a, hy3:changefocus, raise"
 
             # Groups
-            "${cfg.mainMod}, w, togglegroup"
+            "${cfg.mainMod}, w, hy3:changegroup, toggletab"
             "${cfg.mainMod}, g, submap, ${submapGroups}"
 
             # System control
@@ -254,7 +253,7 @@
             lib.concatMapAttrs
               (key: ws: {
                 "${cfg.mainMod}, ${key}" = "workspace, ${ws}";
-                "${cfg.mainMod} SHIFT, ${key}" = "movetoworkspacesilent, ${ws}";
+                "${cfg.mainMod} SHIFT, ${key}" = "hy3:movetoworkspace, ${ws}";
               })
               (
                 lib.genAttrs (map builtins.toString (lib.lists.range 1 9)) builtins.toString
@@ -268,8 +267,8 @@
           ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
             lib.concatMapAttrs
               (key: dir: {
-                "${cfg.mainMod}, ${key}" = "movefocus, ${dir}";
-                "${cfg.mainMod} SHIFT, ${key}" = "movewindoworgroup, ${dir}";
+                "${cfg.mainMod}, ${key}" = "hy3:movefocus, ${dir}";
+                "${cfg.mainMod} SHIFT, ${key}" = "hy3:movewindow, ${dir}";
                 "${cfg.mainMod} CTRL, ${key}" = "movecurrentworkspacetomonitor, ${dir}";
               })
               {
@@ -285,7 +284,7 @@
           ));
           bindm = [
             # Move/resize windows with mainMod + LMB/RMB and dragging
-            "${cfg.mainMod}, mouse:272, movewindow"
+            "${cfg.mainMod}, mouse:272, hy3:movewindow"
             "${cfg.mainMod}, mouse:273, resizewindow"
           ];
         };
