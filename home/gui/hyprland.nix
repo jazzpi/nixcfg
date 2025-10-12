@@ -81,9 +81,15 @@
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = false; # We use UWSM instead
+
         # Use Hyprland/XPDH packages from NixOS module
         package = null;
         portalPackage = null;
+
+        plugins = [
+          inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
+        ];
+
         extraConfig =
           # submaps aren't possible with the settings.bind syntax
           ''
@@ -240,7 +246,8 @@
             ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
 
             # Misc
-            "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
+            "${cfg.mainMod}, tab, overview:toggle, all"
+            "${cfg.mainMod} SHIFT, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
           ]
           # Workspace bindings
           ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
