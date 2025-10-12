@@ -77,5 +77,6 @@
     kicad
     stm32cubemx
     gimp3-with-plugins
+    freecad
   ];
 }
