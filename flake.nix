@@ -77,6 +77,14 @@
           jasper-fw = defaultHost;
         };
 
+      mkPkgs =
+        host:
+        import nixpkgs {
+          system = host.arch;
+          config = {
+            allowUnfree = true;
+          };
+        };
       mkPkgsStable =
         host:
         import nixpkgs-stable {
@@ -85,13 +93,44 @@
             allowUnfree = true;
           };
         };
+      mkTemplateFile = host: import "${rootPath}/util/template-file.nix" { pkgs = mkPkgs host; };
+
+      mkWallpaperPath =
+        {
+          host,
+          month ? -1,
+        }:
+        let
+          templateFile = mkTemplateFile host;
+          getWallpaperPath = (
+            templateFile {
+              name = "get-wallpaper-path";
+              template = "${rootPath}/dotfiles/hypr/scripts/get-wallpaper-path.mustache.sh";
+              data = {
+                wallpapersDir = "${rootPath}/assets/wallpapers";
+              };
+            }
+          );
+        in
+        lib.removeSuffix "\n" (
+          lib.readFile (
+            (mkPkgs host).runCommand "wallpaper-path" { }
+              "${getWallpaperPath} ${if month == -1 then "" else toString month} > $out"
+          )
+        );
       optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
         host:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs host;
+            inherit
+              inputs
+              host
+              rootPath
+              ;
             pkgs-stable = mkPkgsStable host;
+            templateFile = mkTemplateFile host;
+            mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };
           modules = [
             ./common
@@ -126,7 +165,8 @@
               repoPath
               ;
             pkgs-stable = mkPkgsStable host;
-            templateFile = import "${rootPath}/util/template-file.nix" { pkgs = pkgs_; };
+            templateFile = mkTemplateFile host;
+            mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };
         };
 

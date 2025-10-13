@@ -14,6 +14,7 @@
     ./steam.nix
     ./nvidia.nix
     ./gnome-keyring.nix
+    ./display-manager.nix
   ];
 
   config = lib.mkIf config.j.gui.enable {
@@ -26,7 +27,6 @@
         };
       };
       desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
       libinput.touchpad.naturalScrolling = true;
       redshift = {
         enable = true;

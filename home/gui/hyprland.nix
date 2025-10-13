@@ -4,7 +4,7 @@
   pkgs,
   rootPath,
   inputs,
-  templateFile,
+  mkWallpaperPath,
   ...
 }:
 {
@@ -39,16 +39,7 @@
       cfg = config.j.gui.hyprland;
       submapGroups = "Groups";
       submapSystem = "System";
-      getWallpaperPath = (
-        templateFile {
-          name = "get-wallpaper-path";
-          template = "${rootPath}/dotfiles/hypr/scripts/get-wallpaper-path.mustache.sh";
-          data = {
-            wallpapersDir = "${rootPath}/assets/wallpapers";
-          };
-        }
-      );
-      wallpaperPath = lib.readFile (pkgs.runCommand "wallpaper-path" { } "${getWallpaperPath} > $out");
+      wallpaperPath = mkWallpaperPath { };
     in
     lib.mkIf cfg.enable {
       # Requirements
