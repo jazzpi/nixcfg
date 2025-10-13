@@ -333,6 +333,7 @@
             background = {
               monitor = "";
               path = "${wallpaperPath}";
+              z-index = -2;
             };
             input-field = {
               monitor = "";
@@ -342,6 +343,19 @@
               placeholder_text = "";
               capslock_color = "#FF0000";
             };
+            shape = [
+              # Make sure we can read the text on bright wallpapers
+              {
+                monitor = "";
+                color = "rgba(0, 0, 0, 0.5)";
+                z-index = -1;
+                blur_passes = 3;
+                size = "600, 100%";
+                position = "0, 0";
+                halign = "center";
+                valign = "center";
+              }
+            ];
             label = [
               {
                 monitor = "";
