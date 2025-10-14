@@ -88,10 +88,26 @@
         package = null;
         portalPackage = null;
 
-        plugins = [
-          inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace
-          inputs.hy3.packages.${pkgs.stdenv.hostPlatform.system}.hy3
-        ];
+        plugins =
+          let
+            # The Hyprspace flake just inherits the Hyprland nativeBuildInputs,
+            # but that doesn't include meson. So it doesn't get auto-detected as
+            # a meson project and fails to build.
+            hyprspace = inputs.Hyprspace.packages.${pkgs.stdenv.hostPlatform.system}.Hyprspace.overrideAttrs (
+              final: prev: {
+                nativeBuildInputs =
+                  prev.nativeBuildInputs
+                  ++ (with inputs.hyprland.inputs.nixpkgs.outputs.legacyPackages.${pkgs.stdenv.hostPlatform.system}; [
+                    meson
+                    ninja
+                  ]);
+              }
+            );
+          in
+          [
+            hyprspace
+            inputs.hy3.packages.${pkgs.stdenv.hostPlatform.system}.hy3
+          ];
 
         extraConfig =
           # submaps aren't possible with the settings.bind syntax
