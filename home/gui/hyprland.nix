@@ -325,6 +325,8 @@
           };
         };
         hyprpolkitagent.enable = true;
+        # TODO: Automatically set temperature?
+        hyprsunset.enable = true;
       };
       programs = {
         hyprlock = {
