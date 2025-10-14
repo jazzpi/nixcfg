@@ -18,8 +18,8 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +38,7 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-stable,
+      nixpkgs-unstable,
       home-manager,
       ...
     }@inputs:
@@ -85,15 +85,22 @@
             allowUnfree = true;
           };
         };
-      mkPkgsStable =
+      mkPkgsUnstable =
         host:
-        import nixpkgs-stable {
+        import nixpkgs-unstable {
           system = host.arch;
           config = {
             allowUnfree = true;
           };
         };
       mkTemplateFile = host: import "${rootPath}/util/template-file.nix" { pkgs = mkPkgs host; };
+
+      unstableUntil =
+        pkgs: pkgsu: name: version:
+        if lib.versionAtLeast (pkgs.lib.getVersion pkgs.${name}) version then
+          builtins.warn "${name} is >= ${version} in stable, unstableUntil no longer necessary." pkgs.${name}
+        else
+          pkgsu.${name};
 
       mkWallpaperPath =
         {
@@ -127,8 +134,10 @@
               inputs
               host
               rootPath
+              unstableUntil
               ;
-            pkgs-stable = mkPkgsStable host;
+            pkgs = mkPkgs host;
+            pkgsu = mkPkgsUnstable host;
             templateFile = mkTemplateFile host;
             mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };
@@ -163,8 +172,9 @@
               host
               rootPath
               repoPath
+              unstableUntil
               ;
-            pkgs-stable = mkPkgsStable host;
+            pkgsu = mkPkgsUnstable host;
             templateFile = mkTemplateFile host;
             mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };

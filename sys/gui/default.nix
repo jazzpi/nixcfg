@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-stable,
   ...
 }:
 {
@@ -34,7 +33,7 @@
           day = 5500;
           night = 3700;
         };
-        package = pkgs-stable.redshift;
+        package = pkgs.redshift;
       };
       geoclue2.enable = true;
     };

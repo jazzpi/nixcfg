@@ -1,5 +1,5 @@
 {
-  pkgs,
+  pkgsu,
   lib,
   config,
   ...
@@ -52,33 +52,33 @@
         {
           name = "Slack";
           configName = "slack";
-          pkg = pkgs.slack;
+          pkg = pkgsu.slack;
           # TODO: What if we run on X11?
           # TODO: Why is this needed? Nix starts it with --ozone-platform-hint=auto anyway,
           # which used to be enough. But now it seems to start with XWayland for some reason.
-          exec = "${pkgs.slack}/bin/slack --ozone-platform=wayland";
+          exec = "${pkgsu.slack}/bin/slack --ozone-platform=wayland";
           icon = "slack";
         }
         {
           name = "Signal";
           configName = "signal";
-          pkg = pkgs.signal-desktop;
-          exec = "${pkgs.signal-desktop}/bin/signal-desktop --password-store=gnome-libsecret";
+          pkg = pkgsu.signal-desktop;
+          exec = "${pkgsu.signal-desktop}/bin/signal-desktop --password-store=gnome-libsecret";
           icon = "signal-desktop";
         }
         {
           name = "Telegram";
           # TODO: The .desktop file should have a different name I think. Icon also seems to be wrong.
           configName = "telegram";
-          pkg = pkgs.telegram-desktop;
-          exec = "${pkgs.telegram-desktop}/bin/Telegram";
+          pkg = pkgsu.telegram-desktop;
+          exec = "${pkgsu.telegram-desktop}/bin/Telegram";
           icon = "telegram-desktop";
         }
         {
           name = "Discord";
           configName = "discord";
-          pkg = pkgs.discord;
-          exec = "${pkgs.discord}/bin/discord";
+          pkg = pkgsu.discord;
+          exec = "${pkgsu.discord}/bin/discord";
           icon = "discord";
         }
       ]

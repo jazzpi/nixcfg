@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  pkgs,
+  pkgsu,
   ...
 }:
 {
@@ -12,7 +12,7 @@
   };
 
   config = lib.mkIf config.j.gui.obsidian.enable {
-    home.packages = with pkgs; [
+    home.packages = with pkgsu; [
       obsidian
     ];
   };

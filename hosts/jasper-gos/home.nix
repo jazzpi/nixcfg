@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-stable,
   rootPath,
   ...
 }:
@@ -121,7 +120,6 @@
     obs-studio
     openocd
     minicom
-    pkgs-stable.kicad
     freecad
     distrobox
   ];

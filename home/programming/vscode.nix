@@ -1,5 +1,5 @@
 {
-  pkgs,
+  pkgsu,
   lib,
   config,
   ...
@@ -14,7 +14,7 @@
   config = lib.mkIf config.j.programming.code.enable {
     programs.vscode = {
       enable = true;
-      package = pkgs.vscode.fhs;
+      package = pkgsu.vscode.fhs;
     };
   };
 }

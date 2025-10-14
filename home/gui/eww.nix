@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-stable,
   lib,
   config,
   rootPath,
@@ -34,8 +33,6 @@
     programs.eww = {
       enable = true;
       enableBashIntegration = true;
-      # FIXME: Unstable eww duplicates the bars
-      package = pkgs-stable.eww;
     };
     xdg.configFile."eww/eww.yuck".source = "${rootPath}/dotfiles/eww/eww.yuck";
     xdg.configFile."eww/eww.scss".source = "${rootPath}/dotfiles/eww/eww.scss";

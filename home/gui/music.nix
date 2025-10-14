@@ -1,5 +1,5 @@
 {
-  pkgs,
+  pkgsu,
   lib,
   config,
   ...
@@ -15,11 +15,11 @@
   };
 
   config = lib.mkIf config.j.gui.spotify.enable {
-    home.packages = with pkgs; [
+    home.packages = with pkgsu; [
       spotify
     ];
     xdg.autostart.entries = lib.optionals config.j.gui.spotify.autostart [
-      "${pkgs.spotify}/share/applications/spotify.desktop"
+      "${pkgsu.spotify}/share/applications/spotify.desktop"
     ];
   };
 }

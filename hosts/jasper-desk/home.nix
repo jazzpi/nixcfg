@@ -73,10 +73,10 @@
   };
 
   j.gui.drawio.enable = true;
+  j.gui.gimp.enable = true;
   home.packages = with pkgs; [
     kicad
     stm32cubemx
-    gimp3-with-plugins
     freecad
   ];
 }

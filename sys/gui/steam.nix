@@ -1,8 +1,7 @@
 {
   lib,
   config,
-  pkgs,
-  host,
+  pkgsu,
   ...
 }:
 {
@@ -15,6 +14,7 @@
   config = lib.mkIf config.j.gui.steam.enable {
     programs.steam = {
       enable = true;
+      package = pkgsu.steam;
     };
   };
 }
