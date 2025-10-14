@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_PATH="$(realpath "$(dirname "$(realpath "$0")")")"
+
+nix flake update --accept-flake-config
+"$SCRIPT_PATH/rebuild" -s -u
