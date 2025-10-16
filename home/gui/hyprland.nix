@@ -302,7 +302,7 @@
           ));
           bindm = [
             # Move/resize windows with mainMod + LMB/RMB and dragging
-            "${cfg.mainMod}, mouse:272, hy3:movewindow"
+            "${cfg.mainMod}, mouse:272, movewindow"
             "${cfg.mainMod}, mouse:273, resizewindow"
           ];
         };
