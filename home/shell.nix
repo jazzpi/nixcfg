@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   options.j.shell.enable = lib.mkEnableOption "Shell configuration" // {
     default = true;
@@ -56,6 +61,10 @@
 
     home.sessionPath = [
       "$HOME/.local/bin"
+    ];
+
+    home.packages = [
+      pkgs.shfmt
     ];
   };
 }
