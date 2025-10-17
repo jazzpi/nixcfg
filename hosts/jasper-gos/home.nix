@@ -125,4 +125,6 @@
     freecad
     distrobox
   ];
+
+  home.sessionPath = [ "$HOME/git/gena-tools/build" ];
 }
