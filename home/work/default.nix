@@ -10,5 +10,6 @@
       enable = true;
       # Paths are set in private config
     };
+    j.slip.enable = true;
   };
 }

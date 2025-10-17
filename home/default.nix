@@ -10,6 +10,7 @@
     ./drive-sync.nix
     ./tmux.nix
     ./ssh.nix
+    ./slip.nix
     ../private/home
   ];
 

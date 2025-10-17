@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+if [ $# -eq 0 ]; then
+    consoles=()
+    consoles+=($(ls /dev/ttyUSB* 2>/dev/null || true))
+    if [ ${#consoles[@]} -eq 1 ]; then
+        serial_console="${consoles[0]}"
+    else
+        >&2 echo "Couldn't determine serial console to use."
+        if [ ${#consoles[@]} -eq 0 ]; then
+            >&2 echo "No /dev/ttyUSB* devices found"
+        else
+            >&2 echo "Found multiple /dev/ttyUSB* devices:"
+            for dev in "${consoles[@]}"; do
+                >&2 echo "  $dev"
+            done
+        fi
+        >&2 echo "Please specify the serial console device as an argument."
+        exit 1
+    fi
+elif [ $# -eq 1 ]; then
+    serial_console="$1"
+else
+    >&2 echo "Usage: $0 [SERIAL_CONSOLE]"
+fi
+
+sudo pkill slattach || true
+if pgrep slattach &>/dev/null; then
+    >&2 echo "Failed to stop existing slattach process"
+    exit 1
+fi
+
+echo "Starting slattach on $serial_console"
+sudo slattach -s 115200 -L -p slip "$serial_console" &
+sleep 2 # Give slattach some time to start
+sudo ip addr add 192.168.3.1/24 dev sl0
+sudo ip link set sl0 up
+# Check if OBC is reachable
+ping -c1 192.168.3.2
