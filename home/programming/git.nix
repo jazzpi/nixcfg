@@ -39,7 +39,7 @@
         "*.synctex.gz"
         ".python-version"
       ];
-      extraConfig = {
+      settings = {
         push.autoSetupRemote = true;
         user.useconfigonly = true;
         init.defaultBranch = "main";
