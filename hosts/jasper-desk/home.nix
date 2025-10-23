@@ -78,5 +78,6 @@
     stm32cubemx
     gimp3-with-plugins
     freecad
+    minicom
   ];
 }
