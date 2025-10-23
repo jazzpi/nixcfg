@@ -1,17 +1,17 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 {
-  options.j.gui.nvidia = {
-    enable = lib.mkEnableOption "Nvidia drivers" // {
-      default = false;
-    };
-  };
   config = lib.mkIf config.j.gui.nvidia.enable {
     hardware = {
-      graphics.enable = true; # OpenGL
+      graphics = {
+        enable = true; # OpenGL
+        enable32Bit = true;
+        extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+      };
       nvidia = {
         modesetting.enable = true;
         powerManagement.enable = true;

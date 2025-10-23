@@ -20,6 +20,9 @@
       logic.enable = lib.mkEnableOption "Saleae Logic" // {
         default = false;
       };
+      nvidia.enable = lib.mkEnableOption "Nvidia drivers" // {
+        default = false;
+      };
     };
     networking = {
       enable = lib.mkEnableOption "Networking" // {
