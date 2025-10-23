@@ -4,5 +4,5 @@ set -euo pipefail
 
 SCRIPT_PATH="$(realpath "$(dirname "$(realpath "$0")")")"
 
-nix flake update --accept-flake-config
+nix flake update --accept-flake-config --flake "$SCRIPT_PATH"
 "$SCRIPT_PATH/rebuild" -s -u
