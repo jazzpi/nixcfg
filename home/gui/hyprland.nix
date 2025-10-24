@@ -249,8 +249,7 @@
             ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
 
             # Misc
-            "${cfg.mainMod}, tab, overview:toggle, all"
-            "${cfg.mainMod} SHIFT, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
+            "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
           ]
           # Workspace bindings
           ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
