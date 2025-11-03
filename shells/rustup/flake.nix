@@ -25,6 +25,8 @@
             rustup
             rustPlatform.bindgenHook
             pkg-config
+            flip-link
+            probe-rs
           ];
           buildInputs = [
             # Libraries here
