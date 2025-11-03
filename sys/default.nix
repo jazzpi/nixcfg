@@ -27,12 +27,19 @@
 
   config = {
     # Use flakes
-    nix.settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      trusted-users = [ "@wheel" ];
+    nix = {
+      gc = {
+        automatic = true;
+        randomizedDelaySec = "15min";
+        options = "--delete-older-than 30d";
+      };
+      settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        trusted-users = [ "@wheel" ];
+      };
     };
     nixpkgs.config.allowUnfree = true;
 
