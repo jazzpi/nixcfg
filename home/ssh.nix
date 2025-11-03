@@ -26,8 +26,12 @@
       target = ".ssh/config_source";
       onChange = ''cat ~/.ssh/config_source > ~/.ssh/config && chmod 600 ~/.ssh/config'';
     };
-    systemd.user.tmpfiles.rules = [
-      "D %t/ssh-controlpaths 0700 - - - -"
-    ];
+    systemd.user.tmpfiles.settings = {
+      sshControlPaths = {
+        rules."%t/ssh-controlpaths".D = {
+          mode = "0700";
+        };
+      };
+    };
   };
 }
