@@ -79,5 +79,6 @@
     gimp3-with-plugins
     freecad
     minicom
+    distrobox
   ];
 }
