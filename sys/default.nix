@@ -14,6 +14,7 @@
     ./printing.nix
     ./gui
     ./virt
+    ../private/sys
   ];
 
   options.j = {

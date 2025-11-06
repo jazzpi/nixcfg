@@ -105,7 +105,7 @@ if [ "$BUILD_SYSTEM" = true ]; then
     # This doesn't work with the home-manager build of course, but as long as
     # we've built the system before, nix.settings should contain the right
     # substituters/trusted keys.
-    sudo nh os switch -R "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
+    sudo nh os switch -R "$SCRIPT_PATH$FLAKE_TAG?submodules=1" $@ -- --impure --no-warn-dirty --accept-flake-config
 fi
 
 if [ "$BUILD_HOME" = true ]; then
