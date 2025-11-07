@@ -3,7 +3,6 @@
   home.stateVersion = "24.11";
 
   j.personal.enable = true;
-  j.work.enable = true;
   j.gui.firefox.defaultProfile = "personal";
   j.networking.can = true;
   j.gui.im.slack.autostart = false;

@@ -1,4 +1,7 @@
 {
-  j.networking.can = true;
-  j.gui.hyprland.enable = true;
+  j = {
+    networking.can = true;
+    gui.hyprland.enable = true;
+    work.enable = true;
+  };
 }

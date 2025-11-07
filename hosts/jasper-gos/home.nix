@@ -7,7 +7,6 @@
 {
   home.stateVersion = "24.11";
 
-  j.work.enable = true;
   j.gui.i3 = {
     enable = true;
     screens = [

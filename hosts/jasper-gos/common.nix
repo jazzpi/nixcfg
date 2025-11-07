@@ -1,4 +1,7 @@
 {
-  j.gui.hyprland.enable = true;
-  j.fprint.enable = true;
+  j = {
+    gui.hyprland.enable = true;
+    fprint.enable = true;
+    work.enable = true;
+  };
 }
