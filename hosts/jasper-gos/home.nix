@@ -123,6 +123,7 @@
     pkgs-stable.kicad
     freecad
     distrobox
+    mumble
   ];
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
