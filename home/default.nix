@@ -11,6 +11,7 @@
     ./tmux.nix
     ./ssh.nix
     ./slip.nix
+    ./yazi.nix
     ../private/home
   ];
 
