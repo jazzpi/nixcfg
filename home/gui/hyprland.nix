@@ -50,6 +50,8 @@
         socat # Needed for eww scripts
         hyprshot
         hyprprop
+        wl-clipboard
+        wl-clip-persist
       ];
 
       xdg.configFile."uwsm/env".text = ''
@@ -149,6 +151,7 @@
             # If these are enabled (e.g. because we have i3 enabled) systemd will constantly try to restart them
             "systemctl --user stop picom"
             "systemctl --user stop redshift"
+            "wl-clip-persist --clipboard regular"
           ];
 
           windowrulev2 = [
