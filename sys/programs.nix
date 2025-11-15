@@ -31,6 +31,8 @@
       unzip
       file
       bc
+      lsof
+      net-tools
     ];
   };
 }
