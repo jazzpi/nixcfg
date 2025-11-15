@@ -3,5 +3,6 @@
     networking.can = true;
     gui.hyprland.enable = true;
     work.enable = true;
+    gui.nvidia.enable = true;
   };
 }
