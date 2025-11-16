@@ -79,5 +79,6 @@
     freecad
     minicom
     distrobox
+    ckan
   ];
 }
