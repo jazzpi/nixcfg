@@ -44,10 +44,9 @@
     lib.mkIf cfg.enable {
       # Requirements
       j.gui.kitty.enable = true;
-      j.gui.eww.enable = true;
+      j.gui.ashell.enable = true;
       programs.rofi.enable = true;
       home.packages = with pkgs; [
-        socat # Needed for eww scripts
         hyprshot
         hyprprop
         wl-clipboard
@@ -60,26 +59,6 @@
         export NIXOS_OZONE_WL=1
       '';
 
-      # Make sure the bar is running before any autostart entries are started.
-      # This way, the systray will be available in time.
-      systemd.user.services.eww-bar = {
-        Unit = {
-          Description = "eww bar";
-          After = "graphical-session.target";
-          Before = "xdg-desktop-autostart.target";
-        };
-        Service = {
-          Type = "notify";
-          NotifyAccess = "all";
-          ExecStart = "${rootPath}/dotfiles/eww/scripts/wm.sh launch";
-          ExecReload = "${rootPath}/dotfiles/eww/scripts/restart.sh";
-          Restart = "always";
-          RestartSec = "2s";
-        };
-        Install = {
-          WantedBy = [ "xdg-desktop-autostart.target" ];
-        };
-      };
       xdg.autostart.enable = true;
 
       wayland.windowManager.hyprland = {

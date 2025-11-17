@@ -46,9 +46,6 @@
             position = "1920,0";
           }
         ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
-        ];
       }
       {
         profile.name = "tv-nomain";
@@ -63,9 +60,6 @@
             position = "1280,0";
             scale = 1.0;
           }
-        ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
         ];
       }
     ];

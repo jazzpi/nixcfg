@@ -3,6 +3,7 @@
     ./i3.nix
     ./hyprland.nix
     ./eww.nix
+    ./ashell.nix
     ./kitty.nix
     ./fonts.nix
     ./browser.nix

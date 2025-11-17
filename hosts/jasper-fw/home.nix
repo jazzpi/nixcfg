@@ -10,13 +10,6 @@
     ];
   };
   j.gui.gimp.enable = true;
-  j.gui.eww = {
-    backlight = true;
-    battery = {
-      enable = true;
-      batteryName = "BAT1";
-    };
-  };
 
   home.packages = with pkgs; [
     kicad

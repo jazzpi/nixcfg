@@ -18,13 +18,6 @@
   j.gui.firefox.defaultProfile = "work";
   j.gui.logic.enable = true;
   j.gui.gimp.enable = true;
-  j.gui.eww = {
-    backlight = true;
-    battery = {
-      enable = true;
-      batteryName = "BAT0";
-    };
-  };
   j.gui.im.telegram.enable = true;
 
   j.networking.can = true;
@@ -39,9 +32,6 @@
             criteria = "eDP-1";
             scale = 1.0;
           }
-        ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
         ];
       }
       {
@@ -66,9 +56,6 @@
             position = "3840,0";
           }
         ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
-        ];
       }
       {
         profile.name = "presentation";
@@ -86,9 +73,6 @@
             position = "${builtins.toString (builtins.ceil (3840 / 3))},0";
           }
         ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
-        ];
       }
       {
         profile.name = "presentation2";
@@ -105,9 +89,6 @@
             mode = "1920x1200";
             position = "${builtins.toString (builtins.ceil (3840 / 3))},0";
           }
-        ];
-        profile.exec = [
-          "${rootPath}/dotfiles/eww/scripts/restart.sh"
         ];
       }
     ];
