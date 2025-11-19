@@ -10,9 +10,12 @@
   };
 
   config = lib.mkIf config.j.programs.enable {
-    programs.firefox.enable = lib.mkDefault true;
-    programs.vim.enable = lib.mkDefault true;
-    programs.git.enable = lib.mkDefault true;
+    programs = {
+      firefox.enable = lib.mkDefault true;
+      vim.enable = lib.mkDefault true;
+      git.enable = lib.mkDefault true;
+      nix-ld.enable = lib.mkDefault true;
+    };
 
     environment.systemPackages = with pkgs; [
       # Install home-manager standalone. The manual tells you to install it imperatively, but that
