@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   options = {
     j.gui.ashell = {
@@ -50,6 +55,13 @@
             alert_threshold = 80;
           };
         };
+        settings = {
+          wifi_more_cmd = "nm-connection-editor";
+          vpn_more_cmd = "nm-connection-editor";
+          bluetooth_more_cmd = "overskride";
+          audio_sinks_more_cmd = "pavucontrol -t 3";
+          audio_sources_more_cmd = "pavucontrol -t 4";
+        };
         appearance = {
           font_name = "Meslo LG S DZ";
           scale_factor = 1.1;
@@ -62,5 +74,7 @@
     };
     # Make sure ashell starts before autostart apps so that a tray is available.
     systemd.user.services.ashell.Unit.Before = "xdg-desktop-autostart.target";
+    # Bluetooth management
+    home.packages = [ pkgs.overskride ];
   };
 }
