@@ -60,7 +60,7 @@
 
           startup = [
             {
-              command = "picom";
+              command = "systemctl --user start picom.service";
               notification = false;
             }
             {
@@ -290,6 +290,9 @@
       dunst.enable = lib.mkDefault true;
       picom.enable = lib.mkDefault true;
     };
+    # Don't autostart picom as part of graphical-session.target -- otherwise it
+    # will also start for non-i3 sessions
+    systemd.user.services.picom.Install.WantedBy = lib.mkForce [ ];
 
     home.packages = with pkgs; [
       arandr
