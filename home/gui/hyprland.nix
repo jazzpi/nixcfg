@@ -134,16 +134,16 @@
           ];
 
           windowrulev2 = [
-            "workspace 1,initialClass:^firefox$"
+            "workspace 1 silent,initialClass:^firefox$"
             # IM workspace
-            "workspace name:i,initialClass:^(signal|org.telegram.desktop|Slack|discord)$"
+            "workspace name:i silent,initialClass:^(signal|org.telegram.desktop|Slack|discord)$"
             # TODO: This doesn't work (workspace rules are evaluated on startup only)
-            "workspace name:i,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
-            "workspace 4,initialClass:^thunderbird$"
-            "workspace 5,initialClass:^spotify$"
+            "workspace name:i silent,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
+            "workspace 4 silent,initialClass:^thunderbird$"
+            "workspace 5 silent,initialClass:^spotify$"
             "float,initialClass:^qalculate"
             "float,initialClass:^com.nextcloud.desktopclient.nextcloud$"
-            "workspace 6,initialClass:^org.freecad.FreeCAD$"
+            "workspace 6 silent,initialClass:^org.freecad.FreeCAD$"
           ];
 
           input = {
