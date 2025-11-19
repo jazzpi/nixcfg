@@ -192,6 +192,7 @@
               "borderangle, 1, 8, default"
               "fade, 1, 5, default"
               "workspaces, 1, 3, default"
+              "specialWorkspace, 1, 3, default, fade"
             ];
           };
 
