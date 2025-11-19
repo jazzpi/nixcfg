@@ -141,7 +141,8 @@
             "workspace name:i silent,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
             "workspace 4 silent,initialClass:^thunderbird$"
             "workspace 5 silent,initialClass:^spotify$"
-            "float,initialClass:^qalculate"
+            "float,initialClass:^qalculate-gtk$"
+            "workspace special:calc,initialClass:^qalculate-gtk$"
             "float,initialClass:^com.nextcloud.desktopclient.nextcloud$"
             "workspace 6 silent,initialClass:^org.freecad.FreeCAD$"
           ];
@@ -232,6 +233,7 @@
 
             # Misc
             "${cfg.mainMod}, tab, exec, rofi -show window -show-icons -sort -sorting-method fzf"
+            "${cfg.mainMod}, c, exec, pgrep qalculate-gtk && hyprctl dispatch togglespecialworkspace calc || uwsm app -- qalculate-gtk"
           ]
           # Workspace bindings
           ++ (lib.mapAttrsToList (bind: action: "${bind}, ${action}") (
