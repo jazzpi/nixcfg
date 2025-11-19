@@ -19,6 +19,14 @@
           epson-escpr
           epson-escpr2
         ];
+        cups-pdf = {
+          enable = true;
+          instances.pdf = {
+            settings = {
+              Out = "\${HOME}/cups-pdf";
+            };
+          };
+        };
       };
       avahi = {
         enable = true;
