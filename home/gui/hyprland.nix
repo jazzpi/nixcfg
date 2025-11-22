@@ -132,18 +132,18 @@
             "wl-clip-persist --clipboard regular"
           ];
 
-          windowrulev2 = [
-            "workspace 1 silent,initialClass:^firefox$"
+          windowrule = [
+            "match:initial_class firefox, workspace 1 silent"
             # IM workspace
-            "workspace name:i silent,initialClass:^(signal|org.telegram.desktop|Slack|discord)$"
+            "match:initial_class ^(signal|org.telegram.desktop|Slack|discord)$, workspace name:i silent"
             # TODO: This doesn't work (workspace rules are evaluated on startup only)
-            "workspace name:i silent,initialClass:^firefox$,title:.*(Microsoft Teams|WhatsApp).*"
-            "workspace 4 silent,initialClass:^thunderbird$"
-            "workspace 5 silent,initialClass:^spotify$"
-            "float,initialClass:^qalculate-gtk$"
-            "workspace special:calc,initialClass:^qalculate-gtk$"
-            "float,initialClass:^com.nextcloud.desktopclient.nextcloud$"
-            "workspace 6 silent,initialClass:^org.freecad.FreeCAD$"
+            # "match:initial_class ^firefox$,title:.*(Microsoft Teams|WhatsApp).*, workspace name:i silent"
+            "match:initial_class ^thunderbird$, workspace 4 silent"
+            "match:initial_class ^spotify$, workspace 5 silent"
+            "match:initial_class ^qalculate-gtk$, float on"
+            "match:initial_class ^qalculate-gtk$, workspace special:calc"
+            "match:initial_class ^com.nextcloud.desktopclient.nextcloud$, float on"
+            "match:initial_class ^org.freecad.FreeCAD$, workspace 6 silent"
           ];
 
           input = {
