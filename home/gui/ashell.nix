@@ -64,7 +64,7 @@
         };
         appearance = {
           font_name = "Meslo LG S DZ";
-          scale_factor = 1.1;
+          # scale_factor = 1.1;
         };
       };
       systemd = {
