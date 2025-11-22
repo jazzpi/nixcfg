@@ -53,5 +53,10 @@
       enable = true;
       wait-online.enable = false;
     };
+
+    # Reserve 8090..8099 for YAMCS servers
+    boot.kernel.sysctl = {
+      "net.ipv4.ip_local_reserved_ports" = lib.join "," (map toString (lib.range 8090 8099));
+    };
   };
 }
