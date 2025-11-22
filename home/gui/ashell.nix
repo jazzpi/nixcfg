@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -16,6 +17,7 @@
   config = lib.mkIf config.j.gui.ashell.enable {
     programs.ashell = {
       enable = true;
+      package = inputs.ashell.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings = {
         enable_esc_key = true;
         modules = {
