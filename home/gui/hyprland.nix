@@ -2,9 +2,8 @@
   lib,
   config,
   pkgs,
-  rootPath,
+  wallpaperPath,
   inputs,
-  mkWallpaperPath,
   ...
 }:
 {
@@ -39,7 +38,6 @@
       cfg = config.j.gui.hyprland;
       submapGroups = "Groups";
       submapSystem = "System";
-      wallpaperPath = mkWallpaperPath { };
     in
     lib.mkIf cfg.enable {
       # Requirements

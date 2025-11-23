@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  mkWallpaperPath,
+  wallpaperPath,
   ...
 }:
 {
@@ -11,7 +11,7 @@
       astronaut = (
         pkgs.sddm-astronaut.override {
           themeConfig = {
-            background = "${mkWallpaperPath { month = 0; }}";
+            background = wallpaperPath;
           };
           embeddedTheme = "black_hole";
         }

@@ -92,29 +92,11 @@
         };
       mkTemplateFile = host: import "${rootPath}/util/template-file.nix" { pkgs = mkPkgs host; };
 
-      mkWallpaperPath =
-        {
-          host,
-          month ? -1,
-        }:
-        let
-          templateFile = mkTemplateFile host;
-          getWallpaperPath = (
-            templateFile {
-              name = "get-wallpaper-path";
-              template = "${rootPath}/dotfiles/hypr/scripts/get-wallpaper-path.mustache.sh";
-              data = {
-                wallpapersDir = "${rootPath}/assets/wallpapers";
-              };
-            }
-          );
-        in
-        lib.removeSuffix "\n" (
-          lib.readFile (
-            (mkPkgs host).runCommand "wallpaper-path" { }
-              "${getWallpaperPath} ${if month == -1 then "" else toString month} > $out"
-          )
-        );
+      # TODO: dynamically determine wallpaper from date
+      # I used to do this at rebuild time, but it made the rebuilds quite slow
+      # because the derivation for getting the date had to be evaluated each
+      # time. So it should probably be done at runtime instead.
+      wallpaperPath = "${rootPath}/assets/wallpapers/2025/0.jpg";
       optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
         host:
@@ -124,10 +106,10 @@
               inputs
               host
               rootPath
+              wallpaperPath
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile host;
-            mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };
           modules = [
             ./common
@@ -160,10 +142,10 @@
               host
               rootPath
               repoPath
+              wallpaperPath
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile host;
-            mkWallpaperPath = args: mkWallpaperPath (args // { host = host; });
           };
         };
 
