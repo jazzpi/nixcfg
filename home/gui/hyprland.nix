@@ -98,6 +98,10 @@
             bind = , escape, submap, reset
             submap = reset
 
+            # Mumble push-to-talk
+            bind = ${cfg.mainMod}, backslash, exec, mumble rpc stoptalking; mumble rpc starttalking
+            bindr = ${cfg.mainMod}, backslash, exec, mumble rpc stoptalking
+
             plugin {
               hy3 {
                 tab_first_window = false
