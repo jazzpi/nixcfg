@@ -20,11 +20,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    ashell.url = "github:jazzpi/ashell/album-art";
+    ashell = {
+      url = "github:jazzpi/ashell/album-art";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # DON'T follow nixpkgs here, so that we can use the Cachix builds
     hyprland.url = "github:hyprwm/hyprland";
     hy3 = {
       url = "github:outfoxxed/hy3";
