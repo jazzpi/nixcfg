@@ -21,7 +21,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     ashell = {
-      url = "github:jazzpi/ashell/album-art";
+      url = "github:jazzpi/ashell/jasper-dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

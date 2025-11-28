@@ -42,16 +42,16 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1763979140,
-        "narHash": "sha256-mVAAES/itXu3Se1PjM3vV5VTG9RWyzeaCLK/3lc0hx0=",
+        "lastModified": 1764347420,
+        "narHash": "sha256-B8/WbCuayJ7akwa99H0tKVQxJkJU3S6u7JS9/KNmvcA=",
         "owner": "jazzpi",
         "repo": "ashell",
-        "rev": "ff51aa7b9aebc8ff96cf4d21fb5063e87b1ab3d9",
+        "rev": "dc86b8c2ba00b4a91b66da19ba1e5e777693e6f2",
         "type": "github"
       },
       "original": {
         "owner": "jazzpi",
-        "ref": "album-art",
+        "ref": "jasper-dev",
         "repo": "ashell",
         "type": "github"
       }
