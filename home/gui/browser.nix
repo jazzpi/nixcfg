@@ -81,8 +81,6 @@ in
       default = true;
     };
   };
-  # TODO: Chrome for Google Meet etc
-
   config = lib.mkIf config.j.gui.firefox.enable {
     # TODO: Create a list of profiles and iterate over it
     programs.firefox = {
@@ -97,6 +95,10 @@ in
     xdg.autostart.entries = lib.optionals config.j.gui.firefox.autostart [
       # Will start with default profile
       "${pkgs.firefox}/share/applications/firefox.desktop"
+    ];
+
+    home.packages = with pkgs; [
+      chromium
     ];
   };
 }
