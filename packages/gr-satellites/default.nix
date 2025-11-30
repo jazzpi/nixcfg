@@ -56,8 +56,10 @@ stdenv.mkDerivation {
 
   postFixup = ''
     wrapProgram "$out/bin/gr_satellites" \
-      --prefix PYTHONPATH : "$out/lib/python${python3.pythonVersion}/site-packages" \
-      --prefix PYTHONPATH : "${gnuradio}/lib/python${python3.pythonVersion}/site-packages" \
+      --prefix PYTHONPATH : "$out/${python3.sitePackages}" \
+      --prefix PYTHONPATH : "${gnuradio}/${python3.sitePackages}" \
       --prefix PYTHONPATH : "${pythonEnv}/${python3.sitePackages}"
   '';
+
+  passthru = { inherit pythonEnv python3; };
 }
