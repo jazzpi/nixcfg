@@ -17,5 +17,6 @@
     ./libreoffice.nix
     ./gimp.nix
     ./mime.nix
+    ./gnuradio.nix
   ];
 }

@@ -66,6 +66,7 @@
   };
 
   j.gui.drawio.enable = true;
+  j.gui.gnuradio.enable = true;
   home.packages = with pkgs; [
     kicad
     stm32cubemx
