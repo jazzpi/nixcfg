@@ -21,6 +21,8 @@
   j.gui.logic.enable = true;
   j.gui.wireshark.enable = true;
 
+  j.udev.limesdr = true;
+
   # Enable SSHD to install it
   services.sshd.enable = true;
   # Override the service's wantedBy to prevent it from starting on boot

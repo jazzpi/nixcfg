@@ -24,6 +24,7 @@ let
       websocket-client
       pyzmq
       pyyaml
+      soapysdr-with-plugins
     ]
   );
 

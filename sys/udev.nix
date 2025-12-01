@@ -17,6 +17,9 @@
       default = 46; # ID of plugdev group on Ubuntu
       description = "The GID of the plugdev group";
     };
+    limesdr = lib.mkEnableOption "udev rules for LimeSDR devices" // {
+      default = false;
+    };
   };
 
   config =
@@ -46,6 +49,12 @@
           SUBSYSTEM=="drivers", ENV{DEVPATH}=="/bus/usb/drivers/gs_usb", ATTR{new_id}="1209 ca01 ff"
           # Set permissions when a CANnectivity device in DFU mode is plugged in
           ATTR{idVendor}=="1209", ATTR{idProduct}=="ca02", MODE="660", GROUP="plugdev", TAG+="uaccess"
+        '';
+      })
+      (lib.mkIf cfg.limesdr {
+        services.udev.extraRules = ''
+          # LimeSDR devices
+          ATTRS{idVendor}=="0403", MODE="664", GROUP="plugdev"
         '';
       })
     ];
