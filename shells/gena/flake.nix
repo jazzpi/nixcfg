@@ -28,6 +28,8 @@
             libgcrypt
             systemd.dev
             llvmPackages_19.clang-tools
+            zeromq
+            libsodium
           ];
           nativeBuildInputs = [
             pkgconf
