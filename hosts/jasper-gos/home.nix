@@ -96,7 +96,6 @@
 
   home.packages = with pkgs; [
     libreoffice-qt-fresh
-    ungoogled-chromium
     stm32cubemx
     obs-studio
     openocd
