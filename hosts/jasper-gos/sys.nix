@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = "24.11";
 
