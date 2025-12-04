@@ -30,6 +30,8 @@
       virtio-win
       win-spice
       adwaita-icon-theme
+      quickemu
+      samba
     ];
 
     virtualisation = {
