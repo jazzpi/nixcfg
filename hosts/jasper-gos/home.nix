@@ -19,7 +19,7 @@
   j.gui.logic.enable = true;
   j.gui.gimp.enable = true;
   j.gui.im.telegram.enable = true;
-  j.gui.gnuradio.enable = true;
+  j.sdr.enable = true;
 
   j.networking.can = true;
 

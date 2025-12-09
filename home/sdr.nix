@@ -7,13 +7,13 @@
 }:
 with lib;
 {
-  options.j.gui.gnuradio = {
-    enable = mkEnableOption "GNU Radio" // {
+  options.j.sdr = {
+    enable = mkEnableOption "Software Defined Radio" // {
       default = false;
     };
   };
 
-  config = mkIf config.j.gui.gnuradio.enable (
+  config = mkIf config.j.sdr.enable (
     let
       gr-satellites = pkgs.callPackage "${rootPath}/packages/gr-satellites" { };
       gnuradioWithDeps = pkgs.symlinkJoin {
@@ -44,8 +44,11 @@ with lib;
       };
     in
     {
-      home.packages = [
+      home.packages = with pkgs; [
         gnuradioWithDeps
+        sdrpp
+        gqrx
+        gpredict
       ];
     }
   );

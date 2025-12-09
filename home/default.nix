@@ -12,6 +12,7 @@
     ./ssh.nix
     ./slip.nix
     ./yazi.nix
+    ./sdr.nix
     ../private/home
   ];
 
