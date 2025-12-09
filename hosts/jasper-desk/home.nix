@@ -75,5 +75,6 @@
     minicom
     distrobox
     ckan
+    bottles
   ];
 }

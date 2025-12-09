@@ -34,7 +34,10 @@
   config = {
     home.packages =
       with pkgs;
-      (lib.optional config.j.gui.qalc.enable qalculate-gtk)
+      [
+        file-roller
+      ]
+      ++ (lib.optional config.j.gui.qalc.enable qalculate-gtk)
       ++ (lib.optional config.j.gui.nextcloud.enable nextcloud-client)
       ++ (lib.optional config.j.gui.keepass.enable keepassxc)
       ++ (lib.optional config.j.gui.drawio.enable drawio);
