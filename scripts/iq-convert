@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ $# -eq 4 ]; then
+    input_file="$1"
+    input_fmt="$2"
+    output_fmt="$3"
+    bitrate="$4"
+    output_file="${input_file%.*}.$output_fmt"
+elif [ $# -eq 5 ]; then
+    input_file="$1"
+    input_fmt="$2"
+    output_fmt="$3"
+    bitrate="$4"
+    output_file="$5"
+else
+    echo "Usage: $0 <input-file> <input-format> <output-format> <bitrate> [output-file]" >&2
+    exit 1
+fi
+
+if [ ! -f "$input_file" ]; then
+    echo "Input file does not exist: $input_file" >&2
+    exit 1
+fi
+
+get_fmt() {
+    local fmt="$1"
+    if ! [[ "$fmt" =~ ^c[sf][0-9]+$ ]]; then
+        echo "Invalid format: $fmt" >&2
+        exit 1
+    fi
+    data_type="${fmt:1:1}"
+    if [[ "$data_type" == "s" ]]; then
+        data_type="signed-integer"
+    elif [[ "$data_type" == "f" ]]; then
+        data_type="floating"
+    else
+        echo "Unknown data type $data_type in format: $fmt" >&2
+        exit 1
+    fi
+    bits="${fmt:2}"
+    if ! [[ "$bits" == 8 || "$bits" == 16 || "$bits" == 32 || "$bits" == 64 ]]; then
+        echo "Unsupported bit depth $bits in format: $fmt" >&2
+        exit 1
+    fi
+    echo "-b $bits -e $data_type"
+}
+
+input_fmt=$(get_fmt "$input_fmt")
+output_fmt=$(get_fmt "$output_fmt")
+
+sox -t raw -r $bitrate $input_fmt "$input_file" \
+    -t raw -r $bitrate $output_fmt "$output_file"

@@ -49,6 +49,8 @@ with lib;
         sdrpp
         gqrx
         gpredict
+        sox
+        (writeShellScriptBin "iq-convert" (builtins.readFile "${rootPath}/scripts/iq-convert"))
       ];
     }
   );
