@@ -59,7 +59,7 @@
       };
       getUser =
         name:
-        (nixpkgs.lib.getAttrFromPath [ name ] users_)
+        (lib.getAttrFromPath [ name ] users_)
         // {
           inherit name;
         };
@@ -95,7 +95,7 @@
             allowUnfree = true;
           };
         };
-      mkTemplateFile = host: import "${rootPath}/util/template-file.nix" { pkgs = mkPkgs host; };
+      mkTemplateFile = pkgs: import "${rootPath}/util/template-file.nix" { inherit pkgs; };
 
       # TODO: dynamically determine wallpaper from date
       # I used to do this at rebuild time, but it made the rebuilds quite slow
@@ -105,7 +105,7 @@
       optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
         host:
-        nixpkgs.lib.nixosSystem {
+        lib.nixosSystem {
           specialArgs = {
             inherit
               inputs
@@ -127,12 +127,7 @@
       mkHomeConfig =
         host:
         let
-          pkgs_ = import nixpkgs {
-            system = host.arch;
-            config = {
-              allowUnfree = true;
-            };
-          };
+          pkgs_ = mkPkgs host;
         in
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs_;
@@ -152,7 +147,7 @@
               wallpaperPath
               ;
             pkgs-stable = mkPkgsStable host;
-            templateFile = mkTemplateFile host;
+            templateFile = mkTemplateFile pkgs_;
           };
         };
 
@@ -160,7 +155,7 @@
       repoPath = "~/nixcfg";
     in
     {
-      nixosConfigurations = nixpkgs.lib.mapAttrs (
+      nixosConfigurations = lib.mapAttrs (
         hostname: host: mkNixosConfig (host // { name = hostname; })
       ) hosts;
       homeConfigurations = lib.mapAttrs' (hostname: host: {
