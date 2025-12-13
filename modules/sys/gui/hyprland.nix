@@ -6,7 +6,7 @@
   ...
 }:
 {
-  config = lib.mkIf config.j.gui.hyprland.enable {
+  config = lib.mkIf config.j.gui.hypr.land.enable {
     programs.hyprland =
       let
         hyprPkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};

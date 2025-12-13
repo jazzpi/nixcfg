@@ -14,8 +14,19 @@
       i3.enable = lib.mkEnableOption "i3 window manager" // {
         default = config.j.gui.enable;
       };
-      hyprland.enable = lib.mkEnableOption "Hyprland Wayland compositor" // {
-        default = false;
+      hypr = {
+        land.enable = lib.mkEnableOption "Hyprland Wayland compositor" // {
+          default = false;
+        };
+        paper.enable = lib.mkEnableOption "Hyprpaper wallpaper manager" // {
+          default = false;
+        };
+        lock.enable = lib.mkEnableOption "Hyprlock lock screen" // {
+          default = false;
+        };
+        idle.enable = lib.mkEnableOption "Hypridle idle manager" // {
+          default = false;
+        };
       };
       logic.enable = lib.mkEnableOption "Saleae Logic" // {
         default = false;

@@ -1,6 +1,6 @@
 {
   j = {
-    gui.hyprland.enable = true;
+    gui.hypr.land.enable = true;
     fprint.enable = true;
     work.enable = true;
   };
