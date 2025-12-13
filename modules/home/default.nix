@@ -13,7 +13,6 @@
     ./slip.nix
     ./yazi.nix
     ./sdr.nix
-    ../private/home
   ];
 
   config = {

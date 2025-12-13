@@ -116,8 +116,9 @@
             templateFile = mkTemplateFile host;
           };
           modules = [
-            ./common
-            ./sys
+            ./modules/common
+            ./modules/sys
+            ./private/sys
             ./hosts/${host.name}/sys.nix
           ]
           ++ optionalExists ./hosts/${host.name}/common.nix;
@@ -135,8 +136,9 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs_;
           modules = [
-            ./common
-            ./home
+            ./modules/common
+            ./modules/home
+            ./private/home
             ./hosts/${host.name}/home.nix
           ]
           ++ optionalExists ./hosts/${host.name}/common.nix;

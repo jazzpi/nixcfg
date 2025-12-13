@@ -50,7 +50,7 @@ with lib;
         gqrx
         gpredict
         sox
-        (writeShellScriptBin "iq-convert" (builtins.readFile "${rootPath}/scripts/iq-convert"))
+        (writeShellScriptBin "iq-convert" (builtins.readFile "${rootPath}/bin/iq-convert"))
       ];
     }
   );

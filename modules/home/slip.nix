@@ -15,7 +15,7 @@
   config = lib.mkIf config.j.slip.enable {
     home.packages = with pkgs; [
       net-tools
-      (writeShellScriptBin "setup-slip" (builtins.readFile "${rootPath}/scripts/setup-slip"))
+      (writeShellScriptBin "setup-slip" (builtins.readFile "${rootPath}/bin/setup-slip"))
     ];
 
   };
