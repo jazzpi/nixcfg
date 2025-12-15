@@ -30,9 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # DON'T follow nixpkgs here, so that we can use the Cachix builds
-    hyprland.url = "github:hyprwm/hyprland";
+    # FIXME: remove fixed refs for hyprland and hy3 once this is merged:
+    # https://github.com/outfoxxed/hy3/pull/261
+    hyprland.url = "github:hyprwm/hyprland/?ref=refs/tags/v0.52.2";
     hy3 = {
-      url = "github:outfoxxed/hy3";
+      url = "github:outfoxxed/hy3/?ref=16dae4d8f853b0d3e8434ee9941f9fc0155b8952";
       inputs.hyprland.follows = "hyprland";
     };
   };
