@@ -32,9 +32,9 @@
     # DON'T follow nixpkgs here, so that we can use the Cachix builds
     # FIXME: remove fixed refs for hyprland and hy3 once this is merged:
     # https://github.com/outfoxxed/hy3/pull/261
-    hyprland.url = "github:hyprwm/hyprland/?ref=refs/tags/v0.52.2";
+    hyprland.url = "github:hyprwm/hyprland/?ref=bb963fb00263bac78a0c633d1d0d02ae4763222c";
     hy3 = {
-      url = "github:outfoxxed/hy3/?ref=16dae4d8f853b0d3e8434ee9941f9fc0155b8952";
+      url = "github:outfoxxed/hy3/?ref=c0437b27a30569aeafcab7d6f02a0fc14b6ebd77";
       inputs.hyprland.follows = "hyprland";
     };
   };
