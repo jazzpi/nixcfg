@@ -99,11 +99,6 @@
         };
       mkTemplateFile = pkgs: import "${rootPath}/util/template-file.nix" { inherit pkgs; };
 
-      # TODO: dynamically determine wallpaper from date
-      # I used to do this at rebuild time, but it made the rebuilds quite slow
-      # because the derivation for getting the date had to be evaluated each
-      # time. So it should probably be done at runtime instead.
-      wallpaperPath = "${rootPath}/assets/wallpapers/2025/0.jpg";
       optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
         host:
@@ -113,7 +108,6 @@
               inputs
               host
               rootPath
-              wallpaperPath
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile host;
@@ -146,7 +140,6 @@
               host
               rootPath
               repoPath
-              wallpaperPath
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile pkgs_;

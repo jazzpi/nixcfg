@@ -2,35 +2,43 @@
   lib,
   config,
   pkgs,
-  wallpaperPath,
+  templateFile,
+  rootPath,
   inputs,
   ...
 }:
 {
   options = {
-    j.gui.hypr.land = {
-      theme = {
-        active = lib.mkOption {
-          type = lib.types.str;
-          default = "rgb(89023e)";
-          description = "Color of active windows";
+    j.gui.hypr = {
+      land = {
+        theme = {
+          active = lib.mkOption {
+            type = lib.types.str;
+            default = "rgb(89023e)";
+            description = "Color of active windows";
+          };
+          inactive = lib.mkOption {
+            type = lib.types.str;
+            default = "rgb(444444)";
+            description = "Color of inactive windows";
+          };
+          unlockedGroupActive = lib.mkOption {
+            type = lib.types.str;
+            default = "rgb(cc7178)";
+            description = "Color of unlocked group active windows";
+          };
         };
-        inactive = lib.mkOption {
+        mainMod = lib.mkOption {
           type = lib.types.str;
-          default = "rgb(444444)";
-          description = "Color of inactive windows";
-        };
-        unlockedGroupActive = lib.mkOption {
-          type = lib.types.str;
-          default = "rgb(cc7178)";
-          description = "Color of unlocked group active windows";
+          default = "SUPER";
+          description = "Main modifier key for Hyprland";
         };
       };
-      mainMod = lib.mkOption {
-        type = lib.types.str;
-        default = "SUPER";
-        description = "Main modifier key for Hyprland";
-      };
+      wallpaper-service.enable =
+        lib.mkEnableOption "Enable wallpaper setting service for hyprpaper/hyprlock"
+        // {
+          default = false;
+        };
     };
   };
   config =
@@ -39,6 +47,7 @@
       cfg = hypr.land;
       submapGroups = "Groups";
       submapSystem = "System";
+      wallpapersDir = "${rootPath}/assets/wallpapers";
     in
     lib.mkMerge [
       (lib.mkIf hypr.land.enable {
@@ -293,11 +302,12 @@
         };
       })
       (lib.mkIf hypr.paper.enable {
+        j.gui.hypr.wallpaper-service.enable = true;
         services.hyprpaper = {
           enable = true;
           settings = {
-            preload = "${wallpaperPath}";
-            wallpaper = ",${wallpaperPath}";
+            preload = "${wallpapersDir}/default.jpg";
+            wallpaper = ",${wallpapersDir}/default.jpg";
           };
         };
       })
@@ -328,12 +338,13 @@
         };
       })
       (lib.mkIf hypr.lock.enable {
+        j.gui.hypr.wallpaper-service.enable = true;
         programs.hyprlock = {
           enable = true;
           settings = {
             background = {
               monitor = "";
-              path = "${wallpaperPath}";
+              path = "$XDG_STATE_HOME/lockscreen.jpg";
               z-index = -2;
             };
             input-field = {
@@ -394,6 +405,35 @@
               # empty password).
               enabled = true;
             };
+          };
+        };
+      })
+      (lib.mkIf hypr.wallpaper-service.enable {
+        systemd.user.services.set-wallpaper = {
+          Unit = {
+            Description = "Set wallpaper path according to current date";
+            After = [
+              "hyprpaper.service"
+              "graphical-session.target"
+            ];
+            PartOf = "graphical-session.target";
+          };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
+          Service = {
+            Type = "oneshot";
+            # Give hyprpaper some time to open the IPC socket
+            ExecStartPre = "sleep 2";
+            ExecStart = (
+              templateFile {
+                name = "set-wallpaper";
+                template = "${rootPath}/dotfiles/hypr/scripts/set-wallpaper.mustache.sh";
+                data = {
+                  inherit wallpapersDir;
+                };
+              }
+            );
           };
         };
       })
