@@ -424,7 +424,7 @@
           Service = {
             Type = "oneshot";
             # Give hyprpaper some time to open the IPC socket
-            ExecStartPre = "sleep 2";
+            ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
             ExecStart = (
               templateFile {
                 name = "set-wallpaper";
