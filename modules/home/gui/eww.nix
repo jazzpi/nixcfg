@@ -3,7 +3,7 @@
   pkgs-stable,
   lib,
   config,
-  rootPath,
+  paths,
   templateFile,
   ...
 }:
@@ -37,13 +37,13 @@
       # FIXME: Unstable eww duplicates the bars
       package = pkgs-stable.eww;
     };
-    xdg.configFile."eww/eww.yuck".source = "${rootPath}/dotfiles/eww/eww.yuck";
-    xdg.configFile."eww/eww.scss".source = "${rootPath}/dotfiles/eww/eww.scss";
-    xdg.configFile."eww/scripts".source = "${rootPath}/dotfiles/eww/scripts";
+    xdg.configFile."eww/eww.yuck".source = "${paths.store.dots}/eww/eww.yuck";
+    xdg.configFile."eww/eww.scss".source = "${paths.store.dots}/eww/eww.scss";
+    xdg.configFile."eww/scripts".source = "${paths.store.dots}/eww/scripts";
     xdg.configFile."eww/widgets/battery.yuck".source = (
       templateFile {
         name = "battery.yuck";
-        template = "${rootPath}/dotfiles/eww/widgets/battery.mustache.yuck";
+        template = "${paths.store.dots}/eww/widgets/battery.mustache.yuck";
         data = {
           bat = "EWW_BATTERY.${config.j.gui.eww.battery.batteryName}";
         };
@@ -52,7 +52,7 @@
     xdg.configFile."eww/widgets/right-info.yuck".source = (
       templateFile {
         name = "right-info.yuck";
-        template = "${rootPath}/dotfiles/eww/widgets/right-info.mustache.yuck";
+        template = "${paths.store.dots}/eww/widgets/right-info.mustache.yuck";
         data = {
           bluetooth = ''${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}'';
           battery = ''${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}'';

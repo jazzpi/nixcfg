@@ -1,6 +1,6 @@
 {
   config,
-  rootPath,
+  paths,
   lib,
   pkgs,
   ...
@@ -10,7 +10,7 @@
     home.packages =
       with pkgs;
       lib.optionals config.j.networking.can [
-        (writeShellScriptBin "setup-slcan" (builtins.readFile "${rootPath}/bin/setup-slcan"))
+        (writeShellScriptBin "setup-slcan" (builtins.readFile "${paths.store.bin}/setup-slcan"))
       ];
   };
 }

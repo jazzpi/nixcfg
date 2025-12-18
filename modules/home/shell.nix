@@ -2,7 +2,7 @@
   lib,
   config,
   pkgs,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -41,7 +41,7 @@
       grep = "grep --color=auto";
     };
 
-    xdg.configFile."bash/bashrc-extra".source = "${rootPath}/dotfiles/bashrc-extra";
+    xdg.configFile."bash/bashrc-extra".source = "${paths.store.dots}/bashrc-extra";
     programs.bash.initExtra = "source ${config.xdg.configHome}/bash/bashrc-extra";
 
     # ~/.inputrc config

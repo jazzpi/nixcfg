@@ -2,7 +2,7 @@
   config,
   pkgs,
   lib,
-  rootPath,
+  paths,
   ...
 }:
 with lib;
@@ -15,7 +15,7 @@ with lib;
 
   config = mkIf config.j.sdr.enable (
     let
-      gr-satellites = pkgs.callPackage "${rootPath}/packages/gr-satellites" { };
+      gr-satellites = pkgs.callPackage "${paths.store.pkgs}/gr-satellites" { };
       gnuradioWithDeps = pkgs.symlinkJoin {
         name = "gnuradio-with-gr-satellites";
         paths = [
@@ -50,7 +50,7 @@ with lib;
         gqrx
         gpredict
         sox
-        (writeShellScriptBin "iq-convert" (builtins.readFile "${rootPath}/bin/iq-convert"))
+        (writeShellScriptBin "iq-convert" (builtins.readFile "${paths.store.bin}/iq-convert"))
       ];
     }
   );

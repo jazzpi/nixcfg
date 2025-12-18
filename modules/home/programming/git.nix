@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -17,8 +17,8 @@
 
   config = lib.mkIf config.j.programming.git.enable {
     home.packages = with pkgs; [
-      (writeShellScriptBin "git-add-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-add-id"))
-      (writeShellScriptBin "git-use-id" (builtins.readFile "${rootPath}/dotfiles-repo/bin/git-use-id"))
+      (writeShellScriptBin "git-add-id" (builtins.readFile "${paths.store.dots-repo}/bin/git-add-id"))
+      (writeShellScriptBin "git-use-id" (builtins.readFile "${paths.store.dots-repo}/bin/git-use-id"))
     ];
 
     programs.git = {

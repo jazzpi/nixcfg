@@ -2,8 +2,7 @@
   lib,
   pkgs,
   config,
-  rootPath,
-  repoPath,
+  paths,
   templateFile,
   ...
 }:
@@ -26,13 +25,12 @@
       man-pages-posix
       (templateFile {
         name = "use-dev-flake";
-        template = "${rootPath}/bin/use-dev-flake";
+        template = "${paths.store.bin}/use-dev-flake";
         data = {
-          shell_dir = "${repoPath}/shells";
+          shell_dir = "${paths.repo.shells}";
         };
         asBin = true;
       })
-      # ))
     ];
   };
 }

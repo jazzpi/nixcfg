@@ -2,7 +2,7 @@
   lib,
   config,
   pkgs,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -15,7 +15,7 @@
   config = lib.mkIf config.j.slip.enable {
     home.packages = with pkgs; [
       net-tools
-      (writeShellScriptBin "setup-slip" (builtins.readFile "${rootPath}/bin/setup-slip"))
+      (writeShellScriptBin "setup-slip" (builtins.readFile "${paths.store.bin}/setup-slip"))
     ];
 
   };

@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -13,7 +13,7 @@
 
   config = lib.mkIf config.j.gui.kitty.enable {
     programs.kitty.enable = true;
-    xdg.configFile."kitty".source = "${rootPath}/dotfiles-repo/kitty";
+    xdg.configFile."kitty".source = "${paths.store.dots-repo}/kitty";
     home.sessionVariables = {
       TERMINAL = "kitty";
     };

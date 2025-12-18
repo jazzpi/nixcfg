@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -270,15 +270,15 @@
     };
 
     xdg.configFile = {
-      "i3/scripts".source = "${rootPath}/dotfiles-repo/i3/scripts";
-      "picom.conf".source = "${rootPath}/dotfiles-repo/picom.conf";
+      "i3/scripts".source = "${paths.store.dots-repo}/i3/scripts";
+      "picom.conf".source = "${paths.store.dots-repo}/picom.conf";
     };
-    xdg.dataFile."dotfiles_resources".source = "${rootPath}/dotfiles-repo/resources";
+    xdg.dataFile."dotfiles_resources".source = "${paths.store.dots-repo}/resources";
 
     xfconf.settings.xfce4-desktop = lib.mkMerge (
       map (screen: {
         "backdrop/screen0/monitor${screen}/workspace0/last-image" =
-          "${rootPath}/dotfiles-repo/resources/lockscreen.jpg";
+          "${paths.store.dots-repo}/resources/lockscreen.jpg";
       }) config.j.gui.i3.screens
     );
 

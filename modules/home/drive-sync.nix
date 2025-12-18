@@ -3,7 +3,7 @@
   config,
   pkgs,
   templateFile,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -40,7 +40,7 @@
       sync-script = (
         templateFile {
           name = "drive-sync";
-          template = "${rootPath}/dotfiles/drive-sync/sync.mustache";
+          template = "${paths.store.dots}/drive-sync/sync.mustache";
           data = {
             # Has to be stored in a writable path for rclone to update the md5
             filters_file = "${config.xdg.configHome}/${filters-path}";
@@ -71,7 +71,7 @@
       home.packages = with pkgs; [
         libnotify
       ];
-      xdg.configFile."${filters-path}".source = "${rootPath}/dotfiles/drive-sync/filters";
+      xdg.configFile."${filters-path}".source = "${paths.store.dots}/drive-sync/filters";
 
       systemd.user = {
         services.drive-sync = {

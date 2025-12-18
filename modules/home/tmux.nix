@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  rootPath,
+  paths,
   ...
 }:
 {
@@ -16,6 +16,6 @@
       enable = true;
     };
     # TODO: Nixify
-    xdg.configFile."tmux/tmux.conf".source = "${rootPath}/dotfiles-repo/tmux.conf";
+    xdg.configFile."tmux/tmux.conf".source = "${paths.store.dots-repo}/tmux/tmux.conf";
   };
 }

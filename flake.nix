@@ -81,6 +81,24 @@
           jasper-fw = defaultHost;
         };
 
+      paths =
+        let
+          defs = rec {
+            shells = "shells";
+            dots = "dotfiles";
+            dots-repo = "dotfiles-repo";
+            bin = "bin";
+            pkgs = "packages";
+            assets = "assets";
+            wallpapers = "${assets}/wallpapers";
+            lib = "util";
+          };
+        in
+        {
+          store = lib.mapAttrs (name: path: "${./.}/${path}") defs;
+          repo = lib.mapAttrs (name: path: "~/nixcfg/${path}") defs;
+        };
+
       mkPkgs =
         host:
         import nixpkgs {
@@ -97,7 +115,7 @@
             allowUnfree = true;
           };
         };
-      mkTemplateFile = pkgs: import "${rootPath}/util/template-file.nix" { inherit pkgs; };
+      mkTemplateFile = pkgs: import "${paths.store.lib}/template-file.nix" { inherit pkgs; };
 
       optionalExists = path: lib.optional (builtins.pathExists path) path;
       mkNixosConfig =
@@ -107,7 +125,7 @@
             inherit
               inputs
               host
-              rootPath
+              paths
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile host;
@@ -138,16 +156,12 @@
             inherit
               inputs
               host
-              rootPath
-              repoPath
+              paths
               ;
             pkgs-stable = mkPkgsStable host;
             templateFile = mkTemplateFile pkgs_;
           };
         };
-
-      rootPath = ./.;
-      repoPath = "~/nixcfg";
     in
     {
       nixosConfigurations = lib.mapAttrs (

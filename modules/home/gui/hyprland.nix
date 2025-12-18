@@ -3,7 +3,7 @@
   config,
   pkgs,
   templateFile,
-  rootPath,
+  paths,
   inputs,
   ...
 }:
@@ -47,7 +47,6 @@
       cfg = hypr.land;
       submapGroups = "Groups";
       submapSystem = "System";
-      wallpapersDir = "${rootPath}/assets/wallpapers";
     in
     lib.mkMerge [
       (lib.mkIf hypr.land.enable {
@@ -306,8 +305,8 @@
         services.hyprpaper = {
           enable = true;
           settings = {
-            preload = "${wallpapersDir}/default.jpg";
-            wallpaper = ",${wallpapersDir}/default.jpg";
+            preload = "${paths.store.wallpapers}/default.jpg";
+            wallpaper = ",${paths.store.wallpapers}/default.jpg";
           };
         };
       })
@@ -428,9 +427,9 @@
             ExecStart = (
               templateFile {
                 name = "set-wallpaper";
-                template = "${rootPath}/dotfiles/hypr/scripts/set-wallpaper.mustache.sh";
+                template = "${paths.store.dots}/hypr/scripts/set-wallpaper.mustache.sh";
                 data = {
-                  inherit wallpapersDir;
+                  wallpapersDir = paths.store.wallpapers;
                 };
               }
             );
