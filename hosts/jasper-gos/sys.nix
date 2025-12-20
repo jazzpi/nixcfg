@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, inputs, ... }:
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -34,4 +34,7 @@
     enable = true;
     enable32Bit = true;
   };
+
+  services.udev.packages = [ inputs.waveforms.packages.${builtins.currentSystem}.adept2-runtime ];
+  environment.systemPackages = [ inputs.waveforms.packages.${builtins.currentSystem}.waveforms ];
 }

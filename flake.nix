@@ -37,6 +37,10 @@
       url = "github:outfoxxed/hy3/?ref=c0437b27a30569aeafcab7d6f02a0fc14b6ebd77";
       inputs.hyprland.follows = "hyprland";
     };
+    waveforms = {
+      url = "github:liff/waveforms-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
