@@ -104,6 +104,7 @@
     freecad
     distrobox
     mumble
+    inkscape
   ];
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];

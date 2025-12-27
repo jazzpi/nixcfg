@@ -37,4 +37,6 @@
 
   services.udev.packages = [ inputs.waveforms.packages.${builtins.currentSystem}.adept2-runtime ];
   environment.systemPackages = [ inputs.waveforms.packages.${builtins.currentSystem}.waveforms ];
+
+  services.postgresql.enable = true;
 }
