@@ -2,6 +2,7 @@
   imports = [
     ./i3.nix
     ./hyprland.nix
+    ./niri.nix
     ./eww.nix
     ./ashell.nix
     ./kitty.nix

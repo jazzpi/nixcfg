@@ -28,6 +28,9 @@
           default = false;
         };
       };
+      niri.enable = lib.mkEnableOption "Niri Wayland compositor" // {
+        default = false;
+      };
       logic.enable = lib.mkEnableOption "Saleae Logic" // {
         default = false;
       };

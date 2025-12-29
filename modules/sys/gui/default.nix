@@ -9,6 +9,7 @@
   imports = [
     ./i3.nix
     ./hyprland.nix
+    ./niri.nix
     ./logic.nix
     ./wireshark.nix
     ./steam.nix
