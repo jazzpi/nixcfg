@@ -36,6 +36,7 @@ with lib;
               "finalize"
             ];
           }
+          { sh = "systemctl --user stop redshift"; }
         ];
         # TODO: binds
         binds = {

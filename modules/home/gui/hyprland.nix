@@ -69,7 +69,8 @@
           hyprpolkitagent.enable = true;
           # TODO: Automatically set temperature?
           # TODO: Replace with sunsetr?
-          hyprsunset.enable = true;
+          # FIXME: Only start for Hyprland
+          # hyprsunset.enable = true;
         };
 
         xdg.autostart.enable = true;
