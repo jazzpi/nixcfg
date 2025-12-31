@@ -145,7 +145,7 @@ with lib;
         input = {
           focus-follows-mouse = {
             enable = true;
-            max-scroll-amount = "20%";
+            max-scroll-amount = "0%";
           };
           keyboard = {
             numlock = true;
