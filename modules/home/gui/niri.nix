@@ -22,6 +22,7 @@ with lib;
     home.packages = with pkgs; [
       wl-clipboard
       wl-clip-persist
+      wlr-which-key
     ];
 
     programs.niri = {
@@ -51,7 +52,7 @@ with lib;
 
           "Mod+Shift+q".action.close-window = { };
 
-          # TODO: System submap?
+          "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} --initial-keys x";
 
           # Screenshots
           "Mod+Shift+s".action.screenshot = { };
@@ -156,6 +157,29 @@ with lib;
         prefer-no-csd = true;
       };
     };
+
+    xdg.configFile."wlr-which-key/config.yaml".text = ''
+      menu:
+        - key: "x"
+          desc: "System"
+          submenu:
+            - key: "S"
+              desc: "Shutdown"
+              cmd: "systemctl poweroff"
+            - key: "R"
+              desc: "Reboot"
+              cmd: "systemctl reboot"
+            - key: "e" 
+              desc: "Logout"
+              cmd: "uwsm stop"
+            - key: "l"
+              desc: "Lock screen"
+              cmd: "loginctl lock-session"
+            - key: "s"
+              desc: "Suspend"
+              cmd: "systemctl suspend"
+    '';
+
     # The niri module sets this to true. The hyprland module sets it to false,
     # since we set wayland.windowManager.hyprland.portalPackage to null.
     xdg.portal.enable = mkForce true;
