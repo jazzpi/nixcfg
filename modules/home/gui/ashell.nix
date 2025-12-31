@@ -74,8 +74,11 @@
         target = "graphical-session.target";
       };
     };
-    # Make sure ashell starts before autostart apps so that a tray is available.
-    systemd.user.services.ashell.Unit.Before = "xdg-desktop-autostart.target";
+    systemd.user.services.ashell = {
+      Service.ExecStart = lib.mkForce "${lib.getExe pkgs.uwsm} app -- ${lib.getExe config.programs.ashell.package}";
+      # Make sure ashell starts before autostart apps so that a tray is available.
+      Unit.Before = "xdg-desktop-autostart.target";
+    };
     # Bluetooth management
     home.packages = [ pkgs.overskride ];
   };

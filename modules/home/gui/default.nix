@@ -1,6 +1,7 @@
 {
   imports = [
     ./i3.nix
+    ./uwsm.nix
     ./hyprland.nix
     ./niri.nix
     ./eww.nix

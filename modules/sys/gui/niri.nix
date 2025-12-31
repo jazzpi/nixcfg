@@ -15,6 +15,17 @@
         enable = true;
         package = pkgs.niri;
       };
+
+      j.gui.uwsm = {
+        enable = true;
+        compositors = {
+          niri = {
+            name = "Niri";
+            binPath = "${pkgs.niri}/bin/niri";
+            extraArgs = [ "--session" ];
+          };
+        };
+      };
     })
   ];
 }

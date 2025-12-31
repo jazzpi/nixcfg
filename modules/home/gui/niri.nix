@@ -9,6 +9,7 @@ with lib;
   config = mkIf config.j.gui.niri.enable {
     # Requirements
     j.gui = {
+      uwsm.enable = true;
       kitty.enable = true;
       ashell.enable = true;
       wallpaper.enable = true;
@@ -27,6 +28,14 @@ with lib;
       enable = true;
       package = pkgs.niri;
       settings = {
+        spawn-at-startup = [
+          {
+            argv = [
+              "${pkgs.uwsm}/bin/uwsm"
+              "finalize"
+            ];
+          }
+        ];
         # TODO: binds
         binds = {
           "Mod+Return".action.spawn = "${getExe pkgs.kitty}";

@@ -16,7 +16,7 @@ if ! [ -f "$wallpaper" ]; then
     exit 1
 fi
 
-wpaperd_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/wpaperd"
+wpaperd_config_dir="$XDG_CONFIG_HOME/wpaperd"
 mkdir -p "$wpaperd_config_dir"
 
 cat >"$wpaperd_config_dir/config.toml" <<EOF
@@ -24,4 +24,4 @@ cat >"$wpaperd_config_dir/config.toml" <<EOF
 path = "$wallpaper"
 EOF
 
-ln -fs "$wallpaper" "${XDG_STATE_HOME:-$HOME/.local/state}/lockscreen.jpg"
+ln -fs "$wallpaper" "$XDG_STATE_HOME/lockscreen.jpg"

@@ -14,6 +14,9 @@
       i3.enable = lib.mkEnableOption "i3 window manager" // {
         default = config.j.gui.enable;
       };
+      uwsm.enable = lib.mkEnableOption "Universal Wayland Session Manager" // {
+        default = false;
+      };
       hypr = {
         land.enable = lib.mkEnableOption "Hyprland Wayland compositor" // {
           default = false;

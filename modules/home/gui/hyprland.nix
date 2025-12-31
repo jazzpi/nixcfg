@@ -51,6 +51,7 @@
     lib.mkMerge [
       (lib.mkIf hypr.land.enable {
         # Requirements
+        j.gui.uwsm.enable = true;
         j.gui.kitty.enable = true;
         j.gui.ashell.enable = true;
         programs.rofi.enable = true;
@@ -70,12 +71,6 @@
           # TODO: Replace with sunsetr?
           hyprsunset.enable = true;
         };
-
-        xdg.configFile."uwsm/env".text = ''
-          export XCURSOR_SIZE=24
-          export QT_QPA_PLATFORMTHEME=qt5ct
-          export NIXOS_OZONE_WL=1
-        '';
 
         xdg.autostart.enable = true;
 
