@@ -11,6 +11,11 @@ with lib;
     j.gui = {
       kitty.enable = true;
       ashell.enable = true;
+      wallpaper.enable = true;
+      hypr = {
+        lock.enable = true;
+        idle.enable = true;
+      };
     };
     programs.rofi.enable = true;
     home.packages = with pkgs; [

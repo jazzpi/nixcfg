@@ -18,5 +18,6 @@
     ./libreoffice.nix
     ./gimp.nix
     ./mime.nix
+    ./wallpaper.nix
   ];
 }

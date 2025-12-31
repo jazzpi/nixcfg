@@ -16,7 +16,12 @@ if ! [ -f "$wallpaper" ]; then
     exit 1
 fi
 
-hyprctl hyprpaper preload "$wallpaper"
-hyprctl hyprpaper wallpaper ", $wallpaper"
+wpaperd_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/wpaperd"
+mkdir -p "$wpaperd_config_dir"
 
-ln -fs "$wallpaper" "$XDG_STATE_HOME/lockscreen.jpg"
+cat >"$wpaperd_config_dir/config.toml" <<EOF
+[any]
+path = "$wallpaper"
+EOF
+
+ln -fs "$wallpaper" "${XDG_STATE_HOME:-$HOME/.local/state}/lockscreen.jpg"

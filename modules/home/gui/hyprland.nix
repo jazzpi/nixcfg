@@ -61,7 +61,6 @@
           wl-clip-persist
         ];
         j.gui.hypr = {
-          paper.enable = true;
           lock.enable = true;
           idle.enable = true;
         };
@@ -300,16 +299,6 @@
           };
         };
       })
-      (lib.mkIf hypr.paper.enable {
-        j.gui.hypr.wallpaper-service.enable = true;
-        services.hyprpaper = {
-          enable = true;
-          settings = {
-            preload = "${paths.store.wallpapers}/default.jpg";
-            wallpaper = ",${paths.store.wallpapers}/default.jpg";
-          };
-        };
-      })
       (lib.mkIf hypr.idle.enable {
         services.hypridle = {
           enable = true;
@@ -337,7 +326,7 @@
         };
       })
       (lib.mkIf hypr.lock.enable {
-        j.gui.hypr.wallpaper-service.enable = true;
+        j.gui.wallpaper.enable = true;
         programs.hyprlock = {
           enable = true;
           settings = {
@@ -404,35 +393,6 @@
               # empty password).
               enabled = true;
             };
-          };
-        };
-      })
-      (lib.mkIf hypr.wallpaper-service.enable {
-        systemd.user.services.set-wallpaper = {
-          Unit = {
-            Description = "Set wallpaper path according to current date";
-            After = [
-              "hyprpaper.service"
-              "graphical-session.target"
-            ];
-            PartOf = "graphical-session.target";
-          };
-          Install = {
-            WantedBy = [ "graphical-session.target" ];
-          };
-          Service = {
-            Type = "oneshot";
-            # Give hyprpaper some time to open the IPC socket
-            ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
-            ExecStart = (
-              templateFile {
-                name = "set-wallpaper";
-                template = "${paths.store.dots}/hypr/scripts/set-wallpaper.mustache.sh";
-                data = {
-                  wallpapersDir = paths.store.wallpapers;
-                };
-              }
-            );
           };
         };
       })
