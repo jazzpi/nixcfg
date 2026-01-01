@@ -23,12 +23,13 @@ with lib;
         Unit = {
           Description = "Wallpaper daemon for Wayland";
           After = [ "graphical-session.target" ];
+          PartOf = [ "graphical-session.target" ];
         };
         Install = {
           WantedBy = [ "graphical-session.target" ];
         };
         Service = {
-          ExecStart = "${getExe pkgs.uwsm} app -- ${pkgs.wpaperd}/bin/wpaperd -d -v";
+          ExecStart = "${pkgs.wpaperd}/bin/wpaperd -v";
         };
       };
       set-wallpaper = {
