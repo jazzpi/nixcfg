@@ -40,6 +40,17 @@
       url = "github:outfoxxed/hy3/?ref=c0437b27a30569aeafcab7d6f02a0fc14b6ebd77";
       inputs.hyprland.follows = "hyprland";
     };
+    # FIXME: remove & use nixpkgs version once this is packaged:
+    # https://github.com/hyprwm/hypridle/commit/f158b2fe9293f9b25f681b8e46d84674e7bc7f01
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+      inputs.nixpkgs.follows = "hyprland/nixpkgs";
+      inputs.systems.follows = "hyprland/systems";
+      inputs.hyprlang.follows = "hyprland/hyprlang";
+      inputs.hyprutils.follows = "hyprland/hyprutils";
+      inputs.hyprland-protocols.follows = "hyprland/hyprland-protocols";
+      inputs.hyprwayland-scanner.follows = "hyprland/hyprwayland-scanner";
+    };
     waveforms = {
       url = "github:liff/waveforms-flake";
       inputs.nixpkgs.follows = "nixpkgs";

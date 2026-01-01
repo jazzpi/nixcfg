@@ -27,8 +27,15 @@
         lock.enable = lib.mkEnableOption "Hyprlock lock screen" // {
           default = false;
         };
-        idle.enable = lib.mkEnableOption "Hypridle idle manager" // {
-          default = false;
+        idle = {
+          enable = lib.mkEnableOption "Hypridle idle manager" // {
+            default = false;
+          };
+          compositors = lib.mkOption {
+            description = "Compositors to generate configurations for.";
+            type = lib.types.attrsOf (lib.types.attrsOf lib.types.str);
+            default = { };
+          };
         };
       };
       niri.enable = lib.mkEnableOption "Niri Wayland compositor" // {

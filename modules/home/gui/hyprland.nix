@@ -63,7 +63,15 @@
         ];
         j.gui.hypr = {
           lock.enable = true;
-          idle.enable = true;
+          idle = {
+            enable = true;
+            compositors = {
+              hyprland = {
+                dpms-off = "hyprctl dispatch dpms off";
+                dpms-on = "hyprctl dispatch dpms on";
+              };
+            };
+          };
         };
         services = {
           hyprpolkitagent.enable = true;
@@ -148,6 +156,7 @@
               # If these are enabled (e.g. because we have i3 enabled) systemd will constantly try to restart them
               "systemctl --user stop redshift"
               "wl-clip-persist --clipboard regular"
+              "systemctl --user start hypridle@hyprland.service"
             ];
 
             windowrule = [
@@ -296,30 +305,54 @@
         };
       })
       (lib.mkIf hypr.idle.enable {
-        services.hypridle = {
-          enable = true;
-          settings = {
-            general = {
-              lock_cmd = "pgrep hyprlock || hyprlock";
-              before_sleep_cmd = "loginctl lock-session";
-              after_sleep_cmd = "hyprctl dispatch dpms on";
-            };
+        xdg.configFile = lib.mapAttrs' (name: cmds: {
+          name = "hypr/hypridle-${name}.conf";
+          value = {
+            text = lib.hm.generators.toHyprconf {
+              attrs = {
+                general = {
+                  lock_cmd = "pgrep hyprlock || hyprlock";
+                  before_sleep_cmd = "loginctl lock-session";
+                  after_sleep_cmd = cmds.dpms-on;
+                };
 
-            listener = [
-              # Turn off screen after 5min
-              {
-                timeout = 300;
-                on-timeout = "hyprctl dispatch dpms off";
-                on-resume = "hyprctl dispatch dpms on";
-              }
-              # Lock screen after 5:30min
-              {
-                timeout = 330;
-                on-timeout = "loginctl lock-session";
-              }
-            ];
+                listener = [
+                  # Turn off screen after 5min
+                  {
+                    timeout = 300;
+                    on-timeout = cmds.dpms-off;
+                    on-resume = cmds.dpms-on;
+                  }
+                  # Lock screen after 5:30min
+                  {
+                    timeout = 330;
+                    on-timeout = "loginctl lock-session";
+                  }
+                ];
+              };
+            };
           };
-        };
+        }) hypr.idle.compositors;
+        systemd.user.services = lib.genAttrs' (lib.attrNames hypr.idle.compositors) (name: {
+          name = "hypridle-${name}";
+          value = {
+            Install.WantedBy = [ "wayland-session@${name}.target" ];
+            Unit = {
+              ConditionEnvironment = "WAYLAND_DISPLAY";
+              Description = "Hypridle idle manager for ${name} compositor";
+              After = [ "wayland-session@${name}.target" ];
+              PartOf = [ "wayland-session@${name}.target" ];
+              X-Restart-Triggers = [ "${config.xdg.configHome}/hypr/hypridle-${name}.conf" ];
+            };
+            Service = {
+              ExecStart = "${
+                lib.getExe inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
+              } -c ${config.xdg.configHome}/hypr/hypridle-${name}.conf";
+              Restart = "always";
+              RestartSec = "10s";
+            };
+          };
+        });
       })
       (lib.mkIf hypr.lock.enable {
         j.gui.wallpaper.enable = true;

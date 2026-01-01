@@ -15,7 +15,15 @@ with lib;
       wallpaper.enable = true;
       hypr = {
         lock.enable = true;
-        idle.enable = true;
+        idle = {
+          enable = true;
+          compositors = {
+            niri = {
+              dpms-off = "niri msg action power-off-monitors";
+              dpms-on = "niri msg action power-on-monitors";
+            };
+          };
+        };
       };
     };
     programs.rofi.enable = true;
@@ -38,6 +46,7 @@ with lib;
             ];
           }
           { sh = "systemctl --user stop redshift"; }
+          { sh = "systemctl --user start hypridle@niri.service"; }
         ];
         binds = {
           "Mod+Return".action.spawn = "${getExe pkgs.kitty}";
