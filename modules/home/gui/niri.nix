@@ -39,7 +39,6 @@ with lib;
           }
           { sh = "systemctl --user stop redshift"; }
         ];
-        # TODO: binds
         binds = {
           "Mod+Return".action.spawn = "${getExe pkgs.kitty}";
           "Mod+d".action.spawn = [
@@ -54,7 +53,11 @@ with lib;
 
           "Mod+Shift+q".action.close-window = { };
 
-          "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} --initial-keys x";
+          "Mod+space".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri";
+          "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys x";
+          "Mod+w".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys w";
+          "Mod+m".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys m";
+
           "Mod+Tab".action.spawn-sh =
             "${getExe pkgs.rofi} -show window -show-icons -sort -sorting-method fzf";
           "Mod+Shift+Tab".action.open-overview = { };
@@ -121,16 +124,12 @@ with lib;
           ];
           # TODO: Qalculate
 
-          # TODO: Do we want focus-column-or-monitor-left / focus-column-left-or-last ?
           "Mod+h".action.focus-column-left = { };
           "Mod+l".action.focus-column-right = { };
-          # TODO: move-column-left-or-to-monitor-left ?
           "Mod+Shift+h".action.move-column-left = { };
           "Mod+Shift+l".action.move-column-right = { };
-          # TODO: focus-window-or-monitor-up / focus-window-up-or-bottom ?
           "Mod+j".action.focus-window-down = { };
           "Mod+k".action.focus-window-up = { };
-          # TODO: move-window-up-or-to-workspace-up ?
           "Mod+Shift+j".action.move-window-down = { };
           "Mod+Shift+k".action.move-window-up = { };
           "Mod+bracketleft".action.consume-or-expel-window-left = { };
@@ -138,11 +137,14 @@ with lib;
 
           "Mod+r".action.switch-preset-column-width = { };
           "Mod+Shift+r".action.switch-preset-column-width-back = { };
-          "Mod+f".action.maximize-column = { };
-          "Mod+Shift+f".action.fullscreen-window = { };
-          "Mod+w".action.toggle-column-tabbed-display = { };
           "Mod+Shift+Space".action.toggle-window-floating = { };
-          "Mod+Space".action.switch-focus-between-floating-and-tiling = { };
+
+          "Mod+u".action.focus-workspace-up = { };
+          "Mod+i".action.focus-workspace-down = { };
+          "Mod+Shift+u".action.move-column-to-workspace-up = { };
+          "Mod+Shift+i".action.move-column-to-workspace-down = { };
+          "Mod+Ctrl+u".action.move-workspace-up = { };
+          "Mod+Ctrl+i".action.move-workspace-down = { };
         };
         # TODO: Named workspaces (IM, Spotify?)
         input = {
@@ -159,30 +161,68 @@ with lib;
           };
         };
         prefer-no-csd = true;
+        layout = {
+          empty-workspace-above-first = true;
+        };
       };
     };
 
-    xdg.configFile."wlr-which-key/config.yaml".text = ''
-      menu:
-        - key: "x"
-          desc: "System"
-          submenu:
-            - key: "S"
-              desc: "Shutdown"
-              cmd: "systemctl poweroff"
-            - key: "R"
-              desc: "Reboot"
-              cmd: "systemctl reboot"
-            - key: "e" 
-              desc: "Logout"
-              cmd: "uwsm stop"
-            - key: "l"
-              desc: "Lock screen"
-              cmd: "loginctl lock-session"
-            - key: "s"
-              desc: "Suspend"
-              cmd: "systemctl suspend"
-    '';
+    xdg.configFile."wlr-which-key/niri.yaml".text =
+      let
+        shell-cmd = (key: desc: cmd: { inherit key desc cmd; });
+        niri-action = (
+          key: desc: action: {
+            inherit key desc;
+            cmd = "niri msg action ${action}";
+          }
+        );
+      in
+      generators.toYAML { } {
+        menu = [
+          {
+            key = "x";
+            desc = "System";
+            submenu = [
+              (shell-cmd "S" "Shutdown" "systemctl poweroff")
+              (shell-cmd "R" "Reboot" "systemctl reboot")
+              (shell-cmd "e" "Logout" "uwsm stop")
+              (shell-cmd "l" "Lock screen" "loginctl lock-session")
+              (shell-cmd "s" "Suspend" "systemctl suspend")
+            ];
+          }
+          {
+            key = "w";
+            desc = "Window/Column";
+            submenu = [
+              (niri-action "space" "Toggle floating" "toggle-window-floating")
+              (niri-action "Alt+space" "Switch focus floating/tiling" "switch-focus-between-floating-and-tiling")
+              (niri-action "f" "Maximize column" "maximize-column")
+              (niri-action "F" "Fullscreen window" "fullscreen-window")
+              (niri-action "w" "Tab column" "toggle-column-tabbed-display")
+              (niri-action "r" "Increase column width" "switch-preset-column-width")
+              (niri-action "R" "Decrease column width" "switch-preset-column-width-back")
+            ];
+          }
+          {
+            key = "m";
+            desc = "Monitor";
+            submenu = [
+              (niri-action "h" "Focus left" "focus-monitor-left")
+              (niri-action "l" "Focus right" "focus-monitor-right")
+              (niri-action "j" "Focus down" "focus-monitor-down")
+              (niri-action "k" "Focus up" "focus-monitor-up")
+              (niri-action "H" "Move column left" "move-column-to-monitor-left")
+              (niri-action "L" "Move column right" "move-column-to-monitor-right")
+              (niri-action "J" "Move column down" "move-column-to-monitor-down")
+              (niri-action "K" "Move column up" "move-column-to-monitor-up")
+              (niri-action "Ctrl+h" "Move workspace left" "move-workspace-to-monitor-left")
+              (niri-action "Ctrl+l" "Move workspace right" "move-workspace-to-monitor-right")
+              (niri-action "Ctrl+j" "Move workspace down" "move-workspace-to-monitor-down")
+              (niri-action "Ctrl+k" "Move workspace up" "move-workspace-to-monitor-up")
+            ];
+          }
+        ];
+      };
 
     # The niri module sets this to true. The hyprland module sets it to false,
     # since we set wayland.windowManager.hyprland.portalPackage to null.
