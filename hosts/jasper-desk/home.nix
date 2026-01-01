@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -67,14 +67,18 @@
 
   j.gui.drawio.enable = true;
   j.sdr.enable = true;
-  home.packages = with pkgs; [
-    kicad
-    stm32cubemx
-    gimp3-with-plugins
-    freecad
-    minicom
-    distrobox
-    ckan
-    bottles
-  ];
+  home.packages =
+    (with pkgs; [
+      kicad
+      stm32cubemx
+      gimp3-with-plugins
+      freecad
+      distrobox
+      ckan
+      bottles
+    ])
+    ++ (with pkgs-stable; [
+      # Minicom depends on lrzsz, which seems to be broken in unstable
+      minicom
+    ]);
 }
