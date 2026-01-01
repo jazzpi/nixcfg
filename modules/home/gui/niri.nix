@@ -137,7 +137,8 @@ with lib;
             "s"
             "10%-"
           ];
-          # TODO: Qalculate
+          # TODO: Qalculate scratchpad
+          # see https://github.com/YaLTeR/niri/discussions/329
 
           "Mod+h".action.focus-column-left = { };
           "Mod+l".action.focus-column-right = { };
@@ -232,6 +233,10 @@ with lib;
             matches = [ { app-id = "XEyes"; } ];
             open-floating = true;
             open-focused = false;
+          }
+          {
+            matches = [ { app-id = "^qalculate"; } ];
+            open-floating = true;
           }
         ];
         layer-rules = [
