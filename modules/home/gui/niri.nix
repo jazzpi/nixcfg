@@ -172,7 +172,54 @@ with lib;
         prefer-no-csd = true;
         layout = {
           empty-workspace-above-first = true;
+          gaps = 8;
+          struts = {
+            left = 40;
+            right = 40;
+            top = 5;
+            bottom = 5;
+          };
+          focus-ring = {
+            enable = true;
+            width = 4;
+            active.gradient = {
+              from = "#dc3faaff";
+              to = "#0fbabaff";
+              angle = 45;
+              in' = "oklch shorter hue";
+            };
+            inactive.gradient = {
+              from = "#745575ff";
+              to = "#7c4958ff";
+              angle = 45;
+              in' = "oklch shorter hue";
+            };
+          };
         };
+        window-rules = [
+          {
+            geometry-corner-radius = {
+              bottom-left = 5.0;
+              bottom-right = 5.0;
+              top-left = 5.0;
+              top-right = 5.0;
+            };
+            clip-to-geometry = true;
+          }
+          {
+            matches = [ { is-urgent = true; } ];
+            border = {
+              enable = true;
+              width = 4;
+              urgent.gradient = {
+                from = "#ff0000ff";
+                to = "#ff5500ff";
+                angle = 45;
+                in' = "oklch shorter hue";
+              };
+            };
+          }
+        ];
       };
     };
 
