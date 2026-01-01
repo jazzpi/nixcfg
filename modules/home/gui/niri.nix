@@ -54,6 +54,9 @@ with lib;
           "Mod+Shift+q".action.close-window = { };
 
           "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} --initial-keys x";
+          "Mod+Tab".action.spawn-sh =
+            "${getExe pkgs.rofi} -show window -show-icons -sort -sorting-method fzf";
+          "Mod+Shift+Tab".action.open-overview = { };
 
           # Screenshots
           "Mod+Shift+s".action.screenshot = { };
@@ -115,7 +118,6 @@ with lib;
             "s"
             "10%-"
           ];
-          # TODO: tab (overview?)
           # TODO: Qalculate
 
           # TODO: Do we want focus-column-or-monitor-left / focus-column-left-or-last ?
