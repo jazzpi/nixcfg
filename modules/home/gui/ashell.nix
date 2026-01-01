@@ -75,7 +75,13 @@
       };
     };
     systemd.user.services.ashell = {
-      Service.ExecStart = lib.mkForce "${lib.getExe pkgs.uwsm} app -- ${lib.getExe config.programs.ashell.package}";
+      Service = {
+        # See https://github.com/YaLTeR/niri/issues/1910 -- it's not fixed for
+        # ashell, probably because it's based on the PopOS! fork instead of the
+        # iced-rs/iced version.
+        ExecStart = lib.mkForce "${lib.getExe pkgs.uwsm} app -- ${lib.getExe config.programs.ashell.package}";
+        Environment = lib.optionals (config.j.gui.nvidia.enable) [ "WGPU_BACKEND=gl" ];
+      };
       # Make sure ashell starts before autostart apps so that a tray is available.
       Unit.Before = "xdg-desktop-autostart.target";
     };
