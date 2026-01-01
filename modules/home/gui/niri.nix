@@ -34,6 +34,7 @@ with lib;
             argv = [
               "${pkgs.uwsm}/bin/uwsm"
               "finalize"
+              "NIRI_SOCKET"
             ];
           }
           { sh = "systemctl --user stop redshift"; }
