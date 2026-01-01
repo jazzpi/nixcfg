@@ -36,6 +36,7 @@
       with pkgs;
       [
         file-roller
+        xeyes
       ]
       ++ (lib.optional config.j.gui.qalc.enable qalculate-gtk)
       ++ (lib.optional config.j.gui.nextcloud.enable nextcloud-client)

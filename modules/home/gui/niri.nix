@@ -228,6 +228,11 @@ with lib;
               };
             };
           }
+          {
+            matches = [ { app-id = "XEyes"; } ];
+            open-floating = true;
+            open-focused = false;
+          }
         ];
         layer-rules = [
           {
