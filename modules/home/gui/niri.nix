@@ -170,6 +170,7 @@ with lib;
           };
         };
         prefer-no-csd = true;
+        hotkey-overlay.skip-at-startup = true;
         layout = {
           empty-workspace-above-first = true;
           gaps = 8;
