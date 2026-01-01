@@ -154,12 +154,16 @@ with lib;
           "Mod+Shift+r".action.switch-preset-column-width-back = { };
           "Mod+Shift+Space".action.toggle-window-floating = { };
 
-          "Mod+u".action.focus-workspace-up = { };
-          "Mod+i".action.focus-workspace-down = { };
-          "Mod+Shift+u".action.move-column-to-workspace-up = { };
-          "Mod+Shift+i".action.move-column-to-workspace-down = { };
-          "Mod+Ctrl+u".action.move-workspace-up = { };
-          "Mod+Ctrl+i".action.move-workspace-down = { };
+          "Mod+u".action.focus-workspace-down = { };
+          "Mod+i".action.focus-workspace-up = { };
+          "Mod+Shift+u".action.move-column-to-workspace-down = {
+            focus = false;
+          };
+          "Mod+Shift+i".action.move-column-to-workspace-up = {
+            focus = false;
+          };
+          "Mod+Ctrl+u".action.move-workspace-down = { };
+          "Mod+Ctrl+i".action.move-workspace-up = { };
         };
         # TODO: Named workspaces (IM, Spotify?)
         input = {
