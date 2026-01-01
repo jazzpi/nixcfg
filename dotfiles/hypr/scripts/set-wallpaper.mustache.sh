@@ -24,4 +24,12 @@ cat >"$wpaperd_config_dir/config.toml" <<EOF
 path = "$wallpaper"
 EOF
 
+{{#extraWallpapers}}
+cat >"$wpaperd_config_dir/{{ namespace }}.toml" <<EOF
+layer_namespace = "{{ namespace }}"
+[any]
+path = "{{ path }}"
+EOF
+{{/extraWallpapers}}
+
 ln -fs "$wallpaper" "$XDG_STATE_HOME/lockscreen.jpg"

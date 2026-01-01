@@ -56,6 +56,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri.url = "github:sodiboo/niri-flake";
+    # FIXME: upstream this
+    wpaperd.url = "github:jazzpi/wpaperd/namespace-option";
   };
 
   outputs =

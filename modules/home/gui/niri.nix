@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  paths,
   ...
 }:
 with lib;
@@ -12,7 +13,12 @@ with lib;
       uwsm.enable = true;
       kitty.enable = true;
       ashell.enable = true;
-      wallpaper.enable = true;
+      wallpaper = {
+        enable = true;
+        extra-wallpapers = {
+          wpaperd-overview = "${paths.store.wallpapers}/default.jpg";
+        };
+      };
       hypr = {
         lock.enable = true;
         idle = {
@@ -46,7 +52,7 @@ with lib;
             ];
           }
           { sh = "systemctl --user stop redshift"; }
-          { sh = "systemctl --user start hypridle@niri.service"; }
+          { sh = "systemctl --user start wpaperd@wpaperd-overview.service"; }
         ];
         binds = {
           "Mod+Return".action.spawn = "${getExe pkgs.kitty}";
@@ -219,6 +225,12 @@ with lib;
                 in' = "oklch shorter hue";
               };
             };
+          }
+        ];
+        layer-rules = [
+          {
+            matches = [ { namespace = "^wpaperd-overview"; } ];
+            place-within-backdrop = true;
           }
         ];
       };
