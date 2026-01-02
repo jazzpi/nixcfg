@@ -769,16 +769,16 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1767305312,
-        "narHash": "sha256-n1kONrJbM+WPRkQUAIXxkzRHqPef66ukdvLGzUrEqwQ=",
+        "lastModified": 1767365012,
+        "narHash": "sha256-2nYIb8aVFZss//aC5ao/WB/4hxMEjewfXOWR6+pZ4Lg=",
         "owner": "jazzpi",
         "repo": "wpaperd",
-        "rev": "8d3cef55957ff49d330d3135fa4bd043215b453b",
+        "rev": "3a384e18b72fc9405acc201321847c8825ae10ab",
         "type": "github"
       },
       "original": {
         "owner": "jazzpi",
-        "ref": "namespace-option",
+        "ref": "jasper-dev",
         "repo": "wpaperd",
         "type": "github"
       }

@@ -27,6 +27,7 @@ EOF
 {{#extraWallpapers}}
 cat >"$wpaperd_config_dir/{{ namespace }}.toml" <<EOF
 layer_namespace = "{{ namespace }}"
+socket_name = "{{ namespace }}"
 [any]
 path = "{{ path }}"
 EOF
