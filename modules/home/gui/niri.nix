@@ -88,6 +88,7 @@ in
       wl-clipboard
       wl-clip-persist
       wlr-which-key
+      wdisplays
     ];
 
     programs.niri = {
