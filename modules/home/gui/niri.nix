@@ -6,8 +6,51 @@
   ...
 }:
 with lib;
+let
+  cfg = config.j.gui.niri;
+in
 {
-  config = mkIf config.j.gui.niri.enable {
+  options.j.gui.niri = {
+    theme = {
+      active = mkOption {
+        type = types.attrs;
+        description = "Color for active windows.";
+        default = {
+          gradient = {
+            from = "#dc3faaff";
+            to = "#0fbabaff";
+            angle = 45;
+            in' = "oklch shorter hue";
+          };
+        };
+      };
+      inactive = mkOption {
+        type = types.attrs;
+        description = "Color for inactive windows.";
+        default = {
+          gradient = {
+            from = "#745575ff";
+            to = "#7c4958ff";
+            angle = 45;
+            in' = "oklch shorter hue";
+          };
+        };
+      };
+      urgent = mkOption {
+        type = types.attrs;
+        description = "Color for urgent windows.";
+        default = {
+          gradient = {
+            from = "#ff0000ff";
+            to = "#ff5500ff";
+            angle = 45;
+            in' = "oklch shorter hue";
+          };
+        };
+      };
+    };
+  };
+  config = mkIf cfg.enable {
     # Requirements
     j.gui = {
       uwsm.enable = true;
@@ -192,18 +235,8 @@ with lib;
           focus-ring = {
             enable = true;
             width = 4;
-            active.gradient = {
-              from = "#dc3faaff";
-              to = "#0fbabaff";
-              angle = 45;
-              in' = "oklch shorter hue";
-            };
-            inactive.gradient = {
-              from = "#745575ff";
-              to = "#7c4958ff";
-              angle = 45;
-              in' = "oklch shorter hue";
-            };
+            active = cfg.theme.active;
+            inactive = cfg.theme.inactive;
           };
         };
         window-rules = [
@@ -215,19 +248,24 @@ with lib;
               top-right = 5.0;
             };
             clip-to-geometry = true;
+            # Disable border in general, but configure the colors so we don't
+            # have to do that in window rules that enable the border.
+            border = {
+              enable = false;
+              width = 4;
+              active = cfg.theme.active;
+              inactive = cfg.theme.inactive;
+              urgent = cfg.theme.urgent;
+            };
           }
           {
             matches = [ { is-urgent = true; } ];
-            border = {
-              enable = true;
-              width = 4;
-              urgent.gradient = {
-                from = "#ff0000ff";
-                to = "#ff5500ff";
-                angle = 45;
-                in' = "oklch shorter hue";
-              };
-            };
+            border.enable = true;
+          }
+          {
+            matches = [ { is-floating = true; } ];
+            border.enable = true;
+            focus-ring.enable = false;
           }
           {
             matches = [ { app-id = "XEyes"; } ];
