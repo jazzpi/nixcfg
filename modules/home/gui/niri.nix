@@ -8,6 +8,14 @@
 with lib;
 let
   cfg = config.j.gui.niri;
+  invertGradient =
+    color:
+    if color.gradient != null then
+      recursiveUpdate color {
+        gradient.angle = -color.gradient.angle;
+      }
+    else
+      color;
 in
 {
   options.j.gui.niri = {
@@ -237,6 +245,16 @@ in
             width = 4;
             active = cfg.theme.active;
             inactive = cfg.theme.inactive;
+          };
+          tab-indicator = {
+            width = 6;
+            gap = 8;
+            gaps-between-tabs = 4;
+            corner-radius = 2.0;
+            # Invert the gradients so the tab indicator pops more.
+            active = invertGradient cfg.theme.active;
+            inactive = invertGradient cfg.theme.inactive;
+            urgent = invertGradient cfg.theme.urgent;
           };
         };
         window-rules = [
