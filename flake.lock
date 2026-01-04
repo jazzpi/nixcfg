@@ -42,11 +42,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1766953020,
-        "narHash": "sha256-Ju7P6dHeMoe4484xKe7X8E+654iolzONKIHANvqqL4c=",
+        "lastModified": 1767467904,
+        "narHash": "sha256-LF3jgMx011cP4sWQYYl1gwtUm6btzewMlvvkYg8TBe4=",
         "owner": "jazzpi",
         "repo": "ashell",
-        "rev": "c2eef11e98017c37cc201f491e4e41c6ca970fbb",
+        "rev": "2f69a3dc0d9ef2026620d9a69c9c550a9c3a8eea",
         "type": "github"
       },
       "original": {
