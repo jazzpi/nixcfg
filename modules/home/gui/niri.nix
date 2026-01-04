@@ -238,12 +238,6 @@ in
         layout = {
           empty-workspace-above-first = true;
           gaps = 8;
-          struts = {
-            left = 40;
-            right = 40;
-            top = 5;
-            bottom = 5;
-          };
           focus-ring = {
             enable = true;
             width = 4;
