@@ -57,6 +57,11 @@ in
         };
       };
     };
+    overview-key = mkOption {
+      type = types.str;
+      description = "Keybinding to open the Niri overview (with which-key).";
+      default = "Tab";
+    };
   };
   config = mkIf cfg.enable {
     # Requirements
@@ -120,14 +125,12 @@ in
 
           "Mod+Shift+q".action.close-window = { };
 
-          "Mod+space".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri";
           "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys x";
-          "Mod+w".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys w";
-          "Mod+m".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys m";
 
-          "Mod+Tab".action.spawn-sh =
+          "Mod+${cfg.overview-key}".action.spawn-sh =
+            "niri msg action open-overview && ${getExe pkgs.wlr-which-key} niri --initial-keys ${cfg.overview-key}";
+          "Mod+Shift+Tab".action.spawn-sh =
             "${getExe pkgs.rofi} -show window -show-icons -sort -sorting-method fzf";
-          "Mod+Shift+Tab".action.open-overview = { };
 
           # Screenshots
           "Mod+Shift+s".action.screenshot = { };
@@ -320,8 +323,25 @@ in
             cmd = "niri msg action ${action}";
           }
         );
+        niri-action-o = (
+          key: desc: action: {
+            inherit key desc;
+            cmd = "niri msg action ${action}";
+            keep_open = true;
+          }
+        );
+        niri-action-r = (
+          key: desc: action: {
+            inherit key desc;
+            cmd = ''
+              niri msg action ${action}
+              ${getExe pkgs.wlr-which-key} niri --initial-keys ${cfg.overview-key}
+            '';
+          }
+        );
       in
       generators.toYAML { } {
+        rows_per_column = 15;
         menu = [
           {
             key = "x";
@@ -334,35 +354,54 @@ in
               (shell-cmd "s" "Suspend" "systemctl suspend")
             ];
           }
+          # Menu for managing layout / monitors in the Niri overview. The menu
+          # stays open after executing an action, so we can e.g. move a column
+          # across multiple monitors and workspaces without reopening the
+          # overview every time.
           {
-            key = "w";
-            desc = "Window/Column";
+            key = cfg.overview-key;
+            desc = "Navigation";
             submenu = [
-              (niri-action "space" "Toggle floating" "toggle-window-floating")
-              (niri-action "Alt+space" "Switch focus floating/tiling" "switch-focus-between-floating-and-tiling")
-              (niri-action "f" "Maximize column" "maximize-column")
-              (niri-action "F" "Fullscreen window" "fullscreen-window")
-              (niri-action "w" "Tab column" "toggle-column-tabbed-display")
-              (niri-action "r" "Increase column width" "switch-preset-column-width")
-              (niri-action "R" "Decrease column width" "switch-preset-column-width-back")
-            ];
-          }
-          {
-            key = "m";
-            desc = "Monitor";
-            submenu = [
-              (niri-action "h" "Focus left" "focus-monitor-left")
-              (niri-action "l" "Focus right" "focus-monitor-right")
-              (niri-action "j" "Focus down" "focus-monitor-down")
-              (niri-action "k" "Focus up" "focus-monitor-up")
-              (niri-action "H" "Move column left" "move-column-to-monitor-left")
-              (niri-action "L" "Move column right" "move-column-to-monitor-right")
-              (niri-action "J" "Move column down" "move-column-to-monitor-down")
-              (niri-action "K" "Move column up" "move-column-to-monitor-up")
-              (niri-action "Ctrl+h" "Move workspace left" "move-workspace-to-monitor-left")
-              (niri-action "Ctrl+l" "Move workspace right" "move-workspace-to-monitor-right")
-              (niri-action "Ctrl+j" "Move workspace down" "move-workspace-to-monitor-down")
-              (niri-action "Ctrl+k" "Move workspace up" "move-workspace-to-monitor-up")
+              # Windows / columns
+              (niri-action-o "h" "Focus left" "focus-column-left")
+              (niri-action-o "j" "Focus down" "focus-window-down")
+              (niri-action-o "k" "Focus up" "focus-window-up")
+              (niri-action-o "l" "Focus right" "focus-column-right")
+              (niri-action-o "H" "Move left" "move-column-left")
+              (niri-action-o "J" "Move down" "move-window-down")
+              (niri-action-o "K" "Move up" "move-window-up")
+              (niri-action-o "L" "Move right" "move-column-right")
+              (niri-action-o "bracketleft" "Consume/expel left" "consume-or-expel-window-left")
+              (niri-action-o "bracketright" "Consume/expel right" "consume-or-expel-window-right")
+              (niri-action-o "f" "Maximize" "maximize-column")
+              (niri-action-o "F" "Fullscreen" "fullscreen-window")
+              (niri-action-o "t" "Tab column" "toggle-column-tabbed-display")
+              # Workspaces
+              (niri-action-o "u" "WS: Focus down" "focus-workspace-down")
+              (niri-action-o "i" "WS: Focus up" "focus-workspace-up")
+              (niri-action-o "U" "Move to WS down" "move-column-to-workspace-down")
+              (niri-action-o "I" "Move to WS up" "move-column-to-workspace-up")
+              (niri-action-o "Ctrl+u" "WS: Move down" "move-workspace-down")
+              (niri-action-o "Ctrl+i" "WS: Move up" "move-workspace-up")
+              # Monitors
+              # For these, keep_open doesn't really work because the overlay
+              # will remain on the original monitor. So instead, we re-open the
+              # overlay after executing the action.
+              (niri-action-r "w" "M: Focus up" "focus-monitor-up")
+              (niri-action-r "a" "M: Focus left" "focus-monitor-left")
+              (niri-action-r "s" "M: Focus down" "focus-monitor-down")
+              (niri-action-r "d" "M: Focus right" "focus-monitor-right")
+              (niri-action-r "W" "M: Move up" "move-column-to-monitor-up")
+              (niri-action-r "A" "M: Move left" "move-column-to-monitor-left")
+              (niri-action-r "S" "M: Move down" "move-column-to-monitor-down")
+              (niri-action-r "D" "M: Move right" "move-column-to-monitor-right")
+              (niri-action-r "Ctrl+w" "M: Move WS up" "move-workspace-to-monitor-up")
+              (niri-action-r "Ctrl+a" "M: Move WS left" "move-workspace-to-monitor-left")
+              (niri-action-r "Ctrl+s" "M: Move WS down" "move-workspace-to-monitor-down")
+              (niri-action-r "Ctrl+d" "M: Move WS right" "move-workspace-to-monitor-right")
+              # Close niri overview without keep_open -> close overview &
+              # which-key at the same time
+              (niri-action cfg.overview-key "Close overview" "close-overview")
             ];
           }
         ];
