@@ -290,6 +290,10 @@ in
             focus-ring.enable = false;
           }
           {
+            matches = [ { at-startup = true; } ];
+            open-focused = false;
+          }
+          {
             matches = [ { app-id = "XEyes"; } ];
             open-floating = true;
             open-focused = false;
