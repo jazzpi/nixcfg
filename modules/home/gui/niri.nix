@@ -400,6 +400,8 @@ in
               # Close niri overview without keep_open -> close overview &
               # which-key at the same time
               (niri-action cfg.overview-key "Close overview" "close-overview")
+              (niri-action "Return" "Close overview" "close-overview")
+              (niri-action "Escape" "Close overview" "close-overview")
             ];
           }
         ];
