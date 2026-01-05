@@ -95,17 +95,7 @@ fi
 
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
-    # The flake specifies substituters (cachix) in the nixConfig. However,
-    # `nix build` will ignore that when called by a non-trusted user. We could
-    # add our user to the trusted users, but if we do that in the flake, then
-    # it won't work on the first build. So on the first build, we'd need to
-    # compile Hyprland from scratch instead of it being fetched from Cachix.
-    # Instead, we run the build as root, and specify -R to make nh accept being
-    # run as root.
-    # This doesn't work with the home-manager build of course, but as long as
-    # we've built the system before, nix.settings should contain the right
-    # substituters/trusted keys.
-    sudo nh os switch -R "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
+    nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
 fi
 
 if [ "$BUILD_HOME" = true ]; then
