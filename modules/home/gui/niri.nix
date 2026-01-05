@@ -10,7 +10,7 @@ let
   cfg = config.j.gui.niri;
   invertGradient =
     color:
-    if color.gradient != null then
+    if (hasAttr "gradient" color) then
       recursiveUpdate color {
         gradient.angle = -color.gradient.angle;
       }
@@ -25,8 +25,8 @@ in
         description = "Color for active windows.";
         default = {
           gradient = {
-            from = "#dc3faaff";
-            to = "#0fbabaff";
+            from = "#b94900";
+            to = "#6f249f";
             angle = 45;
             in' = "oklch shorter hue";
           };
@@ -36,12 +36,7 @@ in
         type = types.attrs;
         description = "Color for inactive windows.";
         default = {
-          gradient = {
-            from = "#745575ff";
-            to = "#7c4958ff";
-            angle = 45;
-            in' = "oklch shorter hue";
-          };
+          color = "#606060";
         };
       };
       urgent = mkOption {
