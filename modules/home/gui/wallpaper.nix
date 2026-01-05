@@ -2,6 +2,7 @@
   lib,
   config,
   inputs,
+  pkgs,
   host,
   paths,
   templateFile,
@@ -22,7 +23,23 @@ in
       wpaperd = mkOption {
         type = types.package;
         description = "wpaperd package";
-        default = inputs.wpaperd.packages.${host.arch}.wpaperd;
+        # FIXME: Remove override when the changes are upstreamed
+        # I used the repo's flake previously, but that doesn't run on jasper-gos
+        # (Failed to get EGL display during initialization).
+        default = pkgs.wpaperd.overrideAttrs (oldAttrs: rec {
+          version = "1.2.3";
+          src = pkgs.fetchFromGitHub {
+            owner = "jazzpi";
+            repo = "wpaperd";
+            tag = null;
+            rev = "jasper-dev";
+            hash = "sha256-2nYIb8aVFZss//aC5ao/WB/4hxMEjewfXOWR6+pZ4Lg=";
+          };
+          cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+            inherit src;
+            hash = "sha256-Vz5x9V+q5OwRR/GdiM/kEEfENSQ+KyN3DKM35NHuzAk=";
+          };
+        });
       };
       extra-wallpapers = mkOption {
         type = types.attrsOf types.str;
