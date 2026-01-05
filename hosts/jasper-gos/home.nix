@@ -44,7 +44,7 @@
             position = "0,0";
           }
           {
-            criteria = "ODY i27 0000000000001";
+            criteria = "PNP(ODY) i27 0000000000001";
             scale = 1.0;
             mode = "1920x1080";
             position = "1920,0";
