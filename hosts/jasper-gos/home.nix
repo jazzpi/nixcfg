@@ -94,18 +94,22 @@
     ];
   };
 
-  home.packages = with pkgs; [
-    libreoffice-qt-fresh
-    stm32cubemx
-    obs-studio
-    openocd
-    minicom
-    pkgs-stable.kicad
-    freecad
-    distrobox
-    mumble
-    inkscape
-  ];
+  home.packages =
+    (with pkgs; [
+      libreoffice-qt-fresh
+      stm32cubemx
+      obs-studio
+      openocd
+      pkgs-stable.kicad
+      freecad
+      distrobox
+      mumble
+      inkscape
+    ])
+    ++ (with pkgs-stable; [
+      # Minicom depends on lrzsz, which seems to be broken in unstable
+      minicom
+    ]);
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
 }
