@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-stable,
   lib,
   host,
   ...
@@ -21,18 +22,21 @@
       "kvm"
     ];
 
-    environment.systemPackages = with pkgs; [
-      virt-manager
-      virt-viewer
-      spice
-      spice-gtk
-      spice-protocol
-      virtio-win
-      win-spice
-      adwaita-icon-theme
-      quickemu
-      samba
-    ];
+    environment.systemPackages =
+      (with pkgs; [
+        virt-manager
+        virt-viewer
+        spice
+        spice-gtk
+        spice-protocol
+        win-spice
+        adwaita-icon-theme
+        quickemu
+        samba
+      ])
+      ++ (with pkgs-stable; [
+        virtio-win
+      ]);
 
     virtualisation = {
       libvirtd = {
