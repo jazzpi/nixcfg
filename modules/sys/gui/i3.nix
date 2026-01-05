@@ -6,7 +6,7 @@
 }:
 {
   config = lib.mkIf config.j.gui.i3.enable {
-    environment.xfce.excludePackages = with pkgs.xfce; [
+    environment.xfce.excludePackages = with pkgs; [
       mousepad
       parole
       ristretto

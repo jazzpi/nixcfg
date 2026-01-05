@@ -72,13 +72,14 @@
       kicad
       stm32cubemx
       gimp3-with-plugins
-      freecad
       distrobox
       ckan
       bottles
     ])
     ++ (with pkgs-stable; [
-      # Minicom depends on lrzsz, which seems to be broken in unstable
+      # These (or their dependencies) seem to be broken in unstable
+      # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
+      freecad
     ]);
 }
