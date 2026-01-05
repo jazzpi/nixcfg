@@ -232,6 +232,11 @@ in
             };
           };
         };
+        gestures = {
+          hot-corners = {
+            enable = false;
+          };
+        };
         layout = {
           empty-workspace-above-first = true;
           gaps = 8;
