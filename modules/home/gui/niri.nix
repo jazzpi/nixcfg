@@ -57,6 +57,11 @@ in
       description = "Keybinding to open the Niri overview (with which-key).";
       default = "Tab";
     };
+    im-workspace = mkOption {
+      type = types.str;
+      description = "Name of the workspace to use for (instant) messaging apps.";
+      default = "M";
+    };
   };
   config = mkIf cfg.enable {
     # Requirements
@@ -217,6 +222,11 @@ in
           };
           "Mod+Ctrl+u".action.move-workspace-down = { };
           "Mod+Ctrl+i".action.move-workspace-up = { };
+          "Mod+m".action.focus-workspace = cfg.im-workspace;
+          "Mod+Shift+m".action.move-column-to-workspace = [
+            cfg.im-workspace
+            { focus = false; }
+          ];
         };
         # TODO: Named workspaces (IM, Spotify?)
         input = {
@@ -237,6 +247,7 @@ in
             enable = false;
           };
         };
+        workspaces.${cfg.im-workspace} = { };
         layout = {
           empty-workspace-above-first = true;
           gaps = 8;
@@ -297,6 +308,10 @@ in
           {
             matches = [ { app-id = "^qalculate"; } ];
             open-floating = true;
+          }
+          {
+            matches = [ { app-id = "^(signal|org\.telegram\.desktop|Slack|discord|thunderbird)"; } ];
+            open-on-workspace = cfg.im-workspace;
           }
         ];
         layer-rules = [
@@ -383,6 +398,8 @@ in
               (niri-action-o "I" "Move to WS up" "move-column-to-workspace-up")
               (niri-action-o "Ctrl+u" "WS: Move down" "move-workspace-down")
               (niri-action-o "Ctrl+i" "WS: Move up" "move-workspace-up")
+              (niri-action-o "m" "WS: Focus IM" "focus-workspace ${cfg.im-workspace}")
+              (niri-action-o "M" "Move to WS IM" "move-column-to-workspace ${cfg.im-workspace}")
               # Monitors
               # For these, keep_open doesn't really work because the overlay
               # will remain on the original monitor. So instead, we re-open the
