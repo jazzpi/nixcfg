@@ -101,14 +101,15 @@
       obs-studio
       openocd
       pkgs-stable.kicad
-      freecad
       distrobox
       mumble
       inkscape
     ])
     ++ (with pkgs-stable; [
-      # Minicom depends on lrzsz, which seems to be broken in unstable
+      # These (or their dependencies) seem to be broken in unstable
+      # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
+      freecad
     ]);
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
