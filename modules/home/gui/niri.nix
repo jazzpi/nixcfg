@@ -259,12 +259,12 @@ in
           };
           tab-indicator = {
             width = 6;
-            gap = 8;
+            gap = 0;
             gaps-between-tabs = 4;
             corner-radius = 2.0;
             # Invert the gradients so the tab indicator pops more.
-            active = invertGradient cfg.theme.active;
-            inactive = invertGradient cfg.theme.inactive;
+            active.color = "#00dbab";
+            inactive.color = "#65638d";
             urgent = invertGradient cfg.theme.urgent;
           };
         };
