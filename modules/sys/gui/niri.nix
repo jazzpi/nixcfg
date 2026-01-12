@@ -16,6 +16,17 @@
         package = pkgs.niri;
       };
 
+      # TODO: Do we need to add xdg-desktop-portal-hyprland to the packages?
+      # TODO: Replace with xdg-desktop-portal-wlr for individual window support?
+      # TODO: Why doesn't this work if we configure it in the HM module?
+      xdg.portal = {
+        enable = true;
+        config.niri.default = [
+          "hyprland"
+          "gnome"
+        ];
+      };
+
       j.gui.uwsm = {
         enable = true;
         compositors = {

@@ -426,8 +426,7 @@ in
         ];
       };
 
-    # The niri module sets this to true. The hyprland module sets it to false,
-    # since we set wayland.windowManager.hyprland.portalPackage to null.
+    # We configure this in the NixOS module instead
     xdg.portal.enable = mkForce true;
     # TODO: XDG Autostart
     # TODO: additional packages (cf. hyprland config)
