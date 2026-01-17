@@ -36,6 +36,7 @@
       bc
       lsof
       net-tools
+      efibootmgr
     ];
   };
 }
