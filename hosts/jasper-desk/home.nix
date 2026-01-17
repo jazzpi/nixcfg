@@ -48,6 +48,19 @@
         ];
       }
       {
+        profile.name = "desk-dp-only";
+        profile.outputs = [
+          {
+            criteria = "DP-1";
+            position = "400,1080";
+          }
+          {
+            criteria = "DP-2";
+            position = "1920,0";
+          }
+        ];
+      }
+      {
         profile.name = "tv-nomain";
         profile.outputs = [
           {
