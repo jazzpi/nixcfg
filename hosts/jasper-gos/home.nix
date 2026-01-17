@@ -100,7 +100,6 @@
       stm32cubemx
       obs-studio
       openocd
-      pkgs-stable.kicad
       distrobox
       mumble
       inkscape
@@ -110,6 +109,8 @@
       # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
       freecad
+      # Don't wanna rebuild the 3D packages all the time
+      kicad
     ]);
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];

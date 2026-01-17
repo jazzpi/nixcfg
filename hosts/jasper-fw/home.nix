@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 {
   home.stateVersion = "24.11";
 
@@ -11,8 +11,11 @@
   };
   j.gui.gimp.enable = true;
 
-  home.packages = with pkgs; [
-    kicad
-    stm32cubemx
-  ];
+  home.packages =
+    (with pkgs; [
+      stm32cubemx
+    ])
+    ++ (with pkgs-stable; [
+      kicad
+    ]);
 }
