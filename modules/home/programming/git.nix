@@ -10,9 +10,6 @@
     enable = lib.mkEnableOption "Git utilities" // {
       default = config.j.programming.enable;
     };
-    copilot = lib.mkEnableOption "GitHub Copilot CLI" // {
-      default = config.j.programming.enable;
-    };
   };
 
   config = lib.mkIf config.j.programming.git.enable {
@@ -43,15 +40,6 @@
         push.autoSetupRemote = true;
         user.useconfigonly = true;
         init.defaultBranch = "main";
-      };
-    };
-    programs.gh = lib.mkIf config.j.programming.git.copilot {
-      enable = true;
-      extensions = with pkgs; [
-        gh-copilot
-      ];
-      settings.aliases = {
-        s = "copilot suggest -t shell";
       };
     };
   };
