@@ -111,7 +111,10 @@
       freecad
       # Don't wanna rebuild the 3D packages all the time
       kicad
-    ]);
+    ])
+    ++ [
+      (pkgs.callPackage ../../packages/stm32cubeprog { })
+    ];
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
 }
