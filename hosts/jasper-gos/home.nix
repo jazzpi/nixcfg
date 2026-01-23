@@ -91,6 +91,22 @@
           }
         ];
       }
+      {
+        profile.name = "office2";
+        profile.outputs = [
+          {
+            criteria = "Dell Inc. DELL P2723D 7WQZ614";
+            mode = "2560x1440@60Hz";
+            position = "0,0";
+          }
+          {
+            criteria = "eDP-1";
+            scale = 1.25;
+            mode = "1920x1200";
+            position = "2560,240";
+          }
+        ];
+      }
     ];
   };
 
