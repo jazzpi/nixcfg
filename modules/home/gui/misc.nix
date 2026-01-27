@@ -37,6 +37,7 @@
       [
         file-roller
         xeyes
+        evince
       ]
       ++ (lib.optional config.j.gui.qalc.enable qalculate-gtk)
       ++ (lib.optional config.j.gui.nextcloud.enable nextcloud-client)

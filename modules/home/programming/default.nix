@@ -13,6 +13,7 @@
     ./git.nix
     ./direnv.nix
     ./vscode.nix
+    ./emacs.nix
   ];
 
   options.j.programming.enable = lib.mkEnableOption "Programming support" // {
