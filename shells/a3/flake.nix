@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs =
@@ -15,7 +15,7 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-        fhs = pkgs.buildFHSUserEnv {
+        fhs = pkgs.buildFHSEnv {
           name = "a3-shell";
           targetPkgs =
             pkgs: with pkgs; [
