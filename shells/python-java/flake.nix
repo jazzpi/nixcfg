@@ -15,6 +15,16 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+        pythonPackages = with pkgs.python3Packages; [
+          jupyter
+          pip
+          numpy
+          pandas
+          opencv-python
+          scikit-learn
+          matplotlib
+        ];
+        pythonNativeDeps = builtins.concatLists (map (pkg: pkg.buildInputs) pythonPackages);
       in
       with pkgs;
       {
@@ -24,10 +34,9 @@
             mypy
             poetry
             pre-commit
-            python3Packages.jupyter
-            python3Packages.pip
             jdk
-          ];
+          ]
+          ++ pythonNativeDeps;
           hardeningDisable = [ "all" ];
         };
       }

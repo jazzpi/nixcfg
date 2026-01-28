@@ -15,29 +15,28 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-        python = pkgs.python3.withPackages (
-          ps: with ps; [
-            jupyter
-            pip
-            numpy
-            pandas
-            opencv-python
-            scikit-learn
-            matplotlib
-          ]
-        );
+        pythonPackages = with pkgs.python3Packages; [
+          jupyter
+          pip
+          numpy
+          pandas
+          opencv-python
+          scikit-learn
+          matplotlib
+        ];
+        pythonNativeDeps = builtins.concatLists (map (pkg: pkg.buildInputs) pythonPackages);
       in
       with pkgs;
       {
         devShells.default = mkShell {
           nativeBuildInputs = [
             uv
-            mypy
             poetry
             pre-commit
-            python
+            python3
             liblxi
-          ];
+          ]
+          ++ pythonNativeDeps;
           hardeningDisable = [ "all" ];
         };
       }
