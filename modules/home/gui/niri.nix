@@ -313,6 +313,12 @@ in
             matches = [ { app-id = "^(signal|org\.telegram\.desktop|Slack|discord|thunderbird)"; } ];
             open-on-workspace = cfg.im-workspace;
           }
+          {
+            # Open file picker portal floating.
+            # TODO: normal windows open floating too. Can we distinguish them?
+            matches = [ { app-id = "org.gnome.Nautilus"; } ];
+            open-floating = true;
+          }
         ];
         layer-rules = [
           {
