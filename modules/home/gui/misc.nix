@@ -36,8 +36,9 @@
       with pkgs;
       [
         file-roller
-        xeyes
-        evince
+        xeyes # Testing if a window is Xwayland
+        evince # Sioyek alternative
+        kdePackages.okular # Filling non-form PDF forms
       ]
       ++ (lib.optional config.j.gui.qalc.enable qalculate-gtk)
       ++ (lib.optional config.j.gui.nextcloud.enable nextcloud-client)
