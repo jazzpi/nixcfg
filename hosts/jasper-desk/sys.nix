@@ -31,4 +31,5 @@
   systemd.services.sshd.wantedBy = lib.mkForce [ ];
 
   services.displayManager.defaultSession = "hyprland-uwsm";
+  services.postgresql.enable = true;
 }
