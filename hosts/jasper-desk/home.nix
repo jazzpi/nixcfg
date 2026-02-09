@@ -40,6 +40,7 @@
           {
             criteria = "DP-1";
             position = "400,1080";
+            mode = "3440x1440@100Hz";
           }
           {
             criteria = "DP-2";
