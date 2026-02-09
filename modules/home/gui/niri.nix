@@ -227,6 +227,18 @@ in
             cfg.im-workspace
             { focus = false; }
           ];
+
+          "Mod+o".action.focus-monitor-previous = { };
+          "Mod+p".action.focus-monitor-next = { };
+          # TODO
+          # "Mod+Shift+o".action.move-column-to-monitor-previous = {
+          #   # focus = false;
+          # };
+          # "Mod+Shift+p".action.move-column-to-monitor-next = {
+          #   # focus = false;
+          # };
+          "Mod+Ctrl+o".action.move-workspace-to-monitor-previous = { };
+          "Mod+Ctrl+p".action.move-workspace-to-monitor-next = { };
         };
         # TODO: Named workspaces (IM, Spotify?)
         input = {
