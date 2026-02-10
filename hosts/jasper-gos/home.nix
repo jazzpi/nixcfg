@@ -121,6 +121,7 @@
       distrobox
       mumble
       inkscape
+      empty-epsilon
     ])
     ++ (with pkgs-stable; [
       # These (or their dependencies) seem to be broken in unstable
