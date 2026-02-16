@@ -208,6 +208,9 @@ in
 
           "Mod+r".action.switch-preset-column-width = { };
           "Mod+Shift+r".action.switch-preset-column-width-back = { };
+          "Mod+1".action.set-column-width = "33%";
+          "Mod+2".action.set-column-width = "50%";
+          "Mod+3".action.set-column-width = "66%";
           "Mod+f".action.maximize-column = { };
           "Mod+Shift+f".action.fullscreen-window = { };
           "Mod+Shift+Space".action.toggle-window-floating = { };
