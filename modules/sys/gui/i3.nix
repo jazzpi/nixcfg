@@ -28,8 +28,6 @@
         };
       };
     };
-    services.displayManager = {
-      defaultSession = lib.mkDefault "xfce+i3";
-    };
+    j.gui.displayManager.defaultSession = lib.mkDefault "xfce+i3";
   };
 }

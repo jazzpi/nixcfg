@@ -37,6 +37,7 @@
           };
         };
       };
+      j.gui.displayManager.defaultSession = lib.mkDefault "niri-uwsm";
     })
   ];
 }

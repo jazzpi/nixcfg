@@ -6,6 +6,12 @@
   ...
 }:
 {
+  options.j.gui.displayManager = {
+    defaultSession = lib.mkOption {
+      type = lib.types.str;
+      description = "The default session to use.";
+    };
+  };
   config = lib.mkIf config.j.gui.enable (
     let
       astronaut = (
@@ -18,12 +24,16 @@
       );
     in
     {
-      services.displayManager.sddm = {
+      services.displayManager = {
         enable = true;
-        theme = "sddm-astronaut-theme";
-        extraPackages = [
-          astronaut
-        ];
+        sddm = {
+          enable = true;
+          theme = "sddm-astronaut-theme";
+          extraPackages = [
+            astronaut
+          ];
+          settings.General.DefaultSession = "${config.j.gui.displayManager.defaultSession}.desktop";
+        };
       };
       environment.systemPackages = [
         astronaut
