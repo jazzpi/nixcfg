@@ -1,4 +1,9 @@
-{ pkgs, pkgs-stable, ... }:
+{
+  inputs,
+  pkgs,
+  pkgs-stable,
+  ...
+}:
 {
   home.stateVersion = "24.11";
 
@@ -89,12 +94,19 @@
       ckan
       bottles
     ])
-    ++ (with pkgs-stable; [
-      # cba to rebuild the 3D package every couple weeks
-      kicad
-      # These (or their dependencies) seem to be broken in unstable
-      # see https://github.com/NixOS/nixpkgs/issues/475479
-      minicom
-      freecad
-    ]);
+    ++ (
+      with pkgs-stable;
+      [
+        # cba to rebuild the 3D package every couple weeks
+        kicad
+        # These (or their dependencies) seem to be broken in unstable
+        # see https://github.com/NixOS/nixpkgs/issues/475479
+        minicom
+        freecad
+        obs-studio
+      ]
+      ++ [
+        inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ]
+    );
 }
