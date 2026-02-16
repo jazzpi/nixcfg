@@ -22,9 +22,11 @@
       xdg.portal = {
         enable = true;
         config.niri.default = [
+          "wlr"
           "hyprland"
           "gnome"
         ];
+        configPackages = [ pkgs.xdg-desktop-portal-wlr ];
       };
 
       j.gui.uwsm = {
