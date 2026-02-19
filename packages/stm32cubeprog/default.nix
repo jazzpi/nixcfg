@@ -11,7 +11,7 @@
   libz,
   libkrb5,
   openssl,
-  xorg,
+  libx11,
   icoutils,
   qt6Packages,
   gtk3,
@@ -59,7 +59,7 @@ stdenv.mkDerivation {
     libkrb5
     openssl
     pcsclite
-    xorg.libX11
+    libx11
     qt6Packages.qtbase
     qt6Packages.qtserialport
     qt6Packages.qtwayland

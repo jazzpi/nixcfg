@@ -15,7 +15,7 @@
   config = lib.mkIf config.j.gui.wireshark.enable {
     programs.wireshark = {
       enable = true;
-      package = pkgs.wireshark-qt;
+      package = pkgs.wireshark;
     };
     users.users.${host.user.name}.extraGroups = [ "wireshark" ];
   };
