@@ -231,17 +231,17 @@ in
             { focus = false; }
           ];
 
-          "Mod+o".action.focus-monitor-previous = { };
-          "Mod+p".action.focus-monitor-next = { };
+          "Mod+o".action.focus-monitor-next = { };
+          "Mod+p".action.focus-monitor-previous = { };
           # TODO
-          # "Mod+Shift+o".action.move-column-to-monitor-previous = {
+          # "Mod+Shift+o".action.move-column-to-monitor-next = {
           #   # focus = false;
           # };
-          # "Mod+Shift+p".action.move-column-to-monitor-next = {
+          # "Mod+Shift+p".action.move-column-to-monitor-previous = {
           #   # focus = false;
           # };
-          "Mod+Ctrl+o".action.move-workspace-to-monitor-previous = { };
-          "Mod+Ctrl+p".action.move-workspace-to-monitor-next = { };
+          "Mod+Ctrl+o".action.move-workspace-to-monitor-next = { };
+          "Mod+Ctrl+p".action.move-workspace-to-monitor-previous = { };
         };
         # TODO: Named workspaces (IM, Spotify?)
         input = {
