@@ -57,6 +57,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri.url = "github:sodiboo/niri-flake";
+    rstrf.url = "github:jazzpi/rstrf";
   };
 
   outputs =

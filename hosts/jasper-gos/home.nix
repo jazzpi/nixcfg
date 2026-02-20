@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   pkgs-stable,
   ...
@@ -133,6 +134,7 @@
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
+      inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
