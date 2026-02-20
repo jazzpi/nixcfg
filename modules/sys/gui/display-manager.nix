@@ -26,13 +26,13 @@
     {
       services.displayManager = {
         enable = true;
+        defaultSession = config.j.gui.displayManager.defaultSession;
         sddm = {
           enable = true;
           theme = "sddm-astronaut-theme";
           extraPackages = [
             astronaut
           ];
-          settings.General.DefaultSession = "${config.j.gui.displayManager.defaultSession}.desktop";
         };
       };
       environment.systemPackages = [
