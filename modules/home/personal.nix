@@ -6,6 +6,7 @@
     j.gui.im.telegram.enable = true;
     j.gui.im.signal.enable = true;
     j.gui.im.discord.enable = true;
+    j.gui.im.element.enable = true;
     j.gui.libreoffice.enable = true;
   };
 }

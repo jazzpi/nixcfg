@@ -81,6 +81,13 @@
           exec = "${pkgs.discord}/bin/discord";
           icon = "discord";
         }
+        {
+          name = "Element";
+          configName = "element";
+          pkg = pkgs.element-desktop;
+          exec = "${pkgs.element-desktop}/bin/element-desktop";
+          icon = "element-desktop";
+        }
       ]
     );
 
