@@ -15,6 +15,7 @@
       extraPackages = [
         config.programs.zoxide.package
       ];
+      shellWrapperName = "yy";
     };
     programs.zoxide = {
       enable = true;
