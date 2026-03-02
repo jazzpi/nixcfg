@@ -21,6 +21,8 @@
   j.gui.logic.enable = true;
   j.gui.wireshark.enable = true;
 
+  j.gui.steam.enable = true;
+
   j.udev.limesdr = true;
 
   # Enable SSHD to install it

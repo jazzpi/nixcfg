@@ -124,6 +124,7 @@
       mumble
       inkscape
       empty-epsilon
+      grafanactl
     ])
     ++ (with pkgs-stable; [
       # These (or their dependencies) seem to be broken in unstable
