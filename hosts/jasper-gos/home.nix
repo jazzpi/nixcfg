@@ -20,6 +20,7 @@
   j.gui.gimp.enable = true;
   j.gui.im.telegram.enable = true;
   j.gui.im.element.enable = true;
+  j.gui.keepass.enable = true;
   j.sdr.enable = true;
 
   j.networking.can = true;
@@ -118,7 +119,6 @@
     (with pkgs; [
       libreoffice-qt-fresh
       stm32cubemx
-      obs-studio
       openocd
       distrobox
       mumble
@@ -133,6 +133,7 @@
       freecad
       # Don't wanna rebuild the 3D packages all the time
       kicad
+      obs-studio
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
