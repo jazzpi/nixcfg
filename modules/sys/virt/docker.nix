@@ -27,6 +27,15 @@
           debug = true;
         };
       };
+      daemon.settings = {
+        # Avoid 172.18.0.0/16 range (used by DB's WifiOnICE)
+        default-address-pools = [
+          {
+            base = "172.200.0.0/16";
+            size = 24;
+          }
+        ];
+      };
     };
     users.users.${host.user.name}.extraGroups = lib.mkIf config.j.virt.docker.addToDockerGroup [
       "docker"
