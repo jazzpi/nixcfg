@@ -24,8 +24,9 @@
     self.submodules = true;
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    # TODO: switch to nixpkgs once v0.8 is released
     ashell = {
-      url = "github:jazzpi/ashell/jasper-dev";
+      url = "github:MalpenZibo/ashell";
       # Whenever nixpkgs changes, we have to rebuild all of the Cargo deps
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
