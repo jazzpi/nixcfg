@@ -20,6 +20,7 @@
       package = inputs.ashell.packages.${pkgs.stdenv.hostPlatform.system}.default;
       settings = {
         enable_esc_key = true;
+        layer = "Top";
         modules = {
           left = [
             "Workspaces"
