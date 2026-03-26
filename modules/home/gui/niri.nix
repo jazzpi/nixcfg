@@ -10,46 +10,28 @@ let
   cfg = config.j.gui.niri;
   invertGradient =
     color:
-    if (hasAttr "gradient" color) then
-      recursiveUpdate color {
-        gradient.angle = -color.gradient.angle;
-      }
+    if (match ".*angle=-.*" color) != null then
+      replaceString "angle=-" "angle=" color
     else
-      color;
+      replaceString "angle=" "angle=-" color;
 in
 {
   options.j.gui.niri = {
     theme = {
       active = mkOption {
-        type = types.attrs;
+        type = types.str;
         description = "Color for active windows.";
-        default = {
-          gradient = {
-            from = "#b94900";
-            to = "#6f249f";
-            angle = 45;
-            in' = "oklch shorter hue";
-          };
-        };
+        default = ''gradient from="#b94900" to="#6f249f" angle=45 in="oklch shorter hue"'';
       };
       inactive = mkOption {
-        type = types.attrs;
+        type = types.str;
         description = "Color for inactive windows.";
-        default = {
-          color = "#606060";
-        };
+        default = ''color "#606060"'';
       };
       urgent = mkOption {
-        type = types.attrs;
+        type = types.str;
         description = "Color for urgent windows.";
-        default = {
-          gradient = {
-            from = "#ff0000ff";
-            to = "#ff5500ff";
-            angle = 45;
-            in' = "oklch shorter hue";
-          };
-        };
+        default = ''gradient from="#ff0000ff" to="#ff5500ff" angle=45 in="oklch shorter hue"'';
       };
     };
     overview-key = mkOption {
@@ -96,259 +78,203 @@ in
       wdisplays
     ];
 
-    programs.niri = {
-      enable = true;
-      package = pkgs.niri;
-      settings = {
-        spawn-at-startup = [
-          {
-            argv = [
-              "${pkgs.uwsm}/bin/uwsm"
-              "finalize"
-              "NIRI_SOCKET"
-            ];
-          }
-          { sh = "systemctl --user stop redshift"; }
-          { sh = "systemctl --user start wpaperd@wpaperd-overview.service"; }
-        ];
-        binds = {
-          "Mod+Return".action.spawn = "${getExe pkgs.kitty}";
-          "Mod+d".action.spawn = [
-            "${getExe pkgs.rofi}"
-            "-show"
-            "drun"
-            "-show-icons"
-            "-sort"
-            "-sorting-method"
-            "fzf"
-          ];
+    xdg.configFile."niri/config.kdl".text = ''
+      spawn-sh-at-startup "${pkgs.uwsm}/bin/uwsm finalize NIRI_SOCKET";
+      spawn-sh-at-startup "systemctl --user stop redshift";
+      spawn-sh-at-startup "systemctl --user start wpaperd@wpaperd-overview.service"
 
-          "Mod+Shift+q".action.close-window = { };
+      binds {
+        "Mod+Return" { spawn "${getExe pkgs.kitty}"; }
+        "Mod+d" { spawn-sh "${getExe pkgs.rofi} -show drun -show-icons -sort -sorting-method fzf"; }
 
-          "Mod+x".action.spawn-sh = "${getExe pkgs.wlr-which-key} niri --initial-keys x";
+        "Mod+Shift+q" { close-window; }
 
-          "Mod+${cfg.overview-key}".action.spawn-sh =
-            "niri msg action open-overview && ${getExe pkgs.wlr-which-key} niri --initial-keys ${cfg.overview-key}";
-          "Mod+Shift+Tab".action.spawn-sh =
-            "${getExe pkgs.rofi} -show window -show-icons -sort -sorting-method fzf";
+        "Mod+x" { spawn-sh "${getExe pkgs.wlr-which-key} niri --initial-keys x"; }
 
-          # Screenshots
-          "Mod+Shift+s".action.screenshot = { };
-          "Print".action.screenshot = { };
-          "Mod+Shift+p".action.spawn-sh = "${pkgs.wl-clipboard}/bin/wl-paste -n | ${getExe pkgs.swappy} -f -";
+        "Mod+${cfg.overview-key}" {
+          spawn-sh "niri msg action open-overview && ${getExe pkgs.wlr-which-key} niri --initial-keys ${cfg.overview-key}";
+        }
+        "Mod+Shift+Tab" { spawn-sh "${getExe pkgs.rofi} -show window -show-icons -sort -sorting-method fzf"; }
 
-          # dunstctl
-          "Mod+period".action.spawn = [
-            "${pkgs.dunst}/bin/dunstctl"
-            "close"
-          ];
-          "Mod+Shift+period".action.spawn = [
-            "${pkgs.dunst}/bin/dunstctl"
-            "close-all"
-          ];
-          "Mod+comma".action.spawn = [
-            "${pkgs.dunst}/bin/dunstctl"
-            "history-pop"
-          ];
+        // Screenshots
+        "Mod+Shift+s" { screenshot; }
+        "Print" { screenshot; }
+        "Mod+Shift+v" { spawn-sh "${pkgs.wl-clipboard}/bin/wl-paste -n | ${getExe pkgs.swappy} -f -"; }
 
-          # fn-keys
-          "XF86AudioRaiseVolume".action.spawn = [
-            "${pkgs.pulseaudio}/bin/pactl"
-            "set-sink-volume"
-            "@DEFAULT_SINK@"
-            "+5%"
-          ];
-          "XF86AudioLowerVolume".action.spawn = [
-            "${pkgs.pulseaudio}/bin/pactl"
-            "set-sink-volume"
-            "@DEFAULT_SINK@"
-            "-5%"
-          ];
-          "XF86AudioMute".action.spawn = [
-            "${pkgs.pulseaudio}/bin/pactl"
-            "set-sink-mute"
-            "@DEFAULT_SINK@"
-            "toggle"
-          ];
-          "XF86AudioPlay".action.spawn = [
-            "${pkgs.playerctl}/bin/playerctl"
-            "play-pause"
-          ];
-          "XF86AudioNext".action.spawn = [
-            "${pkgs.playerctl}/bin/playerctl"
-            "next"
-          ];
-          "XF86AudioPrev".action.spawn = [
-            "${pkgs.playerctl}/bin/playerctl"
-            "previous"
-          ];
-          "XF86MonBrightnessUp".action.spawn = [
-            "${pkgs.brightnessctl}/bin/brightnessctl"
-            "s"
-            "+10%"
-          ];
-          "XF86MonBrightnessDown".action.spawn = [
-            "${pkgs.brightnessctl}/bin/brightnessctl"
-            "s"
-            "10%-"
-          ];
-          # TODO: Qalculate scratchpad
-          # see https://github.com/YaLTeR/niri/discussions/329
+        // Notifications
+        "Mod+period" { spawn-sh "${pkgs.dunst}/bin/dunstctl close"; }
+        "Mod+Shift+period" { spawn-sh "${pkgs.dunst}/bin/dunstctl close-all"; }
+        "Mod+comma" { spawn-sh "${pkgs.dunst}/bin/dunstctl history-pop"; }
 
-          "Mod+h".action.focus-column-left = { };
-          "Mod+l".action.focus-column-right = { };
-          "Mod+Shift+h".action.move-column-left = { };
-          "Mod+Shift+l".action.move-column-right = { };
-          "Mod+j".action.focus-window-down = { };
-          "Mod+k".action.focus-window-up = { };
-          "Mod+Shift+j".action.move-window-down = { };
-          "Mod+Shift+k".action.move-window-up = { };
-          "Mod+bracketleft".action.consume-or-expel-window-left = { };
-          "Mod+bracketright".action.consume-or-expel-window-right = { };
+        // fn-keys
+        "XF86AudioRaiseVolume" {
+          spawn-sh "${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
+        }
+        "XF86AudioLowerVolume" {
+          spawn-sh "${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
+        }
+        "XF86AudioMute" {
+          spawn-sh "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        }
+        "XF86AudioPlay" {
+          spawn-sh "${pkgs.playerctl}/bin/playerctl play-pause";
+        }
+        "XF86AudioNext" {
+          spawn-sh "${pkgs.playerctl}/bin/playerctl next";
+        }
+        "XF86AudioPrev" {
+          spawn-sh "${pkgs.playerctl}/bin/playerctl previous";
+        }
+        "XF86MonBrightnessUp" {
+          spawn-sh "${pkgs.brightnessctl}/bin/brightnessctl s +10%";
+        }
+        "XF86MonBrightnessDown" {
+          spawn-sh "${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
+        }
 
-          "Mod+r".action.switch-preset-column-width = { };
-          "Mod+Shift+r".action.switch-preset-column-width-back = { };
-          "Mod+1".action.set-column-width = "33.333%";
-          "Mod+2".action.set-column-width = "50%";
-          "Mod+3".action.set-column-width = "66.667%";
-          "Mod+f".action.maximize-column = { };
-          "Mod+Shift+f".action.fullscreen-window = { };
-          "Mod+Shift+Space".action.toggle-window-floating = { };
+        // TODO: Qalculate scratchpad
+        // see https://github.com/YaLTeR/niri/discussions/329
 
-          "Mod+u".action.focus-workspace-down = { };
-          "Mod+i".action.focus-workspace-up = { };
-          "Mod+Shift+u".action.move-column-to-workspace-down = {
-            focus = false;
-          };
-          "Mod+Shift+i".action.move-column-to-workspace-up = {
-            focus = false;
-          };
-          "Mod+Ctrl+u".action.move-workspace-down = { };
-          "Mod+Ctrl+i".action.move-workspace-up = { };
-          "Mod+m".action.focus-workspace = cfg.im-workspace;
-          "Mod+Shift+m".action.move-column-to-workspace = [
-            cfg.im-workspace
-            { focus = false; }
-          ];
+        "Mod+h" { focus-column-left; }
+        "Mod+l" { focus-column-right; }
+        "Mod+Shift+h" { move-column-left; }
+        "Mod+Shift+l" { move-column-right; }
+        "Mod+j" { focus-window-down; }
+        "Mod+k" { focus-window-up; }
+        "Mod+Shift+j" { move-window-down; }
+        "Mod+Shift+k" { move-window-up; }
+        "Mod+bracketleft" { consume-or-expel-window-left; }
+        "Mod+bracketright" { consume-or-expel-window-right; }
 
-          "Mod+o".action.focus-monitor-next = { };
-          "Mod+p".action.focus-monitor-previous = { };
-          # TODO
-          # "Mod+Shift+o".action.move-column-to-monitor-next = {
-          #   # focus = false;
-          # };
-          # "Mod+Shift+p".action.move-column-to-monitor-previous = {
-          #   # focus = false;
-          # };
-          "Mod+Ctrl+o".action.move-workspace-to-monitor-next = { };
-          "Mod+Ctrl+p".action.move-workspace-to-monitor-previous = { };
-        };
-        # TODO: Named workspaces (IM, Spotify?)
-        input = {
-          focus-follows-mouse = {
-            enable = true;
-            max-scroll-amount = "0%";
-          };
-          keyboard = {
-            numlock = true;
-            xkb = {
-              layout = "us";
-              variant = "altgr-intl";
-            };
-          };
-        };
-        gestures = {
-          hot-corners = {
-            enable = false;
-          };
-        };
-        workspaces.${cfg.im-workspace} = { };
-        layout = {
-          empty-workspace-above-first = true;
-          gaps = 8;
-          focus-ring = {
-            enable = true;
-            width = 4;
-            active = cfg.theme.active;
-            inactive = cfg.theme.inactive;
-          };
-          tab-indicator = {
-            width = 6;
-            gap = 0;
-            gaps-between-tabs = 4;
-            corner-radius = 2.0;
-            # Invert the gradients so the tab indicator pops more.
-            active.color = "#00dbab";
-            inactive.color = "#65638d";
-            urgent = invertGradient cfg.theme.urgent;
-          };
-        };
-        window-rules = [
-          {
-            geometry-corner-radius = {
-              bottom-left = 5.0;
-              bottom-right = 5.0;
-              top-left = 5.0;
-              top-right = 5.0;
-            };
-            clip-to-geometry = true;
-            # Disable border in general, but configure the colors so we don't
-            # have to do that in window rules that enable the border.
-            border = {
-              enable = false;
-              width = 4;
-              active = cfg.theme.active;
-              inactive = cfg.theme.inactive;
-              urgent = cfg.theme.urgent;
-            };
+        "Mod+r" { switch-preset-column-width; }
+        "Mod+Shift+r" { switch-preset-column-width-back; }
+        "Mod+1" { set-column-width "33.333%"; }
+        "Mod+2" { set-column-width "50%"; }
+        "Mod+3" { set-column-width "66.667%"; }
+        "Mod+f" { maximize-column; }
+        "Mod+Shift+f" { fullscreen-window; }
+        "Mod+Shift+Space" { toggle-window-floating; }
+
+        "Mod+u" { focus-workspace-down; }
+        "Mod+i" { focus-workspace-up; }
+        "Mod+Shift+u" { move-column-to-workspace-down focus=false; }
+        "Mod+Shift+i" { move-column-to-workspace-up focus=false; }
+        "Mod+Ctrl+u" { move-workspace-down; }
+        "Mod+Ctrl+i" { move-workspace-up; }
+        "Mod+m" { focus-workspace "${cfg.im-workspace}"; }
+        "Mod+Shift+m" { move-column-to-workspace "${cfg.im-workspace}" focus=false; }
+
+        "Mod+o" { focus-monitor-next; }
+        "Mod+p" { focus-monitor-previous; }
+        "Mod+Shift+o" { move-column-to-monitor-next; }
+        "Mod+Shift+p" { move-column-to-monitor-previous; }
+        "Mod+Ctrl+o" { move-workspace-to-monitor-next; }
+        "Mod+Ctrl+p" { move-workspace-to-monitor-previous; }
+      }
+
+      input {
+        focus-follows-mouse max-scroll-amount="0%"
+        keyboard {
+          numlock
+          xkb {
+            layout "us"
+            variant "altgr-intl"
           }
-          {
-            matches = [ { is-urgent = true; } ];
-            border.enable = true;
-          }
-          {
-            matches = [ { is-floating = true; } ];
-            border.enable = true;
-            focus-ring.enable = false;
-          }
-          {
-            matches = [ { at-startup = true; } ];
-            open-focused = false;
-          }
-          {
-            matches = [ { app-id = "XEyes"; } ];
-            open-floating = true;
-            open-focused = false;
-          }
-          {
-            matches = [ { app-id = "^qalculate"; } ];
-            open-floating = true;
-          }
-          {
-            matches = [ { app-id = "^(signal|org\.telegram\.desktop|Slack|discord|thunderbird)"; } ];
-            open-on-workspace = cfg.im-workspace;
-          }
-          {
-            # Open file picker portal floating.
-            # TODO: normal windows open floating too. Can we distinguish them?
-            matches = [ { app-id = "org.gnome.Nautilus"; } ];
-            open-floating = true;
-          }
-        ];
-        layer-rules = [
-          {
-            matches = [ { namespace = "^wpaperd-overview"; } ];
-            place-within-backdrop = true;
-          }
-        ];
-        prefer-no-csd = true;
-        hotkey-overlay.skip-at-startup = true;
-        xwayland-satellite = {
-          enable = true;
-          path = getExe pkgs.xwayland-satellite;
-        };
-      };
-    };
+        }
+      }
+
+      gestures {
+        hot-corners { off; }
+      }
+
+      workspace "${cfg.im-workspace}"
+
+      layout {
+        empty-workspace-above-first
+        gaps 8
+        focus-ring {
+          on
+          width 4
+          active-${cfg.theme.active}
+          inactive-${cfg.theme.inactive}
+        }
+        tab-indicator {
+          width 6
+          gap 0
+          gaps-between-tabs 4
+          corner-radius 2.0
+          active-color "#00dbab"
+          inactive-color "#65638d"
+          urgent-${invertGradient cfg.theme.urgent}
+        }
+      }
+
+      window-rule {
+        geometry-corner-radius 5
+        clip-to-geometry true
+        // Disable border in general, but configure the colors so we don't have
+        // to do that in window rules that enable the border.
+        border {
+          off
+          width 4
+          active-${cfg.theme.active}
+          inactive-${cfg.theme.inactive}
+          urgent-${cfg.theme.urgent}
+        }
+      }
+
+      window-rule {
+        match is-urgent=true
+        border { on; }
+      }
+
+      window-rule {
+        match is-floating=true
+        border { on; }
+        focus-ring { off; }
+      }
+
+      window-rule {
+        match at-startup=true
+        open-focused false
+      }
+
+      window-rule {
+        match app-id="XEyes"
+        open-floating true
+        open-focused false
+      }
+
+      window-rule {
+        match app-id=r#"^qalculate"#
+        open-floating true
+      }
+
+      window-rule {
+        match app-id=r#"^(signal|org\.telegram\.desktop|Slack|discord|thunderbird)"#
+        open-on-workspace "${cfg.im-workspace}"
+      }
+
+      window-rule {
+        // Open file picker portal floating.
+        // TODO: normal windows open floating too. Can we distinguish them?
+        match app-id="org.gnome.Nautilus"
+        open-floating true
+      }
+
+      layer-rule {
+        match namespace=r#"^wpaperd-overview"#
+        place-within-backdrop true
+      }
+
+      prefer-no-csd
+      hotkey-overlay {
+        skip-at-startup
+      }
+      xwayland-satellite {
+        path "${getExe pkgs.xwayland-satellite}"
+      }
+    '';
 
     xdg.configFile."wlr-which-key/niri.yaml".text =
       let
@@ -448,7 +374,7 @@ in
       };
 
     # We configure this in the NixOS module instead
-    xdg.portal.enable = mkForce true;
+    # xdg.portal.enable = mkForce true;
     # TODO: XDG Autostart
     # TODO: additional packages (cf. hyprland config)
     # TODO: kanshi
