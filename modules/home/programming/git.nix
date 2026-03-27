@@ -41,6 +41,7 @@
         user.useconfigonly = true;
         init.defaultBranch = "main";
       };
+      signing.format = null;
     };
   };
 }

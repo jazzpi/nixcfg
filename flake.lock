@@ -42,11 +42,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1773950171,
-        "narHash": "sha256-Vw3ORkDHTX5WvtzCuQmu5AYF0f3xKAQItZxP4FTh7GM=",
+        "lastModified": 1774554557,
+        "narHash": "sha256-2UWlb17OerTTH38q0WZVMRpUBWTdv2KYSBE10YuoBHw=",
         "owner": "MalpenZibo",
         "repo": "ashell",
-        "rev": "90fccb5f2ac675fb56f0bea254eab8ac5f213f22",
+        "rev": "96d1c8a4b91b58b4a0105e5980948bd9fd81815c",
         "type": "github"
       },
       "original": {
@@ -133,11 +133,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774135471,
-        "narHash": "sha256-TVeIGOxnfSPM6JvkRkXHpJECnj1OG2dXkWMSA4elzzQ=",
+        "lastModified": 1774584114,
+        "narHash": "sha256-uWR9fC+4NykFJVn4GN4Ini9LX+w8Llj7BnWKKp0N6bw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "856b01ebd1de3f53c3929ce8082d9d67d799d816",
+        "rev": "4b1be5c38be350ee9452a4847945ce71d950dc31",
         "type": "github"
       },
       "original": {
@@ -516,11 +516,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1773964973,
-        "narHash": "sha256-NV/J+tTER0P5iJhUDL/8HO5MDjDceLQPRUYgdmy5wXw=",
+        "lastModified": 1774388614,
+        "narHash": "sha256-tFwzTI0DdDzovdE9+Ras6CUss0yn8P9XV4Ja6RjA+nU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "812b3986fd1568f7a858f97fcf425ad996ba7d25",
+        "rev": "1073dad219cb244572b74da2b20c7fe39cb3fa9e",
         "type": "github"
       },
       "original": {
@@ -532,11 +532,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1773821835,
-        "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
+        "lastModified": 1774386573,
+        "narHash": "sha256-4hAV26quOxdC6iyG7kYaZcM3VOskcPUrdCQd/nx8obc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
+        "rev": "46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9",
         "type": "github"
       },
       "original": {
@@ -604,11 +604,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1771938484,
-        "narHash": "sha256-T/m3GUcKdPkYvBFFHYkvcsESz70r9OAiFsOzvcHxg8c=",
+        "lastModified": 1774431159,
+        "narHash": "sha256-GJhitQ9Ey+oPkO2pNg2lqm5o8CXiQUSbLq+kPZeg1Sk=",
         "owner": "jazzpi",
         "repo": "rstrf",
-        "rev": "5bfd902eb748363702e16f003bf44e87a6d2ff5d",
+        "rev": "ecc357520d19ad6dcf375c59e58f6967ed2ca5ff",
         "type": "github"
       },
       "original": {
