@@ -125,6 +125,9 @@
       inkscape
       empty-epsilon
       grafanactl
+      protonup-qt
+      umu-launcher
+      vlc
     ])
     ++ (with pkgs-stable; [
       # These (or their dependencies) seem to be broken in unstable
