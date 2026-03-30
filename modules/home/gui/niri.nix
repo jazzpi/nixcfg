@@ -181,6 +181,13 @@ in
             variant "altgr-intl"
           }
         }
+        touchpad {
+          natural-scroll
+          scroll-method "two-finger"
+          tap
+          dwt
+          tap-button-map "left-right-middle"
+        }
       }
 
       gestures {
