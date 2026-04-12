@@ -69,6 +69,7 @@ question](https://github.com/hlissner/dotfiles/?tab=readme-ov-file#frequently-as
 
 ```sh
 nix-shell -p nh
+export NIX_CONFIG="experimental-features = nix-command flakes"
 # Rebuild NixOS
 ./rebuild -s HOSTNAME
 # Rebuild home-manager
@@ -89,6 +90,7 @@ and reboot.
 
 ```sh
 nix-shell -p nh
+export NIX_CONFIG="experimental-features = nix-command flakes"
 # Rebuild NixOS
 ./rebuild -s HOSTNAME
 # Rebuild home-manager
