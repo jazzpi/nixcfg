@@ -1,8 +1,8 @@
 { lib, ... }:
 {
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
 
   j.boot.loader = "systemd-boot";
   j.virt.docker.enable = true;
@@ -10,6 +10,7 @@
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
   j.networking.can = true;
+  j.gui.displayManager.defaultSession = "niri-uwsm";
 
   j.gui.logic.enable = true;
   j.gui.wireshark.enable = true;

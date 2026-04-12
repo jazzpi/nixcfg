@@ -18,4 +18,19 @@
     ++ (with pkgs-stable; [
       kicad
     ]);
+
+  services.kanshi = {
+    enable = true;
+    settings = [
+      {
+        profile.name = "undocked";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            scale = 1.2;
+          }
+        ];
+      }
+    ];
+  };
 }
