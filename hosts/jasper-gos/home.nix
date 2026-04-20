@@ -128,14 +128,13 @@
       protonup-qt
       umu-launcher
       vlc
+      kicad
     ])
     ++ (with pkgs-stable; [
       # These (or their dependencies) seem to be broken in unstable
       # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
       freecad
-      # Don't wanna rebuild the 3D packages all the time
-      kicad
       obs-studio
     ])
     ++ [

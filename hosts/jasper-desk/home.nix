@@ -93,12 +93,11 @@
       distrobox
       ckan
       bottles
+      kicad
     ])
     ++ (
       with pkgs-stable;
       [
-        # cba to rebuild the 3D package every couple weeks
-        kicad
         # These (or their dependencies) seem to be broken in unstable
         # see https://github.com/NixOS/nixpkgs/issues/475479
         minicom

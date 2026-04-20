@@ -11,13 +11,15 @@
   };
   j.gui.gimp.enable = true;
 
-  home.packages =
-    (with pkgs; [
+  home.packages = (
+    with pkgs;
+    [
       stm32cubemx
-    ])
-    ++ (with pkgs-stable; [
       kicad
-    ]);
+      # ])
+      # ++ (with pkgs-stable; [
+    ]
+  );
 
   services.kanshi = {
     enable = true;
