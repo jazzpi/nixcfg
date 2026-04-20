@@ -153,6 +153,7 @@ in
         "Mod+3" { set-column-width "66.667%"; }
         "Mod+f" { maximize-column; }
         "Mod+Shift+f" { fullscreen-window; }
+        "Mod+Ctrl+f" { toggle-windowed-fullscreen; }
         "Mod+Shift+Space" { toggle-window-floating; }
 
         "Mod+u" { focus-workspace-down; }
