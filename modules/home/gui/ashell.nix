@@ -35,14 +35,14 @@
             "Tray"
             [
               "Settings"
-              "Clock"
+              "Tempo"
             ]
           ];
         };
         workspaces = {
           visibility_mode = "MonitorSpecific";
         };
-        clock.format = "%F %H:%M:%S";
+        tempo.clock_format = "%F %H:%M:%S";
         system_info = {
           indicators = [
             "Cpu"
