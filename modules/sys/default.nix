@@ -1,6 +1,7 @@
 {
   lib,
   host,
+  pkgs,
   ...
 }:
 {
@@ -66,5 +67,10 @@
 
     services.orca.enable = false;
     services.speechd.enable = false;
+
+    # Disable coredumps
+    boot.kernel.sysctl = {
+      "kernel.core_pattern" = "|/${pkgs.coreutils}/bin/false";
+    };
   };
 }
