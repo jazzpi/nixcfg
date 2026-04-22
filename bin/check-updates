@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FLAKE_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+cp "$FLAKE_DIR/flake.nix" "$TMP_DIR/"
+cp "$FLAKE_DIR/flake.lock" "$TMP_DIR/"
+
+nix flake update --flake "$TMP_DIR" 2>&1 |
+    awk '
+    /Updated input/ {
+        match($0, /'"'"'([^'"'"']+)'"'"'/, a)
+        name = a[1]
+    }
+    /\(20[0-9-]+\)/ && !/→/ {
+        match($0, /\(([0-9-]+)\)/, d)
+        current_date = d[1]
+    }
+    /→.*\(20[0-9-]+\)/ {
+        match($0, /\(([0-9-]+)\)/, d)
+        print name, current_date, "->", d[1]
+    }
+    '

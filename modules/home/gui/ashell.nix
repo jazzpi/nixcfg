@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  paths,
   pkgs,
   ...
 }:
@@ -31,18 +32,39 @@
           ];
           right = [
             "Privacy"
-            "SystemInfo"
+            "Updates"
             "Tray"
             [
+              "SystemInfo"
               "Settings"
-              "Tempo"
             ]
+            "Tempo"
           ];
         };
         workspaces = {
           visibility_mode = "MonitorSpecific";
         };
-        tempo.clock_format = "%F %H:%M:%S";
+        tempo = {
+          formats = [
+            "%H:%M"
+            "%F %H:%M:%S"
+          ];
+          weather_location =
+            let
+              loc = config.j.location;
+            in
+            if loc.provider == "geoclue2" then
+              "Current"
+            else if loc.provider == "manual" then
+              {
+                Coordinates = [
+                  loc.latitude
+                  loc.longitude
+                ];
+              }
+            else
+              null;
+        };
         system_info = {
           indicators = [
             "Cpu"
@@ -68,6 +90,10 @@
         appearance = {
           font_name = "Meslo LG S DZ";
           # scale_factor = 1.1;
+        };
+        updates = {
+          check_cmd = "${paths.repo.bin}/check-updates";
+          update_cmd = "${pkgs.coreutils}/bin/false";
         };
       };
       systemd = {
