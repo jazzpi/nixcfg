@@ -21,11 +21,6 @@
   j.gui.wireshark.enable = true;
   j.gui.steam.enable = true;
 
-  j.location = {
-    latitude = 52.5;
-    longitude = 13.1;
-  };
-
   # Enable SSHD to install it
   services.sshd.enable = true;
   # Override the service's wantedBy to prevent it from starting on boot

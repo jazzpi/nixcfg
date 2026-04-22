@@ -1,6 +1,12 @@
 { lib, config, ... }:
 {
   options.j = {
+    location = lib.mkOption {
+      type = with lib.types; attrsOf (either str float);
+      default = {
+        provider = "geoclue2";
+      };
+    };
     personal.enable = lib.mkEnableOption "Personal" // {
       default = false;
     };
