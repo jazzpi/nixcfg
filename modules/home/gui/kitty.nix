@@ -13,7 +13,7 @@
 
   config = lib.mkIf config.j.gui.kitty.enable {
     programs.kitty.enable = true;
-    xdg.configFile."kitty".source = "${paths.store.dots-repo}/kitty";
+    xdg.configFile."kitty/kitty.conf".source = "${paths.store.dots-repo}/kitty/kitty.conf";
     home.sessionVariables = {
       TERMINAL = "kitty";
     };

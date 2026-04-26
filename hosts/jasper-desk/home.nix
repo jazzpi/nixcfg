@@ -92,7 +92,6 @@
       gimp3-with-plugins
       distrobox
       ckan
-      bottles
       kicad
     ])
     ++ (
@@ -103,6 +102,8 @@
         minicom
         freecad
         obs-studio
+        # openldap dependecy broken on unstable
+        bottles
       ]
       ++ [
         inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
