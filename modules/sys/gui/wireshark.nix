@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  pkgs,
+  pkgs-stable,
   host,
   ...
 }:
@@ -15,7 +15,8 @@
   config = lib.mkIf config.j.gui.wireshark.enable {
     programs.wireshark = {
       enable = true;
-      package = pkgs.wireshark;
+      # FIXME: hash mismatch on unstable
+      package = pkgs-stable.wireshark;
     };
     users.users.${host.user.name}.extraGroups = [ "wireshark" ];
   };
