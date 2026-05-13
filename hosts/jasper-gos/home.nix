@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-stable,
+  config,
   ...
 }:
 {
@@ -143,4 +144,6 @@
     ];
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
+
+  programs.firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
 }
