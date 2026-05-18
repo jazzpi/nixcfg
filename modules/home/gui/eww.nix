@@ -33,7 +33,6 @@
   config = lib.mkIf config.j.gui.eww.enable {
     programs.eww = {
       enable = true;
-      enableBashIntegration = true;
       # FIXME: Unstable eww duplicates the bars
       package = pkgs-stable.eww;
     };
@@ -54,9 +53,9 @@
         name = "right-info.yuck";
         template = "${paths.store.dots}/eww/widgets/right-info.mustache.yuck";
         data = {
-          bluetooth = ''${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}'';
-          battery = ''${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}'';
-          backlight = ''${lib.optionalString config.j.gui.eww.backlight "(backlight)"}'';
+          bluetooth = "${lib.optionalString config.j.gui.eww.bluetooth "(bluetooth)"}";
+          battery = "${lib.optionalString config.j.gui.eww.battery.enable "(battery)"}";
+          backlight = "${lib.optionalString config.j.gui.eww.backlight "(backlight)"}";
         };
       }
     );
