@@ -20,5 +20,6 @@
     ./gimp.nix
     ./mime.nix
     ./wallpaper.nix
+    ./calibre.nix
   ];
 }
