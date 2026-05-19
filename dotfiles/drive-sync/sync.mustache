@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 flags=(
-	--drive-export-formats pdf # Export Google Docs/Sheets as PDF in the local copy
     --resilient --recover --max-lock 5m # Avoid needing to --resync after an error
     --check-access                      # Make sure we're syncing the correct directories (with RCLONE_TEST files in each)
     --compare size,modtime,checksum     # Check for changes based on modification time & checksum
     --no-slow-hash                      # Don't compute checksums for local path (only GDrive)
     --filters-file {{filters_file}}
     --conflict-resolve newer --conflict-suffix {DateOnly}-conflict # On conflict: keep newer & rename older to $FILE-$(date)-conflict$n
+    --drive-skip-gdocs
     --fast-list # Combine multiple `list` calls into one API request
 )
 
