@@ -145,6 +145,7 @@ in
         "Mod+Shift+k" { move-window-up; }
         "Mod+bracketleft" { consume-or-expel-window-left; }
         "Mod+bracketright" { consume-or-expel-window-right; }
+        "Mod+w" { toggle-column-tabbed-display; }
 
         "Mod+r" { switch-preset-column-width; }
         "Mod+Shift+r" { switch-preset-column-width-back; }
