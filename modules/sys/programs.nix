@@ -37,6 +37,8 @@
       lsof
       net-tools
       efibootmgr
+      minicom
+      acpi
     ];
   };
 }
