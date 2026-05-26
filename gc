@@ -12,3 +12,6 @@ sudo nix-collect-garbage --delete-older-than "${1}d"
 
 echo "Cleaning up home-manager generations..."
 home-manager expire-generations "-${1} days"
+
+echo "Cleaning up user profile generations..."
+nix-collect-garbage --delete-older-than "${1}d"

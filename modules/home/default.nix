@@ -23,5 +23,11 @@
       username = host.user.name;
       homeDirectory = "/home/${host.user.name}";
     };
+
+    nix.gc = {
+      automatic = true;
+      frequency = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
 }
