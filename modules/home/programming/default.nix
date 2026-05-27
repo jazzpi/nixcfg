@@ -24,6 +24,7 @@
     home.packages = with pkgs; [
       man-pages
       man-pages-posix
+      claude-code
       (templateFile {
         name = "use-dev-flake";
         template = "${paths.store.bin}/use-dev-flake";
