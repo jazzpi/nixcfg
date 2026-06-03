@@ -14,6 +14,7 @@
     ./direnv.nix
     ./vscode.nix
     ./emacs.nix
+    ./llm.nix
   ];
 
   options.j.programming.enable = lib.mkEnableOption "Programming support" // {
@@ -21,10 +22,11 @@
   };
 
   config = lib.mkIf config.j.programming.enable {
+    j.programming.llm.enable = true;
+
     home.packages = with pkgs; [
       man-pages
       man-pages-posix
-      claude-code
       (templateFile {
         name = "use-dev-flake";
         template = "${paths.store.bin}/use-dev-flake";

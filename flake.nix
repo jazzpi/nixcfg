@@ -110,6 +110,7 @@
             assets = "assets";
             wallpapers = "${assets}/wallpapers";
             lib = "util";
+            llm = "llm";
           };
         in
         {
