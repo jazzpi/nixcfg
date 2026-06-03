@@ -189,5 +189,16 @@
         name = "${host.user.name}@${hostname}";
         value = mkHomeConfig (host // { name = hostname; });
       }) hosts;
+      packages.x86_64-linux =
+        let
+          pkgs = mkPkgs { arch = "x86_64-linux"; };
+        in
+        {
+          oscarwatch = pkgs.callPackage ./packages/oscarwatch { };
+          stm32cubeprog = pkgs.callPackage ./packages/stm32cubeprog { };
+          gr-satellites = pkgs.callPackage ./packages/gr-satellites { };
+          thermal-camera-redux = pkgs.callPackage ./packages/thermal-camera-redux { };
+          yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
+        };
     };
 }
