@@ -140,6 +140,7 @@
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
+      (pkgs.callPackage ../../packages/oscarwatch { })
       inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
