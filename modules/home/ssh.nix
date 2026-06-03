@@ -10,9 +10,9 @@
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          setEnv = lib.optionalAttrs config.j.gui.kitty.enable {
+          SetEnv = lib.optionalAttrs config.j.gui.kitty.enable {
             TERM = "xterm-256color";
           };
         };
