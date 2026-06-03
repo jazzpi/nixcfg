@@ -60,14 +60,15 @@ stdenv.mkDerivation rec {
     stdenv.cc.cc.lib
     zlib
     alsa-lib
-  ] ++ runtimeLibs;
+  ]
+  ++ runtimeLibs;
 
   dontBuild = true;
-  dontStrip = true; # GNU strip corrupts .NET PE files (mangles composite R2R machine type 0xfd1d)
+  dontStrip = true; # GNU strip seems to corrupt .NET PE files
 
   autoPatchelfIgnoreMissingDeps = [
     "liblttng-ust.so.0" # .NET tracing provider, not needed at runtime
-    "libjack.so.0" # optional JACK audio backend in portaudio; ALSA is used instead
+    "libjack.so.0" # starts without. I don't know if recording works without it.
   ];
 
   unpackPhase = ''
@@ -111,7 +112,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Amateur satellite tracking application";
     homepage = "https://github.com/magicbug/OscarWatch-Tracker";
-    license = licenses.unfree;
+    license = licenses.agpl3Plus;
     platforms = [ "x86_64-linux" ];
     mainProgram = "oscarwatch";
   };
