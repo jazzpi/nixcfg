@@ -106,5 +106,9 @@
       xdg.autostart.entries = lib.mapAttrsToList (
         name: x: "${config.home.homeDirectory}/.nix-profile/share/applications/${name}.desktop"
       ) (lib.filterAttrs (name: x: x.autostart) enabled);
+      j.gui.mime.defaults = {
+        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
+        "x-scheme-handler/tonsite" = [ "org.telegram.desktop.desktop" ];
+      };
     };
 }

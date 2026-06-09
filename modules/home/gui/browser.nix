@@ -100,5 +100,18 @@ in
     home.packages = with pkgs; [
       chromium
     ];
+
+    j.gui.mime.defaults = lib.genAttrs [
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+      "x-scheme-handler/chrome"
+      "text/html"
+      "application/x-extension-htm"
+      "application/x-extension-html"
+      "application/x-extension-shtml"
+      "application/xhtml+xml"
+      "application/x-extension-xhtml"
+      "application/x-extension-xht"
+    ] (name: [ "firefox.desktop" ]);
   };
 }

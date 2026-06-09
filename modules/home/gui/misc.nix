@@ -49,5 +49,10 @@
         [
           "${pkgs.nextcloud-client}/share/applications/nextcloud.desktop"
         ];
+
+    j.gui.mime.defaults = {
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      "text/plain" = [ "org.gnome.TextEditor.desktop" ];
+    };
   };
 }

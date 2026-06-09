@@ -40,5 +40,6 @@
         '';
       };
     };
+    j.gui.mime.defaults."application/pdf" = [ "sioyek.desktop" ];
   };
 }

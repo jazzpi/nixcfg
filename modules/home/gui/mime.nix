@@ -4,42 +4,29 @@
     enable = lib.mkEnableOption "MIME types" // {
       default = config.j.gui.enable;
     };
-  };
+    defaults = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.listOf lib.types.str);
+      default = { };
+      description = ''
+        Default applications for MIME types.
 
-  config = lib.mkIf config.j.gui.mime.enable {
-    xdg.mimeApps = {
-      enable = true;
-      associations.added = {
-        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
-        "x-scheme-handler/tonsite" = [ "org.telegram.desktop.desktop" ];
-        "text/plain" = [ "org.gnome.TextEditor.desktop" ];
-        "x-scheme-handler/http" = [ "firefox.desktop" ];
-        "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "x-scheme-handler/chrome" = [ "firefox.desktop" ];
-        "text/html" = [ "firefox.desktop" ];
-        "application/x-extension-htm" = [ "firefox.desktop" ];
-        "application/x-extension-html" = [ "firefox.desktop" ];
-        "application/x-extension-shtml" = [ "firefox.desktop" ];
-        "application/xhtml+xml" = [ "firefox.desktop" ];
-        "application/x-extension-xhtml" = [ "firefox.desktop" ];
-        "application/x-extension-xht" = [ "firefox.desktop" ];
-      };
-      defaultApplications = {
-        "application/pdf" = [ "sioyek.desktop" ];
-        "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
-        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
-        "x-scheme-handler/tonsite" = [ "org.telegram.desktop.desktop" ];
-        "x-scheme-handler/http" = [ "firefox.desktop" ];
-        "x-scheme-handler/https" = [ "firefox.desktop" ];
-        "x-scheme-handler/chrome" = [ "firefox.desktop" ];
-        "text/html" = [ "firefox.desktop" ];
-        "application/x-extension-htm" = [ "firefox.desktop" ];
-        "application/x-extension-html" = [ "firefox.desktop" ];
-        "application/x-extension-shtml" = [ "firefox.desktop" ];
-        "application/xhtml+xml" = [ "firefox.desktop" ];
-        "application/x-extension-xhtml" = [ "firefox.desktop" ];
-        "application/x-extension-xht" = [ "firefox.desktop" ];
-      };
+        Keys are MIME types, values are lists of desktop files.
+
+        For each entry, an association is added and the default application is
+        set.
+      '';
     };
   };
+
+  config =
+    let
+      cfg = config.j.gui.mime;
+    in
+    lib.mkIf cfg.enable {
+      xdg.mimeApps = {
+        enable = true;
+        associations.added = cfg.defaults;
+        defaultApplications = cfg.defaults;
+      };
+    };
 }
