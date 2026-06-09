@@ -28,5 +28,11 @@
     xdg.autostart.entries = lib.optionals config.j.gui.thunderbird.autostart [
       "${config.programs.thunderbird.package}/share/applications/thunderbird.desktop"
     ];
+
+    j.gui.mime.defaults = lib.genAttrs [
+      "x-scheme-handler/mailto"
+      "x-scheme-handler/mid"
+      "message/rfc822"
+    ] (name: [ "thunderbird.desktop" ]);
   };
 }
