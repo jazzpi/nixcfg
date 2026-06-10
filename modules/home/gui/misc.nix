@@ -53,6 +53,7 @@
     j.gui.mime.defaults = {
       "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
       "text/plain" = [ "org.gnome.TextEditor.desktop" ];
+      "text/markdown" = [ "org.gnome.TextEditor.desktop" ];
     };
   };
 }
