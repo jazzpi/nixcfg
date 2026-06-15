@@ -566,11 +566,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1780649434,
-        "narHash": "sha256-EHNXKYwJR/BuEN/nVHvWsgV4niuyWhEVv8a0Cny/jvA=",
+        "lastModified": 1781555308,
+        "narHash": "sha256-uxjhYQsBkLqFcwJQmgE7QtmR+GmJv1CRpbS5c0rTrxM=",
         "owner": "jazzpi",
         "repo": "rstrf",
-        "rev": "1be88a1ef42e3548ad617726d0aab76cb6a66dcd",
+        "rev": "eb6f40e28a2f74e1f3339f12c575ed4bd649bba2",
         "type": "github"
       },
       "original": {

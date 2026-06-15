@@ -8,12 +8,15 @@
     ];
     extra-substituters = [
       "https://hyprland.cachix.org"
+      "https://rstrf.cachix.org"
     ];
     extra-trusted-substituters = [
       "https://hyprland.cachix.org"
+      "https://rstrf.cachix.org"
     ];
     extra-trusted-public-keys = [
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "rstrf.cachix.org-1:uxjunq8cQ7mGYWxsPnqK2/lWLm7lP+A8EvQP39yYjFY="
     ];
   };
 
