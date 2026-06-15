@@ -21,5 +21,6 @@
     ./mime.nix
     ./wallpaper.nix
     ./calibre.nix
+    ./zotero.nix
   ];
 }
