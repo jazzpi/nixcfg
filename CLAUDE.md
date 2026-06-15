@@ -54,7 +54,7 @@ All custom options live under the `j.*` namespace, defined in `modules/common/de
 - `paths.store.*` — absolute Nix store paths (use for derivations)
 - `paths.repo.*` — `~/nixcfg/...` paths (use for runtime references)
 
-Keys: `shells`, `dots`, `dots-repo`, `bin`, `pkgs`, `assets`, `wallpapers`, `lib`.
+Keys: `shells`, `dots`, `dots-repo`, `bin`, `pkgs`, `assets`, `wallpapers`, `lib`, `llm`.
 
 ### Templating
 `util/template-file.nix` is a helper that renders Mustache templates at build time using `mustache-go`. Call it as:
@@ -63,8 +63,26 @@ templateFile { name = "foo"; template = <path>; data = { ... }; asBin = true; }
 ```
 The `templateFile` argument is available as a `specialArgs`/`extraSpecialArgs` in both NixOS and home-manager configs.
 
-### dotfiles
+### Custom packages
+`packages/` contains Nix package derivations exposed through the root flake as `packages.x86_64-linux.*`:
+- `oscarwatch` — OscarWatch Tracker package
+- `thermal-camera-redux` — Thermal camera package
+- `yamcs-studio` — YAMCS Studio package
+- `gr-satellites` — GR Satellites package
+- `stm32cubeprog` — STM32CubeProgrammer package
+
+These can be built with `nix build .#<package-name>` or installed via the home-manager config.
+
+### dotfiles, bin, and shells
 `dotfiles/` contains verbatim (and some Mustache-templated) config files. `bin/` contains scripts that are installed into `$PATH` via the home-manager config. `shells/` contains per-language dev-shell flakes used via `use-dev-flake <NAME>` (powered by direnv).
+
+### Claude Code skills
+`llm/skills/` contains custom Claude Code skills configured in this project:
+- `changelog-generator` — Automatically creates user-facing changelogs from git commits
+- `nix-upgrade-fix` — Analyzes nixpkgs/home-manager update warnings and proposes fixes
+- `update-claudemd` — Updates CLAUDE.md based on recent code changes
+
+These are custom extensions to Claude Code's capabilities.
 
 ### `private/` submodule
 `private/` is a git submodule containing sensitive config (SSH hosts, work-specific settings, etc.). It must be initialized before rebuilding: `git submodule update --init --recursive`. The `rebuild` script checks for uninitialized submodules automatically.
