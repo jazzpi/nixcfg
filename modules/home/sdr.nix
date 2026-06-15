@@ -45,6 +45,7 @@ in
           done
         '';
       };
+      strf = pkgs.callPackage "${paths.store.pkgs}/strf" { };
     in
     {
       home.packages = with pkgs; [
@@ -54,6 +55,7 @@ in
         gpredict
         sox
         (writeShellScriptBin "iq-convert" (builtins.readFile "${paths.store.bin}/iq-convert"))
+        strf
       ];
     }
   );
