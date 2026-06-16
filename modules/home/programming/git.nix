@@ -28,6 +28,7 @@
         ".auctex-auto/"
         "__pycache__/"
         ".cache/"
+        ".claude/"
         "compile_commands.json"
         "*.aux"
         "*.fdb_latexmk"
