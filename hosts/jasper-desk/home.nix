@@ -86,6 +86,7 @@
 
   j.gui.drawio.enable = true;
   j.gui.zotero.enable = true;
+  j.gui.obs.enable = true;
   j.sdr.enable = true;
   home.packages =
     (with pkgs; [
@@ -102,7 +103,6 @@
         # see https://github.com/NixOS/nixpkgs/issues/475479
         minicom
         freecad
-        obs-studio
         # openldap dependecy broken on unstable
         bottles
       ]

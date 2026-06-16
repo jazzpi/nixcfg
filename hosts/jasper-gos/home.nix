@@ -22,6 +22,7 @@
   j.gui.im.telegram.enable = true;
   j.gui.im.element.enable = true;
   j.gui.keepass.enable = true;
+  j.gui.obs.enable = true;
   j.sdr.enable = true;
 
   j.networking.can = true;
@@ -136,7 +137,6 @@
       # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
       freecad
-      obs-studio
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
