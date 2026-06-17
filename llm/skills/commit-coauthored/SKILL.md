@@ -17,4 +17,4 @@ Run `git diff --cached` to get the diff of the staged changes.
 
 ### 3. Summarize the changes
 
-Use your context and the diff (in case the user made changes that you don't have context on) to write a concise summary of the changes. Follow project-specific instructions, or default to conventional commits (w/ Angular convention types) style with a concise header (max 80, but try to keep it under 50), an optional body with more details, and a footer with at least BREAKING CHANGE notes & a `Co-authored-by: Claude <model>` line.
+Use your context and the diff (in case the user made changes that you don't have context on) to write a concise summary of the changes. Follow project-specific instructions, or default to conventional commits (w/ Angular convention types) style with a concise header (max 80, but try to keep it under 50), an optional body with more details, and a footer with at least BREAKING CHANGE notes & a `Co-authored-by: Claude MODEL VERSION <noreply@anthropic.com>` line.
