@@ -19,6 +19,7 @@ if ! type nh >/dev/null 2>&1; then
     fatal 'nh is not installed. Run `nix-shell -p nh` to install it temporarily.'
 fi
 
+SWITCH=true
 BUILD_SYSTEM=false
 BUILD_HOME=false
 FLAKE_TAG=""
@@ -40,6 +41,10 @@ while [ $# -gt 0 ]; do
         ;;
     -u | --user)
         BUILD_HOME=true
+        shift
+        ;;
+    -n)
+        SWITCH=false
         shift
         ;;
     -h | --help) usage ;;
@@ -93,9 +98,15 @@ if [ -n "$(git -C "$SCRIPT_PATH" ls-files --others --exclude-standard)" ]; then
     fi
 fi
 
+if [ "$SWITCH" = false ]; then
+    build_cmd="build"
+else
+    build_cmd="switch"
+fi
+
 if [ "$BUILD_SYSTEM" = true ]; then
     echo "Rebuilding NixOS configuration..."
-    nh os switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
+    nh os $build_cmd "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
 fi
 
 if [ "$BUILD_HOME" = true ]; then
@@ -103,5 +114,5 @@ if [ "$BUILD_HOME" = true ]; then
     if [ "$SCRIPT_PATH" != "$HOME/nixcfg" ]; then
         fatal "Repository must be in $HOME/nixcfg"
     fi
-    nh home switch "$SCRIPT_PATH$FLAKE_TAG" $@ -- --no-warn-dirty --accept-flake-config
+    nh home $build_cmd "$SCRIPT_PATH$FLAKE_TAG" $@ -- --no-warn-dirty --accept-flake-config
 fi
