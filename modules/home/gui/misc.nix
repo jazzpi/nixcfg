@@ -39,6 +39,7 @@
         xeyes # Testing if a window is Xwayland
         evince # Sioyek alternative
         kdePackages.okular # Filling non-form PDF forms
+        loupe # Image viewer
       ]
       ++ (lib.optional config.j.gui.qalc.enable qalculate-gtk)
       ++ (lib.optional config.j.gui.nextcloud.enable nextcloud-client)
@@ -54,6 +55,18 @@
       "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
       "text/plain" = [ "org.gnome.TextEditor.desktop" ];
       "text/markdown" = [ "org.gnome.TextEditor.desktop" ];
-    };
+    }
+    // lib.genAttrs [
+      "image/png"
+      "image/jpeg"
+      "image/gif"
+      "image/webp"
+      "image/bmp"
+      "image/tiff"
+      "image/svg+xml"
+      "image/heif"
+      "image/avif"
+      "image/x-icon"
+    ] (name: [ "org.gnome.Loupe.desktop" ]);
   };
 }
