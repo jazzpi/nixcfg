@@ -17,6 +17,7 @@
   j.gui.i3.enable = true;
   j.networking.wireguard = true;
   j.networking.can = true;
+  j.networking.tftp = true;
 
   j.gui.logic.enable = true;
   j.gui.wireshark.enable = true;
