@@ -129,7 +129,6 @@
       grafanactl
       protonup-qt
       umu-launcher
-      vlc
       kicad
     ])
     ++ (with pkgs-stable; [

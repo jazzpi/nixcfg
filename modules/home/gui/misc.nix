@@ -36,6 +36,7 @@
       with pkgs;
       [
         file-roller
+        vlc
         xeyes # Testing if a window is Xwayland
         evince # Sioyek alternative
         kdePackages.okular # Filling non-form PDF forms
