@@ -76,7 +76,10 @@
         systemd.tmpfiles.rules = [ "d /srv/tftp 0777 nobody nogroup -" ];
 
         networking.firewall = {
-          allowedUDPPorts = [ 69 ];
+          allowedUDPPorts = [
+            67
+            69
+          ];
           connectionTrackingModules = [ "tftp" ]; # loads nf_conntrack_tftp
         };
         boot.kernel.sysctl."net.ipv4.conf.all.rp_filter" = 2;
