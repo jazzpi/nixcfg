@@ -96,6 +96,7 @@
       distrobox
       ckan
       kicad
+      stellarium
     ])
     ++ (
       with pkgs-stable;
