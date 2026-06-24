@@ -205,6 +205,7 @@
           yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
           strf = pkgs.callPackage ./packages/strf { };
           stvid = pkgs.callPackage ./packages/stvid { };
+          astroimagej = pkgs.callPackage ./packages/astroimagej { };
         };
     };
 }
