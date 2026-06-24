@@ -39,6 +39,7 @@
       efibootmgr
       minicom
       acpi
+      wget
     ];
   };
 }
