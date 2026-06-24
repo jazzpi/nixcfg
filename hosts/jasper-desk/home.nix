@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-stable,
+  paths,
   ...
 }:
 {
@@ -109,5 +110,6 @@
       ++ [
         inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
       ]
-    );
+    )
+    ++ [ (pkgs.callPackage "${paths.store.pkgs}/stvid" { }) ];
 }

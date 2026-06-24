@@ -204,6 +204,7 @@
           thermal-camera-redux = pkgs.callPackage ./packages/thermal-camera-redux { };
           yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
           strf = pkgs.callPackage ./packages/strf { };
+          stvid = pkgs.callPackage ./packages/stvid { };
         };
     };
 }
