@@ -23,5 +23,6 @@
     ./calibre.nix
     ./zotero.nix
     ./obs.nix
+    ./satobs.nix
   ];
 }

@@ -96,7 +96,6 @@
       distrobox
       ckan
       kicad
-      stellarium
     ])
     ++ (
       with pkgs-stable;
@@ -111,6 +110,5 @@
       ++ [
         inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
       ]
-    )
-    ++ [ (pkgs.callPackage "${paths.store.pkgs}/stvid" { }) ];
+    );
 }
