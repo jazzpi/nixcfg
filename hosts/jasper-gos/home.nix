@@ -24,6 +24,7 @@
   j.gui.keepass.enable = true;
   j.gui.obs.enable = true;
   j.sdr.enable = true;
+  j.gui.satobs.enable = true;
 
   j.networking.can = true;
 

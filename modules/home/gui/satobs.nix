@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  paths,
   ...
 }:
 {
@@ -18,8 +19,8 @@
         gpredict
       ])
       ++ [
-        (pkgs.callPackage "${config.paths.store.pkgs}/stvid" { })
-        (pkgs.callPackage "${config.paths.store.pkgs}/astroimagej" { })
+        (pkgs.callPackage "${paths.store.pkgs}/stvid" { })
+        (pkgs.callPackage "${paths.store.pkgs}/astroimagej" { })
       ];
   };
 }

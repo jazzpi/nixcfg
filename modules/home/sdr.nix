@@ -1,14 +1,11 @@
 {
   config,
-  pkgs-stable,
+  pkgs,
   lib,
   paths,
   ...
 }:
 with lib;
-let
-  pkgs = pkgs-stable;
-in
 {
   options.j.sdr = {
     enable = mkEnableOption "Software Defined Radio" // {

@@ -88,6 +88,7 @@
   j.gui.drawio.enable = true;
   j.gui.zotero.enable = true;
   j.gui.obs.enable = true;
+  j.gui.satobs.enable = true;
   j.sdr.enable = true;
   home.packages =
     (with pkgs; [
