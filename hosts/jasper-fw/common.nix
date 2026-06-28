@@ -3,7 +3,7 @@
     location = {
       provider = "manual";
       latitude = 52.5;
-      longitude = 13.1;
+      longitude = 13.4;
     };
 
     fprint.enable = true;
