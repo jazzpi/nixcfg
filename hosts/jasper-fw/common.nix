@@ -9,6 +9,7 @@
     fprint.enable = true;
     gui.hypr.land.enable = true;
     gui.niri.enable = true;
+    gui.logic.enable = true;
     work.enable = true;
   };
 }

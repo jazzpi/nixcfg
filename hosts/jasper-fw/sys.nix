@@ -12,7 +12,6 @@
   j.networking.can = true;
   j.gui.displayManager.defaultSession = "niri-uwsm";
 
-  j.gui.logic.enable = true;
   j.gui.wireshark.enable = true;
 
   # Enable SSHD to install it
