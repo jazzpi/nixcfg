@@ -98,18 +98,23 @@ if [ -n "$(git -C "$SCRIPT_PATH" ls-files --others --exclude-standard)" ]; then
     fi
 fi
 
-if [ "$SWITCH" = false ]; then
-    build_cmd="build"
-else
-    build_cmd="switch"
-fi
-
 if [ "$BUILD_SYSTEM" = true ]; then
+    if [ "$SWITCH" = false ]; then
+        build_cmd="boot"
+    else
+        build_cmd="switch"
+    fi
+
     echo "Rebuilding NixOS configuration..."
     nh os $build_cmd "$SCRIPT_PATH$FLAKE_TAG" $@ -- --impure --no-warn-dirty --accept-flake-config
 fi
 
 if [ "$BUILD_HOME" = true ]; then
+    if [ "$SWITCH" = false ]; then
+        build_cmd="build"
+    else
+        build_cmd="switch"
+    fi
     echo "Rebuilding home-manager configuration..."
     if [ "$SCRIPT_PATH" != "$HOME/nixcfg" ]; then
         fatal "Repository must be in $HOME/nixcfg"
