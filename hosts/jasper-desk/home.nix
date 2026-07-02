@@ -2,11 +2,12 @@
   inputs,
   pkgs,
   pkgs-stable,
-  paths,
+  config,
   ...
 }:
 {
   home.stateVersion = "24.11";
+  programs.firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
 
   j.personal.enable = true;
   j.gui.firefox.defaultProfile = "personal";
