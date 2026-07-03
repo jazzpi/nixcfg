@@ -9,14 +9,17 @@
     extra-substituters = [
       "https://hyprland.cachix.org"
       "https://rstrf.cachix.org"
+      "https://cache.numtide.com"
     ];
     extra-trusted-substituters = [
       "https://hyprland.cachix.org"
       "https://rstrf.cachix.org"
+      "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "rstrf.cachix.org-1:uxjunq8cQ7mGYWxsPnqK2/lWLm7lP+A8EvQP39yYjFY="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 
@@ -58,6 +61,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rstrf.url = "github:jazzpi/rstrf";
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =

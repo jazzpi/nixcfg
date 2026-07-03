@@ -15,6 +15,8 @@
     home.packages = with pkgs; [
       font-awesome_5
       meslo-lg
+      powerline-fonts
     ];
+    fonts.fontconfig.enable = true;
   };
 }
