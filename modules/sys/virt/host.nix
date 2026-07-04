@@ -24,7 +24,6 @@
 
     environment.systemPackages =
       (with pkgs; [
-        virt-manager
         virt-viewer
         spice
         spice-gtk
@@ -37,6 +36,8 @@
       ++ (with pkgs-stable; [
         virtio-win
       ]);
+
+    programs.virt-manager.enable = true;
 
     virtualisation = {
       libvirtd = {
