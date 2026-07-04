@@ -84,6 +84,9 @@ These can be built with `nix build .#<package-name>` or installed via the home-m
 
 These are custom extensions to Claude Code's capabilities.
 
+### Claude Code config: declarative only
+**Never configure Claude Code imperatively** — no `claude plugin install`, `claude plugin marketplace add`, hand-editing `~/.claude/settings.json`, etc. All persistent Claude Code configuration (plugins, marketplaces, MCP servers, skills, settings) is managed declaratively through `modules/home/programming/llm.nix`, then applied via `./rebuild -u`.
+
 ### Nix research agents & knowledge base
 `modules/home/programming/llm.nix` wires up tooling for editing this config:
 - **`mcp-nixos`** MCP server — fast search of NixOS/home-manager options and nixpkgs

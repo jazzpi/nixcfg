@@ -1,0 +1,18 @@
+{
+  "marketplaces": {
+    "claude-plugins-official": {
+      "owner": "anthropics",
+      "repo": "claude-plugins-official",
+      "rev": "8326199c6ec61fdcece33199b61bdaa4f9ae1570",
+      "hash": "sha256-yqeSnCGovv/6gbvukFuMzp1VGqXNVCLx59BY7FgWLFE="
+    }
+  },
+  "plugins": {
+    "superpowers": {
+      "owner": "obra",
+      "repo": "superpowers",
+      "rev": "d884ae04edebef577e82ff7c4e143debd0bbec99",
+      "hash": "sha256-kHdQ9e44doBk2yYW88tMSCqVG8ycYcvJSZlrIziXhpA="
+    }
+  }
+}

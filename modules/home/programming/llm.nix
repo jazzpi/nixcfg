@@ -51,6 +51,24 @@ with lib;
           knowledgeDir = "${knowledgeDir}/nixpkgs";
         };
       };
+
+      # rev/hash pins refreshed by `./update-claude-plugins` (wired into `./update`).
+      claudePlugins = builtins.fromJSON (builtins.readFile "${paths.store.llm}/claude-plugins.json");
+      fetchGitHubEntry =
+        {
+          owner,
+          repo,
+          rev,
+          hash,
+        }:
+        pkgs.fetchFromGitHub {
+          inherit
+            owner
+            repo
+            rev
+            hash
+            ;
+        };
     in
     mkIf cfg.enable {
       home.packages = [ llmPkgs.ccstatusline ];
@@ -60,6 +78,10 @@ with lib;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
         agents = researchAgents;
+
+        # Pin data lives in llm/claude-plugins.json (refreshed by ./update-claude-plugins).
+        marketplaces = lib.mapAttrs (name: fetchGitHubEntry) claudePlugins.marketplaces;
+        plugins = lib.mapAttrsToList (name: fetchGitHubEntry) claudePlugins.plugins;
 
         # Options/package search — the cheap path for "does this option exist / what's its
         # type". When the docs are too shallow to implement something, hand off to the
@@ -163,6 +185,15 @@ with lib;
         if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
           cp "$settingsFile" "$settingsFile.pre-hm"
           rm "$settingsFile"
+        fi
+
+        # Claude Code rewrites known_marketplaces.json at runtime (e.g. bumping
+        # lastUpdated), which dereferences the symlink into a plain file. Nix is the
+        # source of truth here (see llm/claude-plugins.json), so just drop the CLI's
+        # copy rather than merging it back.
+        marketplacesFile="${config.programs.claude-code.configDir}/plugins/known_marketplaces.json"
+        if [ -f "$marketplacesFile" ] && [ ! -L "$marketplacesFile" ]; then
+          rm "$marketplacesFile"
         fi
       '';
 

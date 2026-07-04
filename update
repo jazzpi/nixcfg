@@ -4,5 +4,9 @@ set -euo pipefail
 
 SCRIPT_PATH="$(realpath "$(dirname "$(realpath "$0")")")"
 
+echo "Updating flake inputs..."
 nix flake update --accept-flake-config --flake "$SCRIPT_PATH"
+echo "Updating Claude plugins..."
+"$SCRIPT_PATH/update-claude-plugins"
+echo "Rebuilding..."
 "$SCRIPT_PATH/rebuild" -s -u "$@"

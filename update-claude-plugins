@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Refreshes the pinned rev/hash for each entry in llm/claude-plugins.json against
+# the latest commit on GitHub. Read declaratively by modules/home/programming/llm.nix.
+
+set -euo pipefail
+
+SCRIPT_PATH="$(realpath "$(dirname "$(realpath "$0")")")"
+FILE="$SCRIPT_PATH/llm/claude-plugins.json"
+
+json="$(cat "$FILE")"
+
+for section in marketplaces plugins; do
+    for name in $(jq -r --arg s "$section" '.[$s] | keys[]' <<<"$json"); do
+        owner="$(jq -r --arg s "$section" --arg n "$name" '.[$s][$n].owner' <<<"$json")"
+        repo="$(jq -r --arg s "$section" --arg n "$name" '.[$s][$n].repo' <<<"$json")"
+        echo "Updating ${section}.${name} (${owner}/${repo})..." >&2
+        prefetch="$(nix run nixpkgs#nix-prefetch-github -- "$owner" "$repo")"
+        rev="$(jq -r '.rev' <<<"$prefetch")"
+        hash="$(jq -r '.hash' <<<"$prefetch")"
+        json="$(jq --arg s "$section" --arg n "$name" --arg rev "$rev" --arg hash "$hash" \
+            '.[$s][$n].rev = $rev | .[$s][$n].hash = $hash' <<<"$json")"
+    done
+done
+
+jq . <<<"$json" >"$FILE"
