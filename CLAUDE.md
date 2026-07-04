@@ -84,6 +84,21 @@ These can be built with `nix build .#<package-name>` or installed via the home-m
 
 These are custom extensions to Claude Code's capabilities.
 
+### Nix research agents & knowledge base
+`modules/home/programming/llm.nix` wires up tooling for editing this config:
+- **`mcp-nixos`** MCP server — fast search of NixOS/home-manager options and nixpkgs
+  packages. Use it for the common case: does an option exist, what's its type/description.
+- **`home-manager-researcher` / `nixpkgs-researcher`** subagents (`llm/agents/*.mustache`)
+  — dispatch these for deep dives into the home-manager (`~/dev/home-manager`) or nixpkgs
+  (`~/dev/nixpkgs`) source when option docs are too shallow to implement something.
+- **`llm/knowledge/`** — a git-tracked knowledge base the agents grow over time:
+  `home-manager/` and `nixpkgs/` are written by their respective researchers; `nix/` holds
+  cross-cutting Nix/flake/`lib` semantics and is **maintained by the main agent** (the
+  researchers read it read-only). Read the relevant bucket before researching; every note
+  cites the source rev it was verified against. Additions surface in `git diff` for review.
+
+**Working rule:** When passing a **non-trivial value** (derivation, generated/templated path, structured attrs) to an option, read the option's `config` block — not just its type/description — or dispatch a researcher.
+
 ### `private/` submodule
 `private/` is a git submodule containing sensitive config (SSH hosts, work-specific settings, etc.). It must be initialized before rebuilding: `git submodule update --init --recursive`. The `rebuild` script checks for uninitialized submodules automatically.
 

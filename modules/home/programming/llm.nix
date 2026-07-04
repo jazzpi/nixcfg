@@ -4,6 +4,7 @@
   pkgs,
   inputs,
   paths,
+  templateFile,
   ...
 }:
 with lib;
@@ -16,6 +17,40 @@ with lib;
     let
       cfg = config.j.programming.llm;
       llmPkgs = inputs.llm-agents.packages.${pkgs.system};
+
+      home = config.home.homeDirectory;
+      # Source checkouts the research subagents grep. Read-only; kept as stable clones
+      # (not nix-store inputs, whose paths change on every ./update).
+      nixpkgsSrc = "${home}/dev/nixpkgs";
+      hmSrc = "${home}/dev/home-manager";
+      # Writable, git-tracked knowledge base the researchers append to (see llm/knowledge).
+      knowledgeDir = "${home}/nixcfg/llm/knowledge";
+
+      # The claude-code module's `agents` option only treats a literal `path` as a file
+      # source; a derivation falls through to its `text` branch. So we render with
+      # templateFile and read the result back as a string (IFD).
+      renderAgent =
+        name: data:
+        builtins.readFile (templateFile {
+          name = "${name}.md";
+          template = "${paths.store.llm}/agents/${name}.md.mustache";
+          inherit data;
+        });
+
+      # Shared, read-only substrate of cross-cutting Nix/flake/lib semantics. Owned by the
+      # orchestrator; the research subagents read it but never write to it.
+      nixKnowledgeDir = "${knowledgeDir}/nix";
+
+      researchAgents = {
+        home-manager-researcher = renderAgent "home-manager-researcher" {
+          inherit hmSrc nixKnowledgeDir;
+          knowledgeDir = "${knowledgeDir}/home-manager";
+        };
+        nixpkgs-researcher = renderAgent "nixpkgs-researcher" {
+          inherit nixpkgsSrc nixKnowledgeDir;
+          knowledgeDir = "${knowledgeDir}/nixpkgs";
+        };
+      };
     in
     mkIf cfg.enable {
       home.packages = [ llmPkgs.ccstatusline ];
@@ -24,6 +59,15 @@ with lib;
         enable = true;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
+        agents = researchAgents;
+
+        # Options/package search — the cheap path for "does this option exist / what's its
+        # type". When the docs are too shallow to implement something, hand off to the
+        # home-manager-researcher / nixpkgs-researcher subagents instead.
+        mcpServers.nixos = {
+          type = "stdio";
+          command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+        };
         settings = {
           tui = "fullscreen";
           statusLine = {
