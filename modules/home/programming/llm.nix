@@ -11,6 +11,11 @@ with lib;
 {
   options.j.programming.llm = {
     enable = mkEnableOption "LLM utilities";
+    plugins = mkOption {
+      type = types.listOf types.str;
+      default = [ "superpowers@claude-plugins-official" ];
+      description = "List of Claude Code plugins to install";
+    };
   };
 
   config =
@@ -51,24 +56,6 @@ with lib;
           knowledgeDir = "${knowledgeDir}/nixpkgs";
         };
       };
-
-      # rev/hash pins refreshed by `./update-claude-plugins` (wired into `./update`).
-      claudePlugins = builtins.fromJSON (builtins.readFile "${paths.store.llm}/claude-plugins.json");
-      fetchGitHubEntry =
-        {
-          owner,
-          repo,
-          rev,
-          hash,
-        }:
-        pkgs.fetchFromGitHub {
-          inherit
-            owner
-            repo
-            rev
-            hash
-            ;
-        };
     in
     mkIf cfg.enable {
       home.packages = [ llmPkgs.ccstatusline ];
@@ -78,10 +65,6 @@ with lib;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
         agents = researchAgents;
-
-        # Pin data lives in llm/claude-plugins.json (refreshed by ./update-claude-plugins).
-        marketplaces = lib.mapAttrs (name: fetchGitHubEntry) claudePlugins.marketplaces;
-        plugins = lib.mapAttrsToList (name: fetchGitHubEntry) claudePlugins.plugins;
 
         # Options/package search — the cheap path for "does this option exist / what's its
         # type". When the docs are too shallow to implement something, hand off to the
@@ -173,7 +156,7 @@ with lib;
 
       # Delete the copied files so home-manager can create its symlinks.
       # For settings.json, save the existing file so we can merge it back later.
-      home.activation.prepareClaudeSkills = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+      home.activation.prepareClaude = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
         for skillDir in "${paths.store.llm}/skills"/*/; do
           [ -d "$skillDir" ] || continue
           skillName="$(basename "$skillDir")"
@@ -186,21 +169,27 @@ with lib;
           cp "$settingsFile" "$settingsFile.pre-hm"
           rm "$settingsFile"
         fi
+      '';
 
-        # Claude Code rewrites known_marketplaces.json at runtime (e.g. bumping
-        # lastUpdated), which dereferences the symlink into a plain file. Nix is the
-        # source of truth here (see llm/claude-plugins.json), so just drop the CLI's
-        # copy rather than merging it back.
-        marketplacesFile="${config.programs.claude-code.configDir}/plugins/known_marketplaces.json"
-        if [ -f "$marketplacesFile" ] && [ ! -L "$marketplacesFile" ]; then
-          rm "$marketplacesFile"
-        fi
+      # Plugins loaded via the module's own `plugins`/`marketplaces` options
+      # only show up as session-only (--plugin-dir) and are invisible to any
+      # `claude` invocation that isn't launched through the Nix-wrapped binary
+      # (e.g. inside a devcontainer that mounts ~/.claude but runs its own
+      # claude install).
+      home.activation.installClaudePlugins = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        ${config.programs.claude-code.finalPackage}/bin/claude plugin install superpowers@claude-plugins-official \
+          >/dev/null || echo "Warning: failed to install superpowers Claude Code plugin" >&2
       '';
 
       # Turn the symlinks into full copies.
       # For settings.json, merge the saved user settings with the nix-generated ones
       # (nix wins on conflicting keys), then write back as a regular file.
-      home.activation.dereferenceClaudeSkills = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      home.activation.dereferenceClaude = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+        # home-manager's activation script hardcodes PATH to a minimal toolset that
+        # doesn't include git; `claude plugin install` (below) shells out to a bare
+        # `git` to clone plugin repos, so put it back on PATH for this whole script.
+        export PATH="${lib.makeBinPath [ pkgs.git ]}:$PATH"
+
         find "${config.programs.claude-code.configDir}/skills" -type l 2>/dev/null | \
         while IFS= read -r link; do
           real="$(readlink -f "$link")"
@@ -219,6 +208,10 @@ with lib;
           printf '%s\n' "$merged" > "$settingsFile.new"
           mv "$settingsFile.new" "$settingsFile"
         fi
+
+        for plugin in ${lib.concatStringsSep " " cfg.plugins}; do
+          ${config.programs.claude-code.package}/bin/claude plugin install "$plugin"
+        done
       '';
     };
 }

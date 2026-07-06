@@ -85,7 +85,9 @@ These can be built with `nix build .#<package-name>` or installed via the home-m
 These are custom extensions to Claude Code's capabilities.
 
 ### Claude Code config: declarative only
-**Never configure Claude Code imperatively** — no `claude plugin install`, `claude plugin marketplace add`, hand-editing `~/.claude/settings.json`, etc. All persistent Claude Code configuration (plugins, marketplaces, MCP servers, skills, settings) is managed declaratively through `modules/home/programming/llm.nix`, then applied via `./rebuild -u`.
+**Never configure Claude Code imperatively** — no hand-editing `~/.claude/settings.json`, etc. All persistent Claude Code configuration (MCP servers, skills, settings) is managed declaratively through `modules/home/programming/llm.nix`, then applied via `./rebuild -u`.
+
+Exception: Claude Code plugins are installed by running `claude plugin install` from a `home.activation` hook in `llm.nix`, not via the module's `plugins`/`marketplaces` options. Those options only inject `--plugin-dir` flags into the wrapped `claude` binary, which is invisible to any `claude` invocation that isn't launched through that wrapper (e.g. inside a devcontainer with its own `claude` install) — a real `claude plugin install` persists state under `~/.claude`, which devcontainers do see since they mount that directory. The activation call is idempotent, so this stays declarative in effect even though the mechanism is a CLI invocation.
 
 ### Nix research agents & knowledge base
 `modules/home/programming/llm.nix` wires up tooling for editing this config:
