@@ -33,11 +33,11 @@ in
             repo = "wpaperd";
             tag = null;
             rev = "jasper-dev";
-            hash = "sha256-2nYIb8aVFZss//aC5ao/WB/4hxMEjewfXOWR6+pZ4Lg=";
+            hash = "sha256-zJUcqVVdafSQuZvvWRQ66rya97Tibl83lmdAY3UXNj0=";
           };
           cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
             inherit src;
-            hash = "sha256-Vz5x9V+q5OwRR/GdiM/kEEfENSQ+KyN3DKM35NHuzAk=";
+            hash = "sha256-dfmezhRdnKx53y9ETx2nJrILz/zgu07RuqqmGdRyhdY=";
           };
         });
       };
