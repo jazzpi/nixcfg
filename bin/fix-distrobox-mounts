@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+# Run this as your normal user (NOT under sudo) — distrobox is a per-user
+# home-manager package, so we resolve it from *your* profile. The script escalates
+# with sudo itself for the few steps that touch Docker's state.
+[[ $EUID -ne 0 ]] || { echo "Run as your normal user, not root — sudo is invoked internally."; exit 1; }
+
+CONTAINERS_DIR=/var/lib/docker/containers
+
+# Resolve the current distrobox the same way it is recorded in the container
+# config: via ~/.nix-profile/bin/distrobox-init.
+DISTROBOX_INIT=$(readlink -f "$HOME/.nix-profile/bin/distrobox-init" 2>/dev/null || true)
+[[ -n "$DISTROBOX_INIT" && -e "$DISTROBOX_INIT" ]] \
+    || { echo "distrobox not found in your profile ($HOME/.nix-profile)."; exit 1; }
+
+# Full store-dir name including version, e.g. <hash>-distrobox-1.8.2.5. The
+# version is part of the path, so mounts must be rewritten wholesale — replacing
+# only the hash would leave a stale (nonexistent) version in the path.
+NEW_NAME=$(basename "$(dirname "$(dirname "$DISTROBOX_INIT")")")
+echo "Current distrobox: $NEW_NAME"
+
+echo "Reading container configs (requires sudo)..."
+sudo -v
+
+# Find stale distrobox store-dir names in container configs
+mapfile -t STALE_NAMES < <(
+    sudo grep -rEoh '[a-z0-9]{32}-distrobox-[0-9][0-9.]*' "$CONTAINERS_DIR" 2>/dev/null \
+    | sort -u \
+    | grep -vxF "$NEW_NAME" || true
+)
+
+if [[ ${#STALE_NAMES[@]} -eq 0 ]]; then
+    echo "No stale distrobox mounts found. Nothing to do."
+    exit 0
+fi
+
+echo "Stale mount(s): ${STALE_NAMES[*]}"
+read -rp "Stop Docker and update container configs? [y/N] " confirm
+[[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
+
+sudo systemctl stop docker
+
+for OLD_NAME in "${STALE_NAMES[@]}"; do
+    while IFS= read -r f; do
+        sudo sed -i "s/$OLD_NAME/$NEW_NAME/g" "$f"
+        echo "  updated: $f"
+    done < <(sudo grep -rlF "$OLD_NAME" "$CONTAINERS_DIR" 2>/dev/null || true)
+done
+
+sudo systemctl start docker
+echo "Done."
