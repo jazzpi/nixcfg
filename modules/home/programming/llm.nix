@@ -171,16 +171,6 @@ with lib;
         fi
       '';
 
-      # Plugins loaded via the module's own `plugins`/`marketplaces` options
-      # only show up as session-only (--plugin-dir) and are invisible to any
-      # `claude` invocation that isn't launched through the Nix-wrapped binary
-      # (e.g. inside a devcontainer that mounts ~/.claude but runs its own
-      # claude install).
-      home.activation.installClaudePlugins = lib.hm.dag.entryAfter [ "installPackages" ] ''
-        ${config.programs.claude-code.finalPackage}/bin/claude plugin install superpowers@claude-plugins-official \
-          >/dev/null || echo "Warning: failed to install superpowers Claude Code plugin" >&2
-      '';
-
       # Turn the symlinks into full copies.
       # For settings.json, merge the saved user settings with the nix-generated ones
       # (nix wins on conflicting keys), then write back as a regular file.
@@ -209,8 +199,22 @@ with lib;
           mv "$settingsFile.new" "$settingsFile"
         fi
 
+        # Install Claude Code plugins imperatively rather than via the module's
+        # `plugins`/`marketplaces` options, which only inject session-only
+        # `--plugin-dir` flags into the wrapped binary and are invisible to a
+        # `claude` running inside a devcontainer that mounts ~/.claude but ships
+        # its own install. Refresh each plugin's marketplace first so a stale
+        # local catalog can't fail the install (the failure mode that aborted a
+        # rebuild after `./update` bumped the marketplace), and never let a
+        # plugin hiccup abort activation.
+        claudeBin="${config.programs.claude-code.package}/bin/claude"
         for plugin in ${lib.concatStringsSep " " cfg.plugins}; do
-          ${config.programs.claude-code.package}/bin/claude plugin install "$plugin"
+          marketplace="''${plugin##*@}"
+          if [ "$marketplace" != "$plugin" ]; then
+            "$claudeBin" plugin marketplace update "$marketplace" >/dev/null 2>&1 || true
+          fi
+          "$claudeBin" plugin install "$plugin" >/dev/null \
+            || echo "Warning: failed to install Claude Code plugin $plugin" >&2
         done
       '';
     };
