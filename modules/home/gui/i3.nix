@@ -300,6 +300,7 @@
       swappy
     ];
     home.pointerCursor = {
+      enable = true;
       name = "Vanilla-DMZ";
       package = pkgs.vanilla-dmz;
       size = 40;
