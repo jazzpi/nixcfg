@@ -50,18 +50,19 @@
             scale = 1.0;
             mode = "--custom 1920x1200@55Hz";
             position = "0,0";
+            transform = "270";
           }
           {
             criteria = "PNP(ODY) i27 0000000000001";
             scale = 1.0;
             mode = "1920x1080";
-            position = "1920,0";
+            position = "1200,840";
           }
           {
             criteria = "eDP-1";
-            scale = 1.5;
+            scale = 1.25;
             mode = "1920x1200";
-            position = "3840,0";
+            position = "3120,960";
           }
         ];
       }
