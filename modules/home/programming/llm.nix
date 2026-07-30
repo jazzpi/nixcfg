@@ -157,12 +157,23 @@ with lib;
       # Delete the copied files so home-manager can create its symlinks.
       # For settings.json, save the existing file so we can merge it back later.
       home.activation.prepareClaude = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-        for skillDir in "${paths.store.llm}/skills"/*/; do
-          [ -d "$skillDir" ] || continue
-          skillName="$(basename "$skillDir")"
-          find "${config.programs.claude-code.configDir}/skills/$skillName" \
-            -not -type d -not -type l 2>/dev/null -delete || true
+        # Which entries under skills/ belong to home-manager? Read it out of the
+        # generations: everything this generation is about to place, plus
+        # everything the previous one placed.
+        skillsDir="${config.programs.claude-code.configDir}/skills"
+        genSkills="home-files/${lib.removePrefix "${config.home.homeDirectory}/" config.programs.claude-code.configDir}/skills"
+
+        managedSkills=""
+        for gen in "$newGenPath" "''${oldGenPath:-}"; do
+          [ -n "$gen" ] && [ -d "$gen/$genSkills" ] || continue
+          managedSkills+="$(find "$gen/$genSkills" -mindepth 1 -maxdepth 1 -printf '%f\n')"$'\n'
         done
+
+        # Wipe each one wholesale.
+        while IFS= read -r skillName; do
+          [ -n "$skillName" ] || continue
+          rm -rf "$skillsDir/$skillName"
+        done < <(printf '%s' "$managedSkills" | sort -u)
 
         settingsFile="${config.programs.claude-code.configDir}/settings.json"
         if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
@@ -180,10 +191,24 @@ with lib;
         # `git` to clone plugin repos, so put it back on PATH for this whole script.
         export PATH="${lib.makeBinPath [ pkgs.git ]}:$PATH"
 
-        find "${config.programs.claude-code.configDir}/skills" -type l 2>/dev/null | \
-        while IFS= read -r link; do
+        # Collect the links up front: we replace directory symlinks with real
+        # directories as we go, which would otherwise give `find` a new subtree to
+        # descend into mid-traversal.
+        skillsDir="${config.programs.claude-code.configDir}/skills"
+        mapfile -t skillLinks < <(find "$skillsDir" -type l 2>/dev/null)
+        for link in ''${skillLinks+"''${skillLinks[@]}"}; do
           real="$(readlink -f "$link")"
-          [ -f "$real" ] && cp --no-preserve=mode "$real" "$link.new" && mv "$link.new" "$link"
+          if [ -d "$real" ]; then
+            # A whole-plugin directory symlink (the MCP integration). Copy the tree;
+            # a real directory of real files is also what Claude Code's plugin
+            # discovery wants, since it only accepts regular files.
+            rm "$link"
+            cp -rL --no-preserve=mode "$real" "$link.new"
+            chmod -R u+rwX "$link.new"
+            mv "$link.new" "$link"
+          elif [ -f "$real" ]; then
+            cp --no-preserve=mode "$real" "$link.new" && mv "$link.new" "$link"
+          fi
         done
 
         settingsFile="${config.programs.claude-code.configDir}/settings.json"
