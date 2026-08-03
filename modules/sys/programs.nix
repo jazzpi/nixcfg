@@ -40,6 +40,7 @@
       minicom
       acpi
       wget
+      sysstat
     ];
   };
 }
