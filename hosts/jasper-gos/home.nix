@@ -67,6 +67,30 @@
         ];
       }
       {
+        profile.name = "docked2";
+        profile.outputs = [
+          {
+            criteria = "ASUSTek COMPUTER INC PA248QV MCLMQS198413";
+            scale = 1.0;
+            mode = "--custom 1920x1200@55Hz";
+            position = "0,0";
+            transform = "270";
+          }
+          {
+            criteria = "ODY i27 0000000000001";
+            scale = 1.0;
+            mode = "1920x1080";
+            position = "1200,840";
+          }
+          {
+            criteria = "eDP-1";
+            scale = 1.25;
+            mode = "1920x1200";
+            position = "3120,960";
+          }
+        ];
+      }
+      {
         profile.name = "presentation";
         profile.outputs = [
           {

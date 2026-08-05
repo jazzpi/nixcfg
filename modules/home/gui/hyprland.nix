@@ -2,8 +2,6 @@
   lib,
   config,
   pkgs,
-  templateFile,
-  paths,
   inputs,
   ...
 }:
@@ -85,6 +83,7 @@
 
         wayland.windowManager.hyprland = {
           enable = true;
+          configType = "hyprlang"; # TODO: migrate to lua
           systemd.enable = false; # We use UWSM instead
 
           # Use Hyprland/XPDH packages from NixOS module
@@ -345,9 +344,7 @@
               X-Restart-Triggers = [ "${config.xdg.configHome}/hypr/hypridle-${name}.conf" ];
             };
             Service = {
-              ExecStart = "${
-                lib.getExe inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
-              } -c ${config.xdg.configHome}/hypr/hypridle-${name}.conf";
+              ExecStart = "${lib.getExe pkgs.hypridle} -c ${config.xdg.configHome}/hypr/hypridle-${name}.conf";
               Restart = "always";
               RestartSec = "10s";
             };

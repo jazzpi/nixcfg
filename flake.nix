@@ -40,21 +40,10 @@
     # DON'T follow nixpkgs here, so that we can use the Cachix builds
     # FIXME: remove fixed refs for hyprland and hy3 once this is merged:
     # https://github.com/outfoxxed/hy3/pull/261
-    hyprland.url = "github:hyprwm/hyprland/?ref=bb963fb00263bac78a0c633d1d0d02ae4763222c";
+    hyprland.url = "github:hyprwm/hyprland";
     hy3 = {
-      url = "github:outfoxxed/hy3/?ref=c0437b27a30569aeafcab7d6f02a0fc14b6ebd77";
+      url = "github:outfoxxed/hy3";
       inputs.hyprland.follows = "hyprland";
-    };
-    # FIXME: remove & use nixpkgs version once this is packaged:
-    # https://github.com/hyprwm/hypridle/commit/f158b2fe9293f9b25f681b8e46d84674e7bc7f01
-    hypridle = {
-      url = "github:hyprwm/hypridle";
-      inputs.nixpkgs.follows = "hyprland/nixpkgs";
-      inputs.systems.follows = "hyprland/systems";
-      inputs.hyprlang.follows = "hyprland/hyprlang";
-      inputs.hyprutils.follows = "hyprland/hyprutils";
-      inputs.hyprland-protocols.follows = "hyprland/hyprland-protocols";
-      inputs.hyprwayland-scanner.follows = "hyprland/hyprwayland-scanner";
     };
     waveforms = {
       url = "github:liff/waveforms-flake";
