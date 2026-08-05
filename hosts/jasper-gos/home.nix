@@ -123,7 +123,6 @@
     (with pkgs; [
       libreoffice-qt-fresh
       stm32cubemx
-      openocd
       distrobox
       mumble
       inkscape
@@ -142,6 +141,7 @@
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
       (pkgs.callPackage ../../packages/oscarwatch { })
+      (pkgs.callPackage ../../packages/openocd-git { })
       inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 

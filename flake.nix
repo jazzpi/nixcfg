@@ -203,6 +203,7 @@
         in
         {
           oscarwatch = pkgs.callPackage ./packages/oscarwatch { };
+          openocd-git = pkgs.callPackage ./packages/openocd-git { };
           stm32cubeprog = pkgs.callPackage ./packages/stm32cubeprog { };
           gr-satellites = pkgs.callPackage ./packages/gr-satellites { };
           thermal-camera-redux = pkgs.callPackage ./packages/thermal-camera-redux { };
