@@ -29,6 +29,7 @@
                 to = 3010;
               }
             ];
+            trustedInterfaces = [ "docker0" ];
           };
         };
 
