@@ -65,6 +65,7 @@ with lib;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
         agents = researchAgents;
+        rules.code-style = builtins.readFile "${paths.store.llm}/rules/code-style.md";
 
         # Options/package search — the cheap path for "does this option exist / what's its
         # type". When the docs are too shallow to implement something, hand off to the
@@ -157,23 +158,26 @@ with lib;
       # Delete the copied files so home-manager can create its symlinks.
       # For settings.json, save the existing file so we can merge it back later.
       home.activation.prepareClaude = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-        # Which entries under skills/ belong to home-manager? Read it out of the
-        # generations: everything this generation is about to place, plus
-        # everything the previous one placed.
-        skillsDir="${config.programs.claude-code.configDir}/skills"
-        genSkills="home-files/${lib.removePrefix "${config.home.homeDirectory}/" config.programs.claude-code.configDir}/skills"
+        # Which entries under skills/ and rules/ belong to home-manager? Read it out of
+        # the generations: everything this generation is about to place, plus everything
+        # the previous one placed.
+        configDirHome="home-files/${lib.removePrefix "${config.home.homeDirectory}/" config.programs.claude-code.configDir}"
+        for managedSubdir in skills rules; do
+          subdirPath="${config.programs.claude-code.configDir}/$managedSubdir"
+          genSubdir="$configDirHome/$managedSubdir"
 
-        managedSkills=""
-        for gen in "$newGenPath" "''${oldGenPath:-}"; do
-          [ -n "$gen" ] && [ -d "$gen/$genSkills" ] || continue
-          managedSkills+="$(find "$gen/$genSkills" -mindepth 1 -maxdepth 1 -printf '%f\n')"$'\n'
+          managedEntries=""
+          for gen in "$newGenPath" "''${oldGenPath:-}"; do
+            [ -n "$gen" ] && [ -d "$gen/$genSubdir" ] || continue
+            managedEntries+="$(find "$gen/$genSubdir" -mindepth 1 -maxdepth 1 -printf '%f\n')"$'\n'
+          done
+
+          # Wipe each one wholesale.
+          while IFS= read -r entryName; do
+            [ -n "$entryName" ] || continue
+            rm -rf "$subdirPath/$entryName"
+          done < <(printf '%s' "$managedEntries" | sort -u)
         done
-
-        # Wipe each one wholesale.
-        while IFS= read -r skillName; do
-          [ -n "$skillName" ] || continue
-          rm -rf "$skillsDir/$skillName"
-        done < <(printf '%s' "$managedSkills" | sort -u)
 
         settingsFile="${config.programs.claude-code.configDir}/settings.json"
         if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
@@ -194,21 +198,23 @@ with lib;
         # Collect the links up front: we replace directory symlinks with real
         # directories as we go, which would otherwise give `find` a new subtree to
         # descend into mid-traversal.
-        skillsDir="${config.programs.claude-code.configDir}/skills"
-        mapfile -t skillLinks < <(find "$skillsDir" -type l 2>/dev/null)
-        for link in ''${skillLinks+"''${skillLinks[@]}"}; do
-          real="$(readlink -f "$link")"
-          if [ -d "$real" ]; then
-            # A whole-plugin directory symlink (the MCP integration). Copy the tree;
-            # a real directory of real files is also what Claude Code's plugin
-            # discovery wants, since it only accepts regular files.
-            rm "$link"
-            cp -rL --no-preserve=mode "$real" "$link.new"
-            chmod -R u+rwX "$link.new"
-            mv "$link.new" "$link"
-          elif [ -f "$real" ]; then
-            cp --no-preserve=mode "$real" "$link.new" && mv "$link.new" "$link"
-          fi
+        for managedSubdir in skills rules; do
+          subdirPath="${config.programs.claude-code.configDir}/$managedSubdir"
+          mapfile -t subdirLinks < <(find "$subdirPath" -type l 2>/dev/null)
+          for link in ''${subdirLinks+"''${subdirLinks[@]}"}; do
+            real="$(readlink -f "$link")"
+            if [ -d "$real" ]; then
+              # A whole-plugin directory symlink (the MCP integration). Copy the tree;
+              # a real directory of real files is also what Claude Code's plugin
+              # discovery wants, since it only accepts regular files.
+              rm "$link"
+              cp -rL --no-preserve=mode "$real" "$link.new"
+              chmod -R u+rwX "$link.new"
+              mv "$link.new" "$link"
+            elif [ -f "$real" ]; then
+              cp --no-preserve=mode "$real" "$link.new" && mv "$link.new" "$link"
+            fi
+          done
         done
 
         settingsFile="${config.programs.claude-code.configDir}/settings.json"
