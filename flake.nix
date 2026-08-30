@@ -51,6 +51,10 @@
     };
     rstrf.url = "github:jazzpi/rstrf";
     llm-agents.url = "github:numtide/llm-agents.nix";
+    nix-doom-emacs-unstraightened = {
+      url = "github:marienz/nix-doom-emacs-unstraightened";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
