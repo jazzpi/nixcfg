@@ -43,6 +43,7 @@
         init.defaultBranch = "main";
       };
       signing.format = null;
+      lfs.enable = true;
     };
   };
 }
