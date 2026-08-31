@@ -42,4 +42,10 @@
   environment.systemPackages = [ inputs.waveforms.packages.${builtins.currentSystem}.waveforms ];
 
   services.postgresql.enable = true;
+
+  # Bypass kcryptd workqueue (under write bursts, this bottlenecks on fast NVMe drives)
+  boot.initrd.luks.devices."luks-0e8748e2-96fb-4f02-9d47-1f7795ab0dd4".crypttabExtraOpts = [
+    "no-read-workqueue"
+    "no-write-workqueue"
+  ];
 }
