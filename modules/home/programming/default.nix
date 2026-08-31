@@ -14,6 +14,7 @@
     ./direnv.nix
     ./vscode.nix
     ./emacs.nix
+    ./zed.nix
     ./magit.nix
     ./llm.nix
   ];

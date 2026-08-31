@@ -13,6 +13,7 @@
   j.gui.firefox.defaultProfile = "personal";
   j.networking.can = true;
   j.gui.im.slack.autostart = false;
+  j.programming.zed.enable = true;
 
   j.gui.i3 = {
     enable = true;
