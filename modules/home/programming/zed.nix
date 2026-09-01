@@ -43,7 +43,7 @@
           metrics = false;
         };
         format_on_save = "on";
-        relative_line_numbers = true;
+        relative_line_numbers = "enabled";
         languages.Python.formatter.external = {
           command = "black";
           arguments = [
