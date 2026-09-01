@@ -139,8 +139,8 @@ in
         "Mod+l" { focus-column-right; }
         "Mod+Shift+h" { move-column-left; }
         "Mod+Shift+l" { move-column-right; }
-        "Mod+j" { focus-window-down; }
-        "Mod+k" { focus-window-up; }
+        "Mod+j" { focus-window-down-or-top; }
+        "Mod+k" { focus-window-up-or-bottom; }
         "Mod+Shift+j" { move-window-down; }
         "Mod+Shift+k" { move-window-up; }
         "Mod+bracketleft" { consume-or-expel-window-left; }
