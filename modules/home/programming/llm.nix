@@ -65,7 +65,7 @@ with lib;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
         agents = researchAgents;
-        rules.code-style = builtins.readFile "${paths.store.llm}/rules/code-style.md";
+        rules = lib.genAttrs ["code-style" "behavior"] (name: builtins.readFile "${paths.store.llm}/rules/${name}.md");
 
         # Options/package search — the cheap path for "does this option exist / what's its
         # type". When the docs are too shallow to implement something, hand off to the
