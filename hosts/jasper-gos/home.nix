@@ -29,6 +29,7 @@
   j.networking.can = true;
 
   j.programming.emacs.enable = true;
+  j.programming.zed.enable = true;
 
   services.kanshi = {
     enable = true;
