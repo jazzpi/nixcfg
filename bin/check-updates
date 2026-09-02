@@ -20,6 +20,26 @@ nix flake update --flake "$TMP_DIR" 2>&1 |
     }
     /→.*\(20[0-9-]+\)/ {
         match($0, /\(([0-9-]+)\)/, d)
-        print name, current_date, "->", d[1]
+        slash = index(name, "/")
+        if (slash == 0) {
+            top[name] = current_date " -> " d[1]
+            if (!(name in seen)) {
+                seen[name] = 1
+                order[++n] = name
+            }
+        } else {
+            root = substr(name, 1, slash - 1)
+            transitive[root]++
+        }
+    }
+    END {
+        for (i = 1; i <= n; i++) {
+            nm = order[i]
+            line = nm " " top[nm]
+            if (transitive[nm] > 0) {
+                line = line "(+" transitive[nm] "t)"
+            }
+            print line
+        }
     }
     '
