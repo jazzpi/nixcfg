@@ -13,7 +13,9 @@ with lib;
     enable = mkEnableOption "LLM utilities";
     plugins = mkOption {
       type = types.listOf types.str;
-      default = [ "superpowers@claude-plugins-official" ];
+      default = [
+        "superpowers@claude-plugins-official"
+      ] ++ lib.optional config.j.work.enable "atlassian@claude-plugins-official";
       description = "List of Claude Code plugins to install";
     };
   };
