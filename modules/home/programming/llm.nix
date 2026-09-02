@@ -58,14 +58,20 @@ with lib;
       };
     in
     mkIf cfg.enable {
-      home.packages = [ llmPkgs.ccstatusline ];
+      home.packages = [
+        llmPkgs.ccstatusline
+        # Global nodejs so hooks/tools invoked via a bare `node` (e.g. notify.js) work
+        pkgs.nodejs
+      ];
 
       programs.claude-code = {
         enable = true;
         package = llmPkgs.claude-code;
         skills = "${paths.store.llm}/skills/";
         agents = researchAgents;
-        rules = lib.genAttrs ["code-style" "behavior"] (name: builtins.readFile "${paths.store.llm}/rules/${name}.md");
+        rules = lib.genAttrs [ "code-style" "behavior" ] (
+          name: builtins.readFile "${paths.store.llm}/rules/${name}.md"
+        );
 
         # Options/package search — the cheap path for "does this option exist / what's its
         # type". When the docs are too shallow to implement something, hand off to the
