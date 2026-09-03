@@ -32,6 +32,7 @@
           ];
           right = [
             "Privacy"
+            "Notifications"
             "Updates"
             "Tray"
             [
@@ -112,6 +113,9 @@
       # Make sure ashell starts before autostart apps so that a tray is available.
       Unit.Before = "xdg-desktop-autostart.target";
     };
+    # We use the notifications module, so dunst must not run (otherwise dunst
+    # and ashell will fight over the notification bus)
+    services.dunst.enable = false;
     # Bluetooth management
     home.packages = [ pkgs.overskride ];
   };
