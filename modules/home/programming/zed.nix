@@ -53,6 +53,19 @@
           ];
         };
       };
+      userKeymaps = [
+        {
+          context = "vim_mode == normal";
+          # TODO: this works, but only if you press the keys quickly -- pretty
+          # much as soon as which-key pops up, it seems like Zed forgets about
+          # the spacebar keystroke?
+          bindings = {
+            "space f s" = "workspace::Save";
+            "space f S" = "workspace::SaveWithoutFormat";
+            "space space" = "file_finder::Toggle";
+          };
+        }
+      ];
     };
   };
 }
