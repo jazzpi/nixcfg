@@ -16,6 +16,7 @@
     home.packages = with pkgs; [
       (writeShellScriptBin "git-add-id" (builtins.readFile "${paths.store.dots-repo}/bin/git-add-id"))
       (writeShellScriptBin "git-use-id" (builtins.readFile "${paths.store.dots-repo}/bin/git-use-id"))
+      pre-commit
     ];
 
     programs.git = {
