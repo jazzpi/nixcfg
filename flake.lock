@@ -615,6 +615,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-old-firmware": {
+      "locked": {
+        "lastModified": 1786392352,
+        "narHash": "sha256-h5+m0GwQmQXW10KZzNfY4afEkgtwdyc/zGVV2gmYb+E=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "08beff6c9ffdca5ae00b7e38e1a25ac4e3488e6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "08beff6c9ffdca5ae00b7e38e1a25ac4e3488e6b",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1782847189,
@@ -709,6 +725,7 @@
         "llm-agents": "llm-agents",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-old-firmware": "nixpkgs-old-firmware",
         "nixpkgs-stable": "nixpkgs-stable",
         "rstrf": "rstrf",
         "waveforms": "waveforms"

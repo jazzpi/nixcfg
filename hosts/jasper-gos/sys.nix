@@ -1,8 +1,21 @@
-{ lib, inputs, ... }:
+{
+  lib,
+  inputs,
+  pkgs-old-firmware,
+  ...
+}:
 {
   imports = [ ./hardware-configuration.nix ];
 
   system.stateVersion = "24.11";
+
+  # linux-firmware 20260910 broke DMCUB loading on this host's Rembrandt/Yellow
+  # Carp APU: the PSP fails to load the DMCUB microcode, and the display then
+  # hangs when switching to the graphical session. Pin back to the last known
+  # working build until upstream fixes it.
+  nixpkgs.overlays = [
+    (final: prev: { linux-firmware = pkgs-old-firmware.linux-firmware; })
+  ];
 
   j.boot.loader = "systemd-boot";
   j.boot.initrdBluetooth = false;

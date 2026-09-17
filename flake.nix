@@ -27,6 +27,8 @@
     self.submodules = true;
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    # Pinned before the 20260910 linux-firmware bump (see jasper-gos/sys.nix)
+    nixpkgs-old-firmware.url = "github:NixOS/nixpkgs/08beff6c9ffdca5ae00b7e38e1a25ac4e3488e6b";
     # Uncomment to use ashell flake
     # ashell = {
     #   url = "github:MalpenZibo/ashell";
@@ -61,6 +63,7 @@
     {
       nixpkgs,
       nixpkgs-stable,
+      nixpkgs-old-firmware,
       home-manager,
       ...
     }@inputs:
@@ -134,6 +137,14 @@
             allowUnfree = true;
           };
         };
+      mkPkgsOldFirmware =
+        host:
+        import nixpkgs-old-firmware {
+          system = host.arch;
+          config = {
+            allowUnfree = true;
+          };
+        };
       mkTemplateFile = pkgs: import "${paths.store.lib}/template-file.nix" { inherit pkgs; };
 
       optionalExists = path: lib.optional (builtins.pathExists path) path;
@@ -147,6 +158,7 @@
               paths
               ;
             pkgs-stable = mkPkgsStable host;
+            pkgs-old-firmware = mkPkgsOldFirmware host;
             templateFile = mkTemplateFile host;
           };
           modules = [
