@@ -48,6 +48,14 @@ with lib;
       # orchestrator; the research subagents read it but never write to it.
       nixKnowledgeDir = "${knowledgeDir}/nix";
 
+      # JSON config files that are declared via home-manager (so they start life as
+      # symlinks into the nix store) but that their own program also writes to at
+      # runtime. Dereferenced into real, writable copies below.
+      mergedSettingsFiles = [
+        "${config.programs.claude-code.configDir}/settings.json"
+        "${config.xdg.configHome}/ccstatusline/settings.json"
+      ];
+
       researchAgents = {
         home-manager-researcher = renderAgent "home-manager-researcher" {
           inherit hmSrc nixKnowledgeDir;
@@ -161,10 +169,13 @@ with lib;
 
       # Normally, the SKILLS.md files and settings.json are created as symlinks to the nix
       # store. That works fine on the host, but if I mount ~/.claude into a devcontainer,
-      # the symlinks break of course. So instead, we copy/merge the files fully.
+      # the symlinks break of course. Their target store paths are also read-only, which
+      # breaks any of these programs (Claude Code, ccstatusline) writing back to their own
+      # settings file at runtime. So instead, we copy/merge the files fully.
 
       # Delete the copied files so home-manager can create its symlinks.
-      # For settings.json, save the existing file so we can merge it back later.
+      # For the settings files in mergedSettingsFiles, save the existing file so we can
+      # merge it back later.
       home.activation.prepareClaude = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
         # Which entries under skills/ and rules/ belong to home-manager? Read it out of
         # the generations: everything this generation is about to place, plus everything
@@ -187,16 +198,17 @@ with lib;
           done < <(printf '%s' "$managedEntries" | sort -u)
         done
 
-        settingsFile="${config.programs.claude-code.configDir}/settings.json"
-        if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
-          cp "$settingsFile" "$settingsFile.pre-hm"
-          rm "$settingsFile"
-        fi
+        for settingsFile in ${lib.concatMapStringsSep " " lib.escapeShellArg mergedSettingsFiles}; do
+          if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
+            cp "$settingsFile" "$settingsFile.pre-hm"
+            rm "$settingsFile"
+          fi
+        done
       '';
 
       # Turn the symlinks into full copies.
-      # For settings.json, merge the saved user settings with the nix-generated ones
-      # (nix wins on conflicting keys), then write back as a regular file.
+      # For each file in mergedSettingsFiles, merge the saved user settings with the
+      # nix-generated ones (nix wins on conflicting keys), then write back as a regular file.
       home.activation.dereferenceClaude = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
         # home-manager's activation script hardcodes PATH to a minimal toolset that
         # doesn't include git; `claude plugin install` (below) shells out to a bare
@@ -225,18 +237,19 @@ with lib;
           done
         done
 
-        settingsFile="${config.programs.claude-code.configDir}/settings.json"
-        if [ -L "$settingsFile" ]; then
-          nixSettings="$(readlink -f "$settingsFile")"
-          if [ -f "$settingsFile.pre-hm" ]; then
-            merged="$(${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$settingsFile.pre-hm" "$nixSettings")"
-            rm "$settingsFile.pre-hm"
-          else
-            merged="$(cat "$nixSettings")"
+        for settingsFile in ${lib.concatMapStringsSep " " lib.escapeShellArg mergedSettingsFiles}; do
+          if [ -L "$settingsFile" ]; then
+            nixSettings="$(readlink -f "$settingsFile")"
+            if [ -f "$settingsFile.pre-hm" ]; then
+              merged="$(${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$settingsFile.pre-hm" "$nixSettings")"
+              rm "$settingsFile.pre-hm"
+            else
+              merged="$(cat "$nixSettings")"
+            fi
+            printf '%s\n' "$merged" > "$settingsFile.new"
+            mv "$settingsFile.new" "$settingsFile"
           fi
-          printf '%s\n' "$merged" > "$settingsFile.new"
-          mv "$settingsFile.new" "$settingsFile"
-        fi
+        done
 
         # Install Claude Code plugins imperatively rather than via the module's
         # `plugins`/`marketplaces` options, which only inject session-only
