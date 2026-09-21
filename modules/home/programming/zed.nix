@@ -65,6 +65,12 @@
             "space space" = "file_finder::Toggle";
           };
         }
+        {
+          context = "Editor";
+          bindings = {
+            "alt-q" = "editor::Rewrap";
+          };
+        }
       ];
     };
   };
