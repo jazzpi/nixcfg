@@ -1,11 +1,13 @@
 {
   config,
-  pkgs,
+  pkgs-stable,
   lib,
   paths,
   ...
 }:
 with lib;
+# FIXME: soapyuhd is broken on unstable
+let pkgs = pkgs-stable; in
 {
   options.j.sdr = {
     enable = mkEnableOption "Software Defined Radio" // {

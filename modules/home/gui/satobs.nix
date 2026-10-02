@@ -1,10 +1,14 @@
 {
   lib,
   config,
-  pkgs,
+  pkgs-stable,
   paths,
   ...
 }:
+# FIXME: soapy-uhd is broken on unstable, so sdr.nix uses pkgs-stable. Since we
+# install gpredict in sdr.nix and here, we need to use matching nixpkgs
+# versions.
+let pkgs = pkgs-stable; in
 {
   options.j.gui.satobs = {
     enable = lib.mkEnableOption "Satellite observation tools" // {

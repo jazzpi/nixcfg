@@ -205,12 +205,13 @@
       packages.x86_64-linux =
         let
           pkgs = mkPkgs { arch = "x86_64-linux"; };
+          pkgs-stable = mkPkgsStable { arch = "x86_64-linux"; };
         in
         {
           oscarwatch = pkgs.callPackage ./packages/oscarwatch { };
           openocd-git = pkgs.callPackage ./packages/openocd-git { };
           stm32cubeprog = pkgs.callPackage ./packages/stm32cubeprog { };
-          gr-satellites = pkgs.callPackage ./packages/gr-satellites { };
+          gr-satellites = pkgs-stable.callPackage ./packages/gr-satellites { };
           thermal-camera-redux = pkgs.callPackage ./packages/thermal-camera-redux { };
           yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
           strf = pkgs.callPackage ./packages/strf { };

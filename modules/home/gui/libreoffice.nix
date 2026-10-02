@@ -12,7 +12,7 @@
   };
   config = lib.mkIf config.j.gui.libreoffice.enable {
     home.packages = with pkgs; [
-      libreoffice-fresh
+      libreoffice
       hunspell
       hunspellDicts.en_US
       hunspellDicts.de_DE
