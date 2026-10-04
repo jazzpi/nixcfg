@@ -56,6 +56,21 @@ with lib;
         "${config.xdg.configHome}/ccstatusline/settings.json"
       ];
 
+      # There is no "entered plan mode" hook event, so inject on every prompt submitted
+      # while the session's permission mode is `plan`.
+      planModeContext = ''
+        The user has two main use cases for plan mode:
+        a) Brainstorming and producing specs/plans.
+        b) Asking questions that should simply be answered, without the agent performing any changes.
+        In use case (b), no plan should be produced. Figure out from the prompt which of these two use cases applies and act accordingly.
+      '';
+      planModeContextHook = pkgs.writeShellScript "plan-mode-context" ''
+        ${pkgs.jq}/bin/jq -c --arg ctx ${lib.escapeShellArg planModeContext} '
+          select(.permission_mode == "plan")
+          | { hookSpecificOutput: { hookEventName: "UserPromptSubmit", additionalContext: $ctx } }
+        '
+      '';
+
       researchAgents = {
         home-manager-researcher = renderAgent "home-manager-researcher" {
           inherit hmSrc nixKnowledgeDir;
@@ -97,6 +112,16 @@ with lib;
             command = "${llmPkgs.ccstatusline}/bin/ccstatusline";
             refreshInterval = 10;
           };
+          hooks.UserPromptSubmit = [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${planModeContextHook}";
+                }
+              ];
+            }
+          ];
         };
       };
 
