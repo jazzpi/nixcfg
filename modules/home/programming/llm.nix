@@ -23,7 +23,7 @@ with lib;
   config =
     let
       cfg = config.j.programming.llm;
-      llmPkgs = inputs.llm-agents.packages.${pkgs.system};
+      llmPkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 
       home = config.home.homeDirectory;
       # Source checkouts the research subagents grep. Read-only; kept as stable clones
