@@ -9,5 +9,7 @@
        (evil +everywhere)
        :tools
        magit
+       :os
+       tty
        :config
        (default +bindings))
