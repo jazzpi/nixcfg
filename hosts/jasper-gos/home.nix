@@ -151,7 +151,6 @@
       distrobox
       mumble
       inkscape
-      empty-epsilon
       grafanactl
       protonup-qt
       umu-launcher
@@ -162,6 +161,7 @@
       # see https://github.com/NixOS/nixpkgs/issues/475479
       minicom
       freecad
+      empty-epsilon
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
