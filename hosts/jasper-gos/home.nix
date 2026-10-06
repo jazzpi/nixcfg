@@ -25,6 +25,7 @@
   j.gui.obs.enable = true;
   j.sdr.enable = true;
   j.gui.satobs.enable = true;
+  j.gui.libreoffice.enable = true;
 
   j.networking.can = true;
 
@@ -146,7 +147,6 @@
 
   home.packages =
     (with pkgs; [
-      libreoffice-qt-fresh
       stm32cubemx
       distrobox
       mumble
