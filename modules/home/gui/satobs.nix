@@ -25,6 +25,7 @@ let pkgs = pkgs-stable; in
       ++ [
         (pkgs.callPackage "${paths.store.pkgs}/stvid" { })
         (pkgs.callPackage "${paths.store.pkgs}/astroimagej" { })
+        (pkgs.callPackage "${paths.store.pkgs}/tlescope" { })
       ];
   };
 }
