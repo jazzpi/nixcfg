@@ -162,6 +162,7 @@
       minicom
       freecad
       empty-epsilon
+      bottles
     ])
     ++ [
       (pkgs.callPackage ../../packages/stm32cubeprog { })
