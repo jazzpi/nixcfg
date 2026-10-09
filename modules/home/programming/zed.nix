@@ -44,6 +44,8 @@
         };
         format_on_save = "on";
         relative_line_numbers = "enabled";
+        # Zed fails at restoring devcontainer projects on startup
+        restore_on_startup = "none";
         languages.Python.formatter.external = {
           command = "black";
           arguments = [
