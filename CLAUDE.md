@@ -64,12 +64,7 @@ templateFile { name = "foo"; template = <path>; data = { ... }; asBin = true; }
 The `templateFile` argument is available as a `specialArgs`/`extraSpecialArgs` in both NixOS and home-manager configs.
 
 ### Custom packages
-`packages/` contains Nix package derivations exposed through the root flake as `packages.x86_64-linux.*`:
-- `oscarwatch` — OscarWatch Tracker package
-- `thermal-camera-redux` — Thermal camera package
-- `yamcs-studio` — YAMCS Studio package
-- `gr-satellites` — GR Satellites package
-- `stm32cubeprog` — STM32CubeProgrammer package
+`packages/` contains Nix package derivations exposed through the root flake as `packages.x86_64-linux.*`.
 
 These can be built with `nix build .#<package-name>` or installed via the home-manager config.
 

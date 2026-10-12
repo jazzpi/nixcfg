@@ -212,7 +212,6 @@
           openocd-git = pkgs.callPackage ./packages/openocd-git { };
           stm32cubeprog = pkgs.callPackage ./packages/stm32cubeprog { };
           gr-satellites = pkgs-stable.callPackage ./packages/gr-satellites { };
-          thermal-camera-redux = pkgs.callPackage ./packages/thermal-camera-redux { };
           yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
           strf = pkgs.callPackage ./packages/strf { };
           stvid = pkgs.callPackage ./packages/stvid { };
