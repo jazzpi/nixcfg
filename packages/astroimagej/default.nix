@@ -18,11 +18,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "astroimagej";
-  version = "6.0.7.00";
+  version = "6.0.11.00";
 
   src = fetchurl {
     url = "https://github.com/AstroImageJ/astroimagej/releases/download/${finalAttrs.version}/AstroImageJ-${finalAttrs.version}-linux-x64.tgz";
-    sha256 = "9592e7f24e5251a36fbe1f8b10faa7e3a1d982cc13b96eaaec99fa85df62c27e";
+    sha256 = "sha256-bWQg6sOjo/n5NCjWpECoG16CYnrmtH3Qyu4J8QSYe24=";
   };
 
   nativeBuildInputs = [
@@ -79,6 +79,8 @@ stdenv.mkDerivation (finalAttrs: {
       mimeTypes = [ "image/fits" ];
     })
   ];
+
+  passthru.nixUpdateArgs = [ ];
 
   meta = {
     description = "Astronomical image analysis tool based on ImageJ";

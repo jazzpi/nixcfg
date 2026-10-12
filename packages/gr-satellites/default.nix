@@ -38,12 +38,12 @@ let
     pythonEnv
   ];
 in
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   pname = "gr-satellites";
-  version = "5.8.0";
+  version = "5.9.0";
   src = fetchurl {
-    url = "https://github.com/daniestevez/gr-satellites/archive/refs/tags/v5.8.0.tar.gz";
-    sha256 = "d6ab0ed48599a290f4d2911816f30de99f91ccf8b2218938538a19b83b98b354";
+    url = "https://github.com/daniestevez/gr-satellites/archive/refs/tags/v${finalAttrs.version}.tar.gz";
+    sha256 = "sha256-yaM+hVmZGKfhOtzQY2p3pYBUSIaJWiXrMDsVYJp3pBY=";
   };
 
   nativeBuildInputs = [
@@ -62,5 +62,8 @@ stdenv.mkDerivation {
       --prefix PYTHONPATH : "${pythonEnv}/${python3.sitePackages}"
   '';
 
-  passthru = { inherit pythonEnv python3; };
-}
+  passthru = {
+    inherit pythonEnv python3;
+    nixUpdateArgs = [ ];
+  };
+})

@@ -17,13 +17,13 @@ stdenv.mkDerivation {
   # OpenOCD has no releases newer than 0.12.0 (2023), but development has
   # continued upstream (e.g. S32K support). Track a pinned commit until a
   # new release ships.
-  version = "0.12.0-unstable-2026-07-28";
+  version = "0-unstable-2026-10-11";
 
   src = fetchFromGitHub {
     owner = "openocd-org";
     repo = "openocd";
-    rev = "da3920b0a52dc2d394afb222c688dac7e57acc1b";
-    hash = "sha256-osZAASRIUDMbDhbH6lIuyx5KtKP7MYaj+WlD6EWpIEo=";
+    rev = "751e5af67bf487c0f45ed2f5b53043dacfe72404";
+    hash = "sha256-+NgfmbHEB2WEptRuynCr/tSrUREmI4KtCGZl87U6FNI=";
   };
 
   nativeBuildInputs = [
@@ -56,6 +56,11 @@ stdenv.mkDerivation {
   ];
 
   enableParallelBuilding = true;
+
+  passthru.nixUpdateArgs = [
+    "--version=branch"
+    "--version-regex=(\\d[\\d.]*-unstable-.*)"
+  ];
 
   meta = {
     description = "Free and Open On-Chip Debugging, In-System Programming and Boundary-Scan Testing (built from git)";

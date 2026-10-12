@@ -43,11 +43,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "oscarwatch";
-  version = "0.8.0";
+  version = "1.1.2";
 
   src = fetchurl {
     url = "https://github.com/magicbug/OscarWatch-Tracker/releases/download/v${version}/OscarWatch-${version}-linux-x64.tar.gz";
-    sha256 = "35fc06db3e56934d1ab9811ec9f8198d19e128b48f4d3a7277965c26c41d68db";
+    sha256 = "sha256-wIBkvk+HVE6JmsaNiqqsdpyjO8x2p//MriaXVd0VpxI=";
   };
 
   nativeBuildInputs = [
@@ -108,6 +108,8 @@ stdenv.mkDerivation rec {
       ];
     })
   ];
+
+  passthru.nixUpdateArgs = [ ];
 
   meta = with lib; {
     description = "Amateur satellite tracking application";

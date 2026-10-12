@@ -6,5 +6,19 @@ SCRIPT_PATH="$(realpath "$(dirname "$(realpath "$0")")")"
 
 echo "Updating flake inputs..."
 nix flake update --accept-flake-config --flake "$SCRIPT_PATH"
+echo "Updating packages..."
+# One line per package that opts in via passthru.nixUpdateArgs: "<name> <args...>".
+updatable="$(nix eval --raw "$SCRIPT_PATH#packages.x86_64-linux" --apply '
+  ps: builtins.concatStringsSep "\n" (builtins.concatMap
+    (n: if ps.${n} ? nixUpdateArgs
+      then [ (builtins.concatStringsSep " " ([ n ] ++ ps.${n}.nixUpdateArgs)) ]
+      else [ ])
+    (builtins.attrNames ps))')"
+nix_update="$(nix build --no-link --print-out-paths --inputs-from "$SCRIPT_PATH" nixpkgs#nix-update)/bin/nix-update"
+while read -r pkg rest; do
+  read -ra args <<<"$rest"
+  (cd "$SCRIPT_PATH" && "$nix_update" --flake "$pkg" "${args[@]}") \
+    || echo "Warning: failed to update package $pkg" >&2
+done <<<"$updatable"
 echo "Rebuilding..."
 "$SCRIPT_PATH/rebuild" -s -u "$@"

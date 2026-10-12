@@ -65,6 +65,8 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
+  passthru.nixUpdateArgs = [ ];
+
   meta = {
     description = "Web UI for exploring Claude Code session logs";
     homepage = "https://github.com/matt1398/claude-devtools";

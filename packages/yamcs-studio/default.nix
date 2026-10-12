@@ -2,7 +2,7 @@
   stdenv,
   fetchurl,
   autoPatchelfHook,
-  wrapGAppsHook,
+  wrapGAppsHook3,
   patchelf,
   glibc,
   xorg,
@@ -30,17 +30,18 @@ let
     glib
   ];
 in
-stdenv.mkDerivation {
-  name = "yamcs-studio";
+stdenv.mkDerivation (finalAttrs: {
+  pname = "yamcs-studio";
+  version = "1.8.0";
 
   src = fetchurl {
-    url = "https://github.com/yamcs/yamcs-studio/releases/download/v1.7.9/yamcs-studio-1.7.9-linux.gtk.x86_64.tar.gz";
-    sha256 = "25856c82bd7e3b79edd8acc8eac7c1d51a805165eb3ca5209da4371bd49bca1e";
+    url = "https://github.com/yamcs/yamcs-studio/releases/download/v${finalAttrs.version}/yamcs-studio-${finalAttrs.version}-linux.gtk.x86_64.tar.gz";
+    sha256 = "sha256-RpNh5onBgzA4VsuaBSf5auLRdtVWN21RMxYxupmR5ps=";
   };
 
   nativeBuildInputs = [
     autoPatchelfHook
-    wrapGAppsHook
+    wrapGAppsHook3
     patchelf
     glibc
   ];
@@ -73,4 +74,6 @@ stdenv.mkDerivation {
       --set LD_LIBRARY_PATH "${lib.makeLibraryPath runtimeLibs}"
     )
   '';
-}
+
+  passthru.nixUpdateArgs = [ ];
+})

@@ -80,6 +80,11 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
+  passthru.nixUpdateArgs = [
+    "--version=branch"
+    "--version-regex=(\\d[\\d.]*-unstable-.*)"
+  ];
+
   meta = {
     description = "Satellite tracker and TLE visualiser";
     homepage = "https://github.com/aweeri/TLEscope";

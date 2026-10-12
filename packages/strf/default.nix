@@ -37,6 +37,11 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
+  passthru.nixUpdateArgs = [
+    "--version=branch"
+    "--version-regex=(\\d[\\d.]*-unstable-.*)"
+  ];
+
   meta = with lib; {
     description = "FFT RF observations tool from the Space Traffic and RF (STRF) toolkit";
     homepage = "https://github.com/cbassa/strf";

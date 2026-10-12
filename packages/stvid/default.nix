@@ -78,7 +78,13 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
-  passthru = { inherit hough3dlines satpredict pythonEnv; };
+  passthru = {
+    inherit hough3dlines satpredict pythonEnv;
+    nixUpdateArgs = [
+      "--version=branch"
+      "--version-regex=(\\d[\\d.]*-unstable-.*)"
+    ];
+  };
 
   meta = with lib; {
     description = "Satellite tracking with video cameras (lightweight Nix build, no plate-solving)";
