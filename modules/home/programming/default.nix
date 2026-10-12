@@ -37,6 +37,7 @@
         };
         asBin = true;
       })
+      ansible
     ];
   };
 }
