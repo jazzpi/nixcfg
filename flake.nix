@@ -218,6 +218,7 @@
           stvid = pkgs.callPackage ./packages/stvid { };
           astroimagej = pkgs.callPackage ./packages/astroimagej { };
           tlescope = pkgs.callPackage ./packages/tlescope { };
+          claude-devtools = pkgs.callPackage ./packages/claude-devtools { };
         };
     };
 }

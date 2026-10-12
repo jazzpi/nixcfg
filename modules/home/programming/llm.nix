@@ -18,6 +18,16 @@ with lib;
       ] ++ lib.optional config.j.work.enable "atlassian@claude-plugins-official";
       description = "List of Claude Code plugins to install";
     };
+    devtools = {
+      enable = mkEnableOption "claude-devtools session viewer" // {
+        default = true;
+      };
+      port = mkOption {
+        type = types.port;
+        default = 3456;
+        description = "Localhost port the claude-devtools web UI listens on";
+      };
+    };
   };
 
   config =
@@ -88,6 +98,20 @@ with lib;
         # Global nodejs so hooks/tools invoked via a bare `node` (e.g. notify.js) work
         pkgs.nodejs
       ];
+
+      systemd.user.services.claude-devtools = mkIf cfg.devtools.enable {
+        Unit.Description = "claude-devtools session viewer";
+        Service = {
+          ExecStart = lib.getExe (pkgs.callPackage "${paths.store.pkgs}/claude-devtools" { });
+          # The server binds to all interfaces by default.
+          Environment = [
+            "HOST=127.0.0.1"
+            "PORT=${toString cfg.devtools.port}"
+          ];
+          Restart = "on-failure";
+        };
+        Install.WantedBy = [ "default.target" ];
+      };
 
       programs.claude-code = {
         enable = true;
