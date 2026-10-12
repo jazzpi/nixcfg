@@ -64,6 +64,7 @@
           bindings = {
             "space f s" = "workspace::Save";
             "space f S" = "workspace::SaveWithoutFormat";
+            "space f r" = "projects::OpenRecent";
             "space space" = "file_finder::Toggle";
           };
         }
