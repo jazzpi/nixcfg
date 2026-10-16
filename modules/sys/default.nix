@@ -13,6 +13,7 @@
     ./udev.nix
     ./fprint.nix
     ./printing.nix
+    ./ollama.nix
     ./gui
     ./virt
   ];

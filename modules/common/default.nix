@@ -67,5 +67,15 @@
         default = false;
       };
     };
+    ollama = {
+      enable = lib.mkEnableOption "Ollama local LLM server" // {
+        default = false;
+      };
+      editPredictionModel = lib.mkOption {
+        description = "Ollama model used for editor edit predictions. Must be a base (FIM) model.";
+        type = lib.types.str;
+        default = "qwen2.5-coder:3b-base";
+      };
+    };
   };
 }

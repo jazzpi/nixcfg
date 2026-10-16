@@ -54,6 +54,17 @@
             "-"
           ];
         };
+      }
+      // lib.optionalAttrs config.j.ollama.enable {
+        edit_predictions = {
+          provider = "ollama";
+          ollama = {
+            api_url = "http://localhost:11434";
+            model = config.j.ollama.editPredictionModel;
+            prompt_format = "qwen";
+            max_output_tokens = 256;
+          };
+        };
       };
       userKeymaps = [
         {

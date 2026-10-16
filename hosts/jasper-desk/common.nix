@@ -11,5 +11,6 @@
     gui.niri.enable = true;
     work.enable = true;
     gui.nvidia.enable = true;
+    ollama.enable = true;
   };
 }
