@@ -41,6 +41,7 @@
       acpi
       wget
       sysstat
+      nfs-utils # also needed to mount NFS shares
     ];
   };
 }
