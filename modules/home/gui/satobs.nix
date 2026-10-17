@@ -35,6 +35,7 @@ with lib;
           gpredict
         ])
         ++ [
+          (pkgs.callPackage "${paths.store.pkgs}/sattools" { })
           (pkgs.callPackage "${paths.store.pkgs}/stvid" { })
           (pkgs.callPackage "${paths.store.pkgs}/astroimagej" { })
           (pkgs.callPackage "${paths.store.pkgs}/tlescope" { })

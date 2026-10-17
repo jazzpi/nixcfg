@@ -213,7 +213,9 @@
           stm32cubeprog = pkgs.callPackage ./packages/stm32cubeprog { };
           gr-satellites = pkgs-stable.callPackage ./packages/gr-satellites { };
           yamcs-studio = pkgs.callPackage ./packages/yamcs-studio { };
+          pgplot = pkgs.callPackage ./packages/pgplot { };
           strf = pkgs.callPackage ./packages/strf { };
+          sattools = pkgs.callPackage ./packages/sattools { };
           stvid = pkgs.callPackage ./packages/stvid { };
           astroimagej = pkgs.callPackage ./packages/astroimagej { };
           tlescope = pkgs.callPackage ./packages/tlescope { };

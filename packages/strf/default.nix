@@ -2,12 +2,19 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  gnumake,
+  callPackage,
+  gfortran,
   fftwFloat,
   sox,
+  libX11,
+  libpng,
+  gsl,
 }:
-stdenv.mkDerivation rec {
-  pname = "strf-rffft";
+let
+  pgplot = callPackage ../pgplot { };
+in
+stdenv.mkDerivation {
+  pname = "strf";
   version = "0-unstable-2026-03-06";
 
   src = fetchFromGitHub {
@@ -17,36 +24,39 @@ stdenv.mkDerivation rec {
     hash = "sha256-URznu1cpaSpuTQjOlkWvJVJ4sYxeIpBSEC3njaWsuWY=";
   };
 
-  nativeBuildInputs = [ gnumake ];
+  nativeBuildInputs = [ gfortran ];
 
   buildInputs = [
+    pgplot
     fftwFloat
     sox
+    libX11
+    libpng
+    gsl
   ];
 
-  buildPhase = ''
-    runHook preBuild
-    make -f Makefile.linux rffft CFLAGS="-O3 -Wno-format-overflow"
-    runHook postBuild
-  '';
+  makeFlags = [ "CFLAGS=-O3 -Wno-format-overflow" ];
 
+  # tleupdate is left out: sattools ships a more up-to-date copy of it.
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/bin
-    install -m 755 rffft $out/bin/rffft
+    install -Dm755 -t $out/bin rfedit rfplot rffft rfpng rffit rffind rfdop
     runHook postInstall
   '';
 
-  passthru.nixUpdateArgs = [
-    "--version=branch"
-    "--version-regex=(\\d[\\d.]*-unstable-.*)"
-  ];
+  passthru = {
+    inherit pgplot;
+    nixUpdateArgs = [
+      "--version=branch"
+      "--version-regex=(\\d[\\d.]*-unstable-.*)"
+    ];
+  };
 
-  meta = with lib; {
-    description = "FFT RF observations tool from the Space Traffic and RF (STRF) toolkit";
+  meta = {
+    description = "Radio frequency satellite tracking toolkit";
     homepage = "https://github.com/cbassa/strf";
-    license = licenses.gpl3Only;
-    platforms = platforms.linux;
-    mainProgram = "rffft";
+    license = lib.licenses.gpl3Only;
+    platforms = lib.platforms.linux;
+    mainProgram = "rfplot";
   };
 }
