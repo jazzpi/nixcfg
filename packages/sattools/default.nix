@@ -25,13 +25,14 @@ let
 in
 stdenv.mkDerivation {
   pname = "sattools";
-  version = "0-unstable-2026-10-07";
+  version = "0-unstable-2026-10-04";
 
   src = fetchFromGitHub {
-    owner = "jazzpi";
+    owner = "ppapadeas";
     repo = "sattools";
-    rev = "e65b652cf21e288dc2a52b63d2d4dc8ecb04ac6c";
-    hash = "sha256-zhAPTDI7YDgUF9nwlJwEn/mXLP42gBnPHDTYqhqQlZw=";
+    rev = "c57fc1b956f2f0ccfbf1f55890b4e821894acda6";
+    fetchSubmodules = true;
+    hash = "sha256-n1ClLgxxnf967Klb0ST1LgRoAKbhk79FazZC76EqR2c=";
   };
 
   nativeBuildInputs = [
@@ -49,8 +50,6 @@ stdenv.mkDerivation {
     gsl
     wcslib
   ];
-
-  makeFlags = [ "CFLAGS=-O2 -Wno-unused-result" ];
 
   installPhase = ''
     runHook preInstall
@@ -72,7 +71,7 @@ stdenv.mkDerivation {
 
   passthru = {
     inherit pgplot qfits;
-    nixUpdateArgs = [ "--version=branch=fix-sprintf" ];
+    nixUpdateArgs = [ "--version=branch=shared-sgp4" ];
   };
 
   meta = {
