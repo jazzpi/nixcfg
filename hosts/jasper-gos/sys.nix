@@ -51,7 +51,14 @@
     enable32Bit = true;
   };
 
-  services.udev.packages = [ inputs.waveforms.packages.${builtins.currentSystem}.adept2-runtime ];
+  services.udev.packages = [
+    (inputs.waveforms.packages.${builtins.currentSystem}.adept2-runtime.overrideAttrs (old: {
+      # upstream's udev rule references this helper but never installs it
+      postInstall = (old.postInstall or "") + ''
+        install -Dm755 usr/lib/udev/dftdrvdtch $out/lib/udev/dftdrvdtch
+      '';
+    }))
+  ];
   environment.systemPackages = [ inputs.waveforms.packages.${builtins.currentSystem}.waveforms ];
 
   services.postgresql.enable = true;
