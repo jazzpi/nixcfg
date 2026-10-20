@@ -99,6 +99,7 @@
       distrobox
       ckan
       kicad
+      prismlauncher
     ])
     ++ (
       with pkgs-stable;
