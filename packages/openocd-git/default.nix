@@ -17,13 +17,13 @@ stdenv.mkDerivation {
   # OpenOCD has no releases newer than 0.12.0 (2023), but development has
   # continued upstream (e.g. S32K support). Track a pinned commit until a
   # new release ships.
-  version = "0-unstable-2026-10-18";
+  version = "0-unstable-2026-10-19";
 
   src = fetchFromGitHub {
     owner = "openocd-org";
     repo = "openocd";
-    rev = "2893f940012e19cda8ccb6038766b0d77f26bd0e";
-    hash = "sha256-Ub3mh3j4J8ru55PU9MzJQZGO3lwoMojxo5c8XuGrvAM=";
+    rev = "d2f72d49efed744eaa489ce931393b6e69122e66";
+    hash = "sha256-8dVZouBSD1JwtMHWYdKYOOG8rdlUDO7oCd3uCkFkyZA=";
   };
 
   nativeBuildInputs = [
