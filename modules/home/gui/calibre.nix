@@ -1,9 +1,12 @@
 {
   lib,
   config,
-  pkgs,
+  pkgs-stable,
   ...
 }:
+let
+  pkgs = pkgs-stable;
+in
 {
   options.j.gui.calibre = {
     enable = lib.mkEnableOption "Calibre" // {
