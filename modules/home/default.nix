@@ -22,6 +22,9 @@
     home = {
       username = host.user.name;
       homeDirectory = "/home/${host.user.name}";
+
+      # nh hides activation output by default, which makes failures undebuggable
+      sessionVariables.NH_SHOW_ACTIVATION_LOGS = "1";
     };
 
     nix.gc = {
