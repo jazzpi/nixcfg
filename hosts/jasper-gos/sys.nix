@@ -59,6 +59,13 @@
       '';
     }))
   ];
+  # waveforms/adept2-runtime sources (`.deb`s) are not publicly available and
+  # have to be manually downloaded + added to the nix store. Add them to the
+  # closure so they don't get garbage collected.
+  system.extraDependencies = with inputs.waveforms.packages.${builtins.currentSystem}; [
+    waveforms.src
+    adept2-runtime.src
+  ];
   environment.systemPackages = [ inputs.waveforms.packages.${builtins.currentSystem}.waveforms ];
 
   services.postgresql.enable = true;

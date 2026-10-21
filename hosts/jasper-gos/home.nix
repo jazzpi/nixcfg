@@ -5,6 +5,9 @@
   config,
   ...
 }:
+let
+  stm32cubeprog = (pkgs.callPackage ../../packages/stm32cubeprog { });
+in
 {
   home.stateVersion = "24.11";
 
@@ -165,11 +168,15 @@
       bottles
     ])
     ++ [
-      (pkgs.callPackage ../../packages/stm32cubeprog { })
+      stm32cubeprog
       (pkgs.callPackage ../../packages/oscarwatch { })
       (pkgs.callPackage ../../packages/openocd-git { })
       inputs.rstrf.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
+  # stm32cubeprog's source (`.zip`) is not publicly available and has to be
+  # manually downloaded + added to the nix store. Add it to the closure so
+  # they don't get garbage collected.
+  home.file.".local/share/manual-srcs/stm32cubeprog.zip".source = stm32cubeprog.src;
 
   home.sessionPath = [ "$HOME/git/gena-tools/build" ];
 
