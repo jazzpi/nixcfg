@@ -127,7 +127,14 @@ with lib;
         # home-manager-researcher / nixpkgs-researcher subagents instead.
         mcpServers.nixos = {
           type = "stdio";
-          command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+          command =
+            let
+              # fastmcp-slim is marked broken against mcp >= 2
+              python3 = pkgs.python3.override {
+                packageOverrides = self: super: { mcp = self.mcp_1; };
+              };
+            in
+            "${pkgs.mcp-nixos.override { python3Packages = python3.pkgs; }}/bin/mcp-nixos";
         };
         settings = {
           tui = "fullscreen";
