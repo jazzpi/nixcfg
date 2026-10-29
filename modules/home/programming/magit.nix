@@ -24,6 +24,7 @@
 
     home.packages = [
       (pkgs.writeShellScriptBin "magit" ''
+        export PATH=${lib.makeBinPath [ pkgs.delta ]}:$PATH
         exec ${config.programs.doom-emacs.finalDoomPackage}/bin/doom-emacs -nw --eval '(progn (require (quote magit)) (magit-status default-directory))'
       '')
     ];

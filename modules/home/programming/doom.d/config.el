@@ -12,3 +12,6 @@
         (append '((untracked . show) (recent . show)
                   (unpushed . show) (unpulled . show))
                 magit-section-initial-visibility-alist)))
+
+(use-package! magit-delta
+  :hook (magit-mode . magit-delta-mode))
