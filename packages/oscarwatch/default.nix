@@ -43,11 +43,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "oscarwatch";
-  version = "1.1.4";
+  version = "1.1.5";
 
   src = fetchurl {
     url = "https://github.com/magicbug/OscarWatch-Tracker/releases/download/v${version}/OscarWatch-${version}-linux-x64.tar.gz";
-    sha256 = "sha256-ol9hiQzWN9nV5T9khB5EKqLkaUeJjTWGQK8qBHL5eG4=";
+    sha256 = "sha256-0RsJypD9VEZSRWY0Rq9DxpxqVBj7OpLZpd0QgZ/aBbU=";
   };
 
   nativeBuildInputs = [

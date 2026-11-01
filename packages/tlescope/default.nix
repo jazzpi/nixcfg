@@ -11,13 +11,13 @@
 
 stdenv.mkDerivation {
   pname = "tlescope";
-  version = "0-unstable-2026-09-15";
+  version = "0-unstable-2026-10-31";
 
   src = fetchFromGitHub {
     owner = "aweeri";
     repo = "TLEscope";
-    rev = "565daf94bb88ffb4b56c0fd98a191d25aa05a9b9";
-    hash = "sha256-IR5zTtCAhhk8cVZ6k64Sc4d3oDlbPJq69tHZJG6kQII=";
+    rev = "826f2a6722836e9d53ba9994230c8f24c3d28db8";
+    hash = "sha256-C3rOnniShGFoyu5r3uenc8SxPrUgpBjCrNZHw4D8zGc=";
   };
 
   nativeBuildInputs = [

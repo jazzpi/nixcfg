@@ -32,11 +32,11 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "yamcs-studio";
-  version = "1.8.0";
+  version = "1.9.0";
 
   src = fetchurl {
     url = "https://github.com/yamcs/yamcs-studio/releases/download/v${finalAttrs.version}/yamcs-studio-${finalAttrs.version}-linux.gtk.x86_64.tar.gz";
-    sha256 = "sha256-RpNh5onBgzA4VsuaBSf5auLRdtVWN21RMxYxupmR5ps=";
+    sha256 = "sha256-vU6b43WZICGVapu/3hJitQLx3xaTuDrfycWkD9hXiZg=";
   };
 
   nativeBuildInputs = [
