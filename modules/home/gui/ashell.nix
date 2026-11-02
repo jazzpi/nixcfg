@@ -47,8 +47,8 @@
         };
         tempo = {
           formats = [
-            "%H:%M"
             "%F %H:%M:%S"
+            "%H:%M"
           ];
           weather_location =
             let
