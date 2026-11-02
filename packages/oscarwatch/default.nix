@@ -50,6 +50,12 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-0RsJypD9VEZSRWY0Rq9DxpxqVBj7OpLZpd0QgZ/aBbU=";
   };
 
+  # The release tarball doesn't include the icon
+  icon = fetchurl {
+    url = "https://raw.githubusercontent.com/magicbug/OscarWatch-Tracker/v${version}/OscarWatch/icons/OscarWatch-Icon.png";
+    sha256 = "sha256-nYFu3y2+R4tbb8r6VqXO2xz2/3eNbufpDQJh1Z2jz/w=";
+  };
+
   nativeBuildInputs = [
     autoPatchelfHook
     makeWrapper
@@ -90,7 +96,7 @@ stdenv.mkDerivation rec {
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath runtimeLibs}"
 
     mkdir -p $out/share/icons/hicolor/128x128/apps
-    cp help/oscarwatch-icon.png $out/share/icons/hicolor/128x128/apps/oscarwatch.png
+    cp $icon $out/share/icons/hicolor/128x128/apps/oscarwatch.png
 
     runHook postInstall
   '';
