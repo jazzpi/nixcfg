@@ -99,7 +99,14 @@
       distrobox
       ckan
       kicad
-      prismlauncher
+      (prismlauncher.override {
+        # JNativeHook (used by the mcsrfairplay mod) links against these
+        additionalLibs = [
+          libxtst
+          libxt
+          libxinerama
+        ];
+      })
     ])
     ++ (
       with pkgs-stable;
