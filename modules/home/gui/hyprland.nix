@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  inputs,
   ...
 }:
 {
@@ -90,12 +89,7 @@
           package = null;
           portalPackage = null;
 
-          plugins =
-            let
-            in
-            [
-              inputs.hy3.packages.${pkgs.stdenv.hostPlatform.system}.hy3
-            ];
+          plugins = [ pkgs.hyprlandPlugins.hy3 ];
 
           extraConfig =
             # submaps aren't possible with the settings.bind syntax

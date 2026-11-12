@@ -7,17 +7,14 @@
       "flakes"
     ];
     extra-substituters = [
-      "https://hyprland.cachix.org"
       "https://rstrf.cachix.org"
       "https://cache.numtide.com"
     ];
     extra-trusted-substituters = [
-      "https://hyprland.cachix.org"
       "https://rstrf.cachix.org"
       "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "rstrf.cachix.org-1:uxjunq8cQ7mGYWxsPnqK2/lWLm7lP+A8EvQP39yYjFY="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
@@ -38,14 +35,6 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # DON'T follow nixpkgs here, so that we can use the Cachix builds
-    # FIXME: remove fixed refs for hyprland and hy3 once this is merged:
-    # https://github.com/outfoxxed/hy3/pull/261
-    hyprland.url = "github:hyprwm/hyprland";
-    hy3 = {
-      url = "github:outfoxxed/hy3";
-      inputs.hyprland.follows = "hyprland";
     };
     waveforms = {
       url = "github:liff/waveforms-flake";
