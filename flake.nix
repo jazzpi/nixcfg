@@ -127,7 +127,7 @@
               ;
             pkgs-stable = mkPkgsStable host;
             pkgs-old-firmware = mkPkgsOldFirmware host;
-            templateFile = mkTemplateFile host;
+            templateFile = mkTemplateFile (mkPkgs host);
           };
           modules = [
             ./modules/common
