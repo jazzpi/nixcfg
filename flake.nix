@@ -110,30 +110,9 @@
           repo = lib.mapAttrs (name: path: "~/nixcfg/${path}") defs;
         };
 
-      mkPkgs =
-        host:
-        import nixpkgs {
-          system = host.arch;
-          config = {
-            allowUnfree = true;
-          };
-        };
-      mkPkgsStable =
-        host:
-        import nixpkgs-stable {
-          system = host.arch;
-          config = {
-            allowUnfree = true;
-          };
-        };
-      mkPkgsOldFirmware =
-        host:
-        import nixpkgs-old-firmware {
-          system = host.arch;
-          config = {
-            allowUnfree = true;
-          };
-        };
+      mkPkgs = host: import ./util/mk-pkgs.nix nixpkgs host.arch;
+      mkPkgsStable = host: import ./util/mk-pkgs.nix nixpkgs-stable host.arch;
+      mkPkgsOldFirmware = host: import ./util/mk-pkgs.nix nixpkgs-old-firmware host.arch;
       mkTemplateFile = pkgs: import "${paths.store.lib}/template-file.nix" { inherit pkgs; };
 
       optionalExists = path: lib.optional (builtins.pathExists path) path;
