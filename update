@@ -17,7 +17,9 @@ updatable="$(nix eval --raw "$SCRIPT_PATH#packages.x86_64-linux" --apply '
 nix_update="$(nix build --no-link --print-out-paths --inputs-from "$SCRIPT_PATH" nixpkgs#nix-update)/bin/nix-update"
 while read -r pkg rest; do
   read -ra args <<<"$rest"
-  (cd "$SCRIPT_PATH" && "$nix_update" --flake "$pkg" "${args[@]}") \
+  # Not --flake: that breaks on Nix >= 2.35 (https://github.com/Mic92/nix-update/issues/687),
+  # so nix-update evaluates default.nix instead.
+  (cd "$SCRIPT_PATH" && "$nix_update" "$pkg" "${args[@]}") \
     || echo "Warning: failed to update package $pkg" >&2
 done <<<"$updatable"
 echo "Rebuilding..."
