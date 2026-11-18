@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""Reports which derivations of a config are missing from the binary cache and
+would have to be built locally, without downloading or building anything.
+
+Exits 1 if any non-trivial derivation needs to be built locally.
+"""
+
+import argparse
+import getpass
+import json
+import socket
+import subprocess
+import sys
+from dataclasses import dataclass
+from enum import Enum, auto
+from graphlib import TopologicalSorter
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent
+STORE = "/nix/store/"
+# Keeps `nix derivation show` invocations well below ARG_MAX.
+CHUNK = 500
+
+
+class Kind(Enum):
+    # Opted out of substitution (config files, wrappers, ...) -- always built locally.
+    TRIVIAL = auto()
+    # Fixed-output (sources) -- downloaded from upstream, not compiled.
+    FETCH = auto()
+    # Real build not yet resolved to ROOT or DEPENDENT.
+    REAL = auto()
+    # Real build whose to-be-built inputs are all trivial/fetch, i.e. the actual reason
+    # for the rebuild (Hydra failure, local override, unfree, ...).
+    ROOT = auto()
+    # Real build that is only uncached because something it depends on is.
+    DEPENDENT = auto()
+
+
+@dataclass
+class Drv:
+    name: str
+    path: str
+    inputs: list[str]
+    kind: Kind
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("-s", "--system", action="store_true", help="check NixOS configuration")
+    p.add_argument("-u", "--user", action="store_true", help="check home-manager configuration (default: both)")
+    p.add_argument("-v", "--verbose", action="store_true", help="also list uncached dependents and upstream fetches")
+    p.add_argument("hostname", nargs="?", default=socket.gethostname())
+    args = p.parse_args()
+    if not args.system and not args.user:
+        args.system = args.user = True
+    return args
+
+
+def dry_run(installables: list[str]) -> list[str]:
+    """Returns the store paths of all derivations that would be built."""
+    proc = subprocess.run(
+        ["nix", "build", "--dry-run", "--impure", "--no-warn-dirty", "--accept-flake-config", *installables],
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        sys.stderr.write(proc.stderr)
+        sys.exit(1)
+
+    drvs = []
+    in_build_list = False
+    for line in proc.stderr.splitlines():
+        if not line.startswith(" "):
+            in_build_list = line.endswith("will be built:")
+            if "will be fetched" in line:
+                print(line, file=sys.stderr)
+        elif in_build_list:
+            drvs.append(line.strip())
+    return drvs
+
+
+def show_derivations(paths: list[str]) -> dict[str, dict]:
+    """Returns `nix derivation show` output keyed by store path basename."""
+    result = {}
+    for i in range(0, len(paths), CHUNK):
+        out = json.loads(
+            subprocess.run(
+                ["nix", "derivation", "show", *paths[i : i + CHUNK]],
+                capture_output=True,
+                text=True,
+                check=True,
+            ).stdout
+        )
+        # Newer Nix nests derivations under a versioned wrapper.
+        for key, drv in out.get("derivations", out).items():
+            result[key.removeprefix(STORE)] = drv
+    return result
+
+
+def base_kind(drv: dict) -> Kind:
+    if any("hash" in o or "hashAlgo" in o for o in drv["outputs"].values()):
+        return Kind.FETCH
+    env = drv.get("env", {})
+    sa = drv.get("structuredAttrs") or json.loads(env.get("__json", "{}"))
+    # Nix serialises `false` as "" in env.
+    if (
+        env.get("allowSubstitutes") == ""
+        or sa.get("allowSubstitutes") is False
+        or env.get("preferLocalBuild") == "1"
+        or sa.get("preferLocalBuild") is True
+    ):
+        return Kind.TRIVIAL
+    return Kind.REAL
+
+
+def classify(raw: dict[str, dict]) -> dict[str, Drv]:
+    drvs = {}
+    for key, drv in raw.items():
+        inputs = drv.get("inputs", {}).get("drvs") or drv.get("inputDrvs") or {}
+        drvs[key] = Drv(
+            name=drv["name"],
+            path=STORE + key,
+            # Inputs that are already available don't matter.
+            inputs=[i for i in (k.removeprefix(STORE) for k in inputs) if i in raw],
+            kind=base_kind(drv),
+        )
+
+    # Tainted: is, or transitively depends on, a real to-be-built derivation.
+    # Taint propagates through trivial derivations, since a real build can reach
+    # another real build via e.g. a generated wrapper script.
+    tainted: dict[str, bool] = {}
+    for key in TopologicalSorter({k: d.inputs for k, d in drvs.items()}).static_order():
+        d = drvs[key]
+        tainted[key] = d.kind == Kind.REAL or any(tainted[i] for i in d.inputs)
+
+    for d in drvs.values():
+        if d.kind == Kind.REAL:
+            d.kind = Kind.DEPENDENT if any(tainted[i] for i in d.inputs) else Kind.ROOT
+    return drvs
+
+
+def report(drvs: dict[str, Drv], verbose: bool) -> bool:
+    by_kind: dict[Kind, list[Drv]] = {k: [] for k in (Kind.ROOT, Kind.DEPENDENT, Kind.FETCH, Kind.TRIVIAL)}
+    for d in sorted(drvs.values(), key=lambda d: d.name):
+        by_kind[d.kind].append(d)
+    roots, deps, fetches, trivial = by_kind.values()
+
+    if roots:
+        width = max(len(d.name) for d in roots)
+        print(f"\nNot in binary cache, will be compiled locally ({len(roots)}):")
+        for d in roots:
+            print(f"  {d.name:<{width}}  {d.path}")
+        print("Expected for local overrides/packages and unfree software; anything else")
+        print("probably failed on Hydra (https://hydra.nixos.org/search?query=<name>).")
+    else:
+        print("\nNo uncached non-trivial builds.")
+
+    if deps:
+        if verbose:
+            print(f"\nUncached only because of the above ({len(deps)}):")
+            for d in deps:
+                print(f"  {d.name}")
+        else:
+            print(f"\nPlus {len(deps)} dependents of the above (-v to list).")
+    if fetches:
+        if verbose:
+            print(f"\nSources fetched from upstream ({len(fetches)}):")
+            for d in fetches:
+                print(f"  {d.name}")
+        else:
+            print(f"Plus {len(fetches)} sources fetched from upstream (-v to list).")
+    print(f"Plus {len(trivial)} trivial local derivations.")
+    return bool(roots)
+
+
+def main():
+    args = parse_args()
+    installables = []
+    if args.system:
+        installables.append(f"{REPO}#nixosConfigurations.{args.hostname}.config.system.build.toplevel")
+    if args.user:
+        installables.append(f'{REPO}#homeConfigurations."{getpass.getuser()}@{args.hostname}".activationPackage')
+
+    print(f"Evaluating {args.hostname} and querying substituters...", file=sys.stderr)
+    paths = dry_run(installables)
+    if not paths:
+        print("Nothing to build locally.")
+        return 0
+    has_roots = report(classify(show_derivations(paths)), args.verbose)
+    return 1 if has_roots else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
