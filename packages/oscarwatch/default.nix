@@ -43,11 +43,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "oscarwatch";
-  version = "1.1.7";
+  version = "1.1.8";
 
   src = fetchurl {
     url = "https://github.com/magicbug/OscarWatch-Tracker/releases/download/v${version}/OscarWatch-${version}-linux-x64.tar.gz";
-    sha256 = "sha256-Ewf3334hbVZoR7eEt3Kg5KXVXkMeueyepRIFAVEVuGo=";
+    sha256 = "sha256-sYztSy5aRWNbcDjMGuwHnP5YD/oPruBOMgbFQMGpCrs=";
   };
 
   # The release tarball doesn't include the icon
