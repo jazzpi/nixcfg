@@ -97,6 +97,16 @@ with lib;
         llmPkgs.ccstatusline
         # Global nodejs so hooks/tools invoked via a bare `node` (e.g. notify.js) work
         pkgs.nodejs
+        # Claude Code's Read tool shells out to pdftoppm for PDF page ranges; manual-index
+        # needs pdftotext.
+        pkgs.poppler-utils
+        (pkgs.writers.writePython3Bin "manual-index" {
+          libraries = with pkgs.python3Packages; [
+            pypdf
+            openpyxl
+          ];
+          flakeIgnore = [ "E501" ];
+        } (builtins.readFile "${paths.store.llm}/skills/manuals/manual-index.py"))
       ];
 
       systemd.user.services.claude-devtools = mkIf cfg.devtools.enable {
@@ -138,6 +148,9 @@ with lib;
         };
         settings = {
           tui = "fullscreen";
+          # Vendor manuals for the `manuals` skill. Not in this repo since they can't be
+          # redistributed; they arrive via the GDrive sync.
+          permissions.allow = [ "Read(~/GDrive/Manuals/**)" ];
           statusLine = {
             type = "command";
             command = "${llmPkgs.ccstatusline}/bin/ccstatusline";

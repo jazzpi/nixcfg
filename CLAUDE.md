@@ -76,6 +76,7 @@ These can be built with `nix build .#<package-name>` or installed via the home-m
 - `changelog-generator` — Automatically creates user-facing changelogs from git commits
 - `nix-upgrade-fix` — Analyzes nixpkgs/home-manager update warnings and proposes fixes
 - `update-claudemd` — Updates CLAUDE.md based on recent code changes
+- `manuals` — Looks up register/electrical/errata details in vendor PDFs under `~/GDrive/Manuals` (synced from GDrive, not in this repo since they can't be redistributed). Runs as a forked Sonnet subagent. Documents must first be indexed with `manual-index <pdf>` (`llm/skills/manuals/manual-index.py`, installed via `llm.nix`), which writes `index/<id>.txt`, `index/<id>.toc.txt`, `index/<id>/<attachment>/<sheet>.txt` for spreadsheets embedded in the PDF, and a `catalog.md` entry whose `Covers` line is filled in by hand.
 
 These are custom extensions to Claude Code's capabilities.
 
